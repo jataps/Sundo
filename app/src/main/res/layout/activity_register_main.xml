@@ -4,8 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/white"
     tools:context=".RegisterMain">
+
+    <View
+        android:id="@+id/View1"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@drawable/wave"/>
 
     <TextView
         android:id="@+id/txtRegisterAs"
@@ -17,7 +23,7 @@
         android:layout_marginBottom="50dp"
         android:gravity="center"
         android:text="Register Account for?"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="30dp"
         android:textStyle="bold" />
 
@@ -28,7 +34,7 @@
         android:layout_below="@id/txtRegisterAs"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="@color/design_default_color_secondary"
