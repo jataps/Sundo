@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppSundo"
+        tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyAqm04uBwJCxGsXU7oP0Y_DgpzYiLiOCXA"/>
+
+        <activity
+            android:name=".RegisterStudent"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterMain"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterDriver"
+            android:exported="false" />
+        <activity
+            android:name=".ForgotPassword"
+            android:exported="false" />
+        <activity
+            android:name=".FillUpForm"
+            android:exported="false" />
+        <activity
+            android:name=".DriverAddStudent"
+            android:exported="false" />
+        <activity
+            android:name=".ContainerStudent"
+            android:exported="false" />
+        <activity
+            android:name=".ContainerDriver"
+            android:exported="false" />
+        <activity
+            android:name=".LogIn"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

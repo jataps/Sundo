@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".FillUpForm">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/uidText"
+        android:text="Complete Registration"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
+        android:textSize="34sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/uidText">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/basicInfo"
+                    android:text="Basic Info"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/white"
+                    android:textSize="34sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/nameFContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/basicInfo">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/firstName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="#30ffffff"
+                        android:drawablePadding="20dp"
+                        android:hint="Enter first name"
+                        android:padding="20dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/nameLContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/nameFContainer">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/lastName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="#30ffffff"
+                        android:drawablePadding="20dp"
+                        android:hint="Enter last name"
+                        android:padding="20dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/nameMContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/nameLContainer">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/middleName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="#30ffffff"
+                        android:drawablePadding="20dp"
+                        android:hint="Enter middle initial"
+                        android:padding="20dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/phoneNumberContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/nameMContainer">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/phoneNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="#30ffffff"
+                        android:drawablePadding="20dp"
+                        android:hint="Enter phone number"
+                        android:padding="20dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/emergencyText"
+                    android:text="In Case of emergency"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/white"
+                    android:textSize="34sp"
+                    android:layout_below="@id/phoneNumberContainer"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emergencyNameContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/emergencyText">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/emergencyName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="#30ffffff"
+                        android:drawablePadding="20dp"
+                        android:hint="Enter name"
+                        android:padding="20dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emergencyNumberContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/emergencyNameContainer">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/emergencyNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="#30ffffff"
+                        android:drawablePadding="20dp"
+                        android:hint="Enter phone number"
+                        android:padding="20dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addressText"
+                    android:text="Address"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/white"
+                    android:textSize="34sp"
+                    android:layout_below="@id/emergencyNumberContainer"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/provinceText"
+                    android:text="Province *"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:layout_below="@id/addressText"/>
+
+                <Spinner
+                    android:id="@+id/provinceSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/provinceText"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="#30ffffff"
+                    android:drawablePadding="20dp"
+                    android:padding="20dp"
+                    android:textColor="@color/teal_200" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cityText"
+                    android:text="City *"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:layout_below="@id/provinceSpinner"/>
+
+                <Spinner
+                    android:id="@+id/citySpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cityText"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="#30ffffff"
+                    android:drawablePadding="20dp"
+                    android:padding="20dp"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/barangayText"
+                    android:text="Barangay *"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:layout_below="@id/citySpinner"/>
+
+                <Spinner
+                    android:id="@+id/barangaySpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/barangayText"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="#30ffffff"
+                    android:drawablePadding="20dp"
+                    android:padding="20dp"
+                    android:textColor="#FFFFFF"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/addNoteContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/barangaySpinner">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/addressNote"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="#30ffffff"
+                        android:drawablePadding="20dp"
+                        android:hint="Enter address note"
+                        android:padding="20dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/vehicleText"
+                    android:text="Vehicle Details (For Drivers only)"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:layout_below="@id/addNoteContainer"
+                    android:visibility="gone"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/plateNumberContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/vehicleText"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/plateNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="#30ffffff"
+                        android:drawablePadding="20dp"
+                        android:hint="Enter Vehicle Plate Number"
+                        android:padding="20dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/seatingCapacityContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/plateNumberContainer"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/seatingCapacity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="#30ffffff"
+                        android:drawablePadding="20dp"
+                        android:hint="Enter Vehicle seating capacity"
+                        android:padding="20dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:layout_below="@id/seatingCapacityContainer"
+                    android:text="Submit"
+                    android:id="@+id/submitBtnStudent"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="Sign Out"
+            android:id="@+id/signOutBtnStudent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Home"
+        android:icon="@drawable/round_home_24"
+        android:id="@+id/navHomeDriver" />
+
+    <item
+        android:title="Service"
+        android:icon="@drawable/baseline_directions_bus_24"
+        android:id="@+id/navServiceDriver" />
+
+    <item
+        android:title="Profile"
+        android:icon="@drawable/round_account_circle_24"
+        android:id="@+id/navProfileDriver" />
+
+    <item
+        android:title="Records"
+        android:icon="@drawable/baseline_list_24"
+        android:id="@+id/navRecordsDriver" />
+
+</menu>
