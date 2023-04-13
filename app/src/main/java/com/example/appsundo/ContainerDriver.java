@@ -14,10 +14,6 @@ import com.example.appsundo.databinding.ActivityContainerDriverBinding;
 public class ContainerDriver extends AppCompatActivity {
 
     ActivityContainerDriverBinding binding;
-
-    int x; //added for sample
-
-    int y; //for branch ortega
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
