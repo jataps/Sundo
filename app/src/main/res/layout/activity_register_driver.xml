@@ -10,22 +10,22 @@
     <View
         android:id="@+id/View1"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="@drawable/wave"/>
+        android:layout_height="300dp"
+        android:background="@drawable/wave_2"/>
 
     <TextView
         android:id="@+id/txtRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="100dp"
-        android:gravity="center"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="150dp"
+        android:gravity="left"
         android:text="Register Driver"
-        android:textColor="@color/black"
-        android:textSize="35dp"
-        android:textStyle="bold" />
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:textStyle="bold"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -45,7 +45,7 @@
             android:hint="Email"
             android:padding="20dp"
             android:textColor="@color/black"
-            android:textColorHint="@color/black" />
+            android:textColorHint="@color/black"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,7 +83,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:text="Already have an account?"
-        android:textColor="@color/white" />
+        android:textColor="@color/black" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -101,10 +101,10 @@
         android:layout_below="@id/progressBar"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/design_default_color_secondary"
+        android:backgroundTint="@color/teal_700"
         android:text="register" />
 
 </RelativeLayout>
