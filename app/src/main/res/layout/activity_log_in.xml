@@ -74,6 +74,7 @@
                     android:padding="20dp"
                     android:drawableLeft="@drawable/user_logo"
                     android:drawablePadding="20dp"
+                    android:singleLine="true"
                     android:maxLines="1"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -98,7 +99,9 @@
                     android:layout_marginHorizontal="5dp"
                     android:padding="20dp"
                     android:drawableStart="@drawable/pass_logo"
-                    android:drawablePadding="20dp"/>
+                    android:drawablePadding="20dp"
+                    android:singleLine="true"
+                    android:maxLines="1"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

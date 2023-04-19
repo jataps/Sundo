@@ -68,7 +68,9 @@
                             android:padding="20dp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
-                            android:enabled="false"/>
+                            android:enabled="false"
+                            android:singleLine="true"
+                            android:maxLines="1"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,7 +92,9 @@
                             android:padding="20dp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
-                            android:enabled="false"/>/>
+                            android:enabled="false"
+                            android:singleLine="true"
+                            android:maxLines="1"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,19 +116,88 @@
                             android:padding="20dp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
-                            android:enabled="false"/>/>
+                            android:enabled="false"
+                            android:singleLine="true"
+                            android:maxLines="1"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/nameProvinceContainer"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/provinceText"
+                        android:text="Province"
+                        android:layout_marginStart="20dp"
+                        android:textColor="@color/black"
+                        android:layout_below="@id/namePContainer"/>
+
+                    <Spinner
+                        android:id="@+id/provinceSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Province"
-                        android:layout_below="@id/namePContainer">
+                        android:layout_below="@id/provinceText"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="#E6E6E6"
+                        android:drawablePadding="20dp"
+                        android:padding="20dp"
+                        android:textColor="@color/teal_200"
+                        android:enabled="false"/>
+
+                    <TextView
+                        android:id="@+id/cityText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/provinceSpinner"
+                        android:text="City"
+                        android:layout_marginStart="20dp"
+                        android:textColor="@color/black"
+                        />
+
+                    <Spinner
+                        android:id="@+id/citySpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/cityText"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="#E6E6E6"
+                        android:drawablePadding="20dp"
+                        android:padding="20dp"
+                        android:textColor="@color/black"
+                        android:enabled="false"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/brgyText"
+                        android:text="Barangay"
+                        android:layout_marginStart="20dp"
+                        android:textColor="@color/black"
+                        android:layout_below="@id/citySpinner"/>
+
+                    <Spinner
+                        android:id="@+id/barangaySpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/brgyText"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="#E6E6E6"
+                        android:drawablePadding="20dp"
+                        android:padding="20dp"
+                        android:textColor="#FFFFFF"
+                        android:enabled="false"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/addNoteContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter address note"
+                        android:layout_below="@id/barangaySpinner">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/txtfieldProvince"
+                            android:id="@+id/txtAddressNote"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="20dp"
@@ -133,52 +206,7 @@
                             android:drawablePadding="20dp"
                             android:padding="20dp"
                             android:textColor="@color/black"
-                            android:textColorHint="@color/black"
-                            android:enabled="false"/>/>
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/nameCityContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="City"
-                        android:layout_below="@id/nameProvinceContainer">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/txtfieldCity"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="20dp"
-                            android:layout_marginVertical="10dp"
-                            android:background="#E6E6E6"
-                            android:drawablePadding="20dp"
-                            android:padding="20dp"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/black"
                             android:enabled="false"/>
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/nameBrgyContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Barangay"
-                        android:layout_below="@id/nameProvinceContainer">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/txtfieldBrgy"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="20dp"
-                            android:layout_marginVertical="10dp"
-                            android:background="#E6E6E6"
-                            android:drawablePadding="20dp"
-                            android:padding="20dp"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/black"
-                            android:enabled="false"/>/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 

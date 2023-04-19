@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -72,8 +73,10 @@ public class StudentFragmentProfile extends Fragment {
     private String info_id;
 
     private TextView txtFName;
-    private TextInputEditText txtfieldFirstName,txtfieldLastName,txtfieldPhone,txtfieldProvince,txtfieldCity,txtfieldBrgy;
 
+    private TextInputEditText txtfieldFirstName,txtfieldLastName,txtfieldPhone,txtAddressNote;
+
+    private Spinner provinceSpinner,citySpinner,barangaySpinner;
     private MaterialButton signOutBtnStudent,btnEditProfile,btnSaveProfile;
 
     @Override
