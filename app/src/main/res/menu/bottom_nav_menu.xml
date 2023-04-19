@@ -7,6 +7,11 @@
         android:id="@+id/navHome" />
 
     <item
+        android:title="Track"
+        android:icon="@drawable/baseline_pin_drop_24"
+        android:id="@+id/navTrack" />
+
+    <item
         android:title="Profile"
         android:icon="@drawable/round_account_circle_24"
         android:id="@+id/navProfile" />
