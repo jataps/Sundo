@@ -3,26 +3,222 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".StudentFragmentProfile">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/emailText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="STUDENT PROFILE FRAGMENT"
-            android:textSize="20dp"
-            android:layout_centerHorizontal="true" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/signOutBtnStudent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/RL1"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@drawable/design2">
+
+                    <ImageView
+                        android:id="@+id/ivPicture"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="50dp"
+                        android:src="@drawable/user_logo"/>
+
+                    <TextView
+                        android:id="@+id/txtFName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="First Name"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_toEndOf="@id/ivPicture"
+                        android:textSize="25dp"/>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/nameFContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="First Name"
+                        android:layout_below="@id/RL1">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtfieldFirstName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="10dp"
+                            android:background="#E6E6E6"
+                            android:padding="20dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:enabled="false"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/nameLContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Last Name"
+                        android:layout_below="@id/nameFContainer">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtfieldLastName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="10dp"
+                            android:background="#E6E6E6"
+                            android:drawablePadding="20dp"
+                            android:padding="20dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:enabled="false"/>/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/namePContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Phone Number"
+                        android:layout_below="@id/nameLContainer">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtfieldPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="10dp"
+                            android:background="#E6E6E6"
+                            android:drawablePadding="20dp"
+                            android:padding="20dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:enabled="false"/>/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/nameProvinceContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Province"
+                        android:layout_below="@id/namePContainer">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtfieldProvince"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="10dp"
+                            android:background="#E6E6E6"
+                            android:drawablePadding="20dp"
+                            android:padding="20dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:enabled="false"/>/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/nameCityContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="City"
+                        android:layout_below="@id/nameProvinceContainer">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtfieldCity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="10dp"
+                            android:background="#E6E6E6"
+                            android:drawablePadding="20dp"
+                            android:padding="20dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:enabled="false"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/nameBrgyContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Barangay"
+                        android:layout_below="@id/nameProvinceContainer">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtfieldBrgy"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="10dp"
+                            android:background="#E6E6E6"
+                            android:drawablePadding="20dp"
+                            android:padding="20dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:enabled="false"/>/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnEditProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:text="Edit Profile"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSaveProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:text="Save *HIDDEN*"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sign Out"
             android:id="@+id/signOutBtnStudent"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"/>

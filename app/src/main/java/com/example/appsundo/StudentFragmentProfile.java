@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,14 +62,19 @@ public class StudentFragmentProfile extends Fragment {
         }
     }
 
+    //private TextView emailText;
+    //------------
 
-    private TextView emailText;
+
 
     private FirebaseAuth mAuth;
 
     private String info_id;
 
-    private MaterialButton signOutBtnStudent;
+    private TextView txtFName;
+    private TextInputEditText txtfieldFirstName,txtfieldLastName,txtfieldPhone,txtfieldProvince,txtfieldCity,txtfieldBrgy;
+
+    private MaterialButton signOutBtnStudent,btnEditProfile,btnSaveProfile;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,7 +89,7 @@ public class StudentFragmentProfile extends Fragment {
 
         DatabaseReference info_ref = ref.child("USERS").child("STUDENT").child(uid).child("INFO_ID");
 
-        emailText = view.findViewById(R.id.emailText);
+        //emailText = view.findViewById(R.id.emailText);
 
         signOutBtnStudent = view.findViewById(R.id.signOutBtnStudent);
 
@@ -96,12 +102,13 @@ public class StudentFragmentProfile extends Fragment {
         });
 
         //get info_id
-        getInfoID(info_ref);
+        //getInfoID(info_ref);
 
         // Inflate the layout for this fragment
         return view;
     }
 
+    /*
     void getInfoID (DatabaseReference info_ref) {
 
         info_ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -119,7 +126,7 @@ public class StudentFragmentProfile extends Fragment {
         });
 
     }
-
+*/
 
 
 /*

@@ -3,22 +3,293 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".DriverFragmentProfile">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/signOutBtnDriver">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/RL1"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@drawable/design2">
+                    
+                    <ImageView
+                        android:id="@+id/ivPicture"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="50dp"
+                        android:src="@drawable/user_logo"/>
+                    
+                    <TextView
+                        android:id="@+id/txtFName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="First Name"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_toEndOf="@id/ivPicture"
+                        android:textSize="25dp"/>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/nameFContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="First Name"
+                        android:layout_below="@id/RL1">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtfieldFirstName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="10dp"
+                            android:background="#E6E6E6"
+                            android:text="FName"
+                            android:padding="20dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/nameLContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Last Name"
+                        android:layout_below="@id/nameFContainer">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtfieldLastName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="10dp"
+                            android:background="#E6E6E6"
+                            android:drawablePadding="20dp"
+                            android:text="Last Name"
+                            android:padding="20dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/namePContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Phone Number"
+                        android:layout_below="@id/nameLContainer">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtfieldPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="10dp"
+                            android:background="#E6E6E6"
+                            android:drawablePadding="20dp"
+                            android:text="Number"
+                            android:padding="20dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/provinceText"
+                        android:text="Province"
+                        android:layout_marginStart="20dp"
+                        android:textColor="@color/black"
+                        android:layout_below="@id/namePContainer"/>
+
+                    <Spinner
+                        android:id="@+id/provinceSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/provinceText"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="#E6E6E6"
+                        android:drawablePadding="20dp"
+                        android:padding="20dp"
+                        android:textColor="@color/teal_200" />
+                    
+                    <TextView
+                        android:id="@+id/cityText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/provinceSpinner"
+                        android:text="City"
+                        android:layout_marginStart="20dp"
+                        android:textColor="@color/black"
+                        />
+
+                    <Spinner
+                        android:id="@+id/citySpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/cityText"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="#E6E6E6"
+                        android:drawablePadding="20dp"
+                        android:padding="20dp"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/brgyText"
+                        android:text="Barangay"
+                        android:layout_marginStart="20dp"
+                        android:textColor="@color/black"
+                        android:layout_below="@id/citySpinner"/>
+
+                    <Spinner
+                        android:id="@+id/barangaySpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/brgyText"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="#E6E6E6"
+                        android:drawablePadding="20dp"
+                        android:padding="20dp"
+                        android:textColor="#FFFFFF"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/addNoteContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter address note"
+                        android:layout_below="@id/barangaySpinner">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtAddressNote"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="10dp"
+                            android:background="#E6E6E6"
+                            android:drawablePadding="20dp"
+                            android:padding="20dp"
+                            android:textColor="@color/black"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/vehicleText"
+                        android:text="Vehicle Details"
+                        android:layout_marginStart="20dp"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"
+                        android:layout_below="@id/addNoteContainer"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/plateNumberContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/vehicleText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtPlateNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="20dp"
+                            android:layout_marginVertical="10dp"
+                            android:background="#E6E6E6"
+                            android:drawablePadding="20dp"
+                            android:hint="Enter Vehicle Plate Number"
+                            android:padding="20dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/seatingCapacityContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/plateNumberContainer"/>
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txtSeatingCapacity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="#E6E6E6"
+                        android:drawablePadding="20dp"
+                        android:hint="Enter Vehicle seating capacity"
+                        android:padding="20dp"
+                        android:textColor="@color/black"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnEditProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:text="Edit Profile"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSaveProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:text="Save *HIDDEN*"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/signOutBtnDriver"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign Out"
-            android:id="@+id/signOutBtnDriver"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"/>
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="Sign Out" />
 
     </RelativeLayout>
 

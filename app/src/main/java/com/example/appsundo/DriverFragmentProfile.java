@@ -10,8 +10,11 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -21,7 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class DriverFragmentProfile extends Fragment {
 
-    MaterialButton signOutBtnDriver;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -63,7 +66,13 @@ public class DriverFragmentProfile extends Fragment {
         }
     }
 
+    private MaterialButton signOutBtnDriver,btnEditProfile,btnSaveProfile;
 
+    private TextView txtFName;
+
+    private TextInputEditText txtfieldFirstName,txtfieldLastName,txtfieldPhone,txtAddressNote,txtPlateNumber,txtSeatingCapacity;
+
+    private Spinner provinceSpinner,citySpinner,barangaySpinner;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
