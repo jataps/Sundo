@@ -236,22 +236,4 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
         }
     }
 
-    private BitmapDescriptor drawableToBitmap(int vectorResId) {
-
-        // Convert the vector drawable to a Bitmap
-        Drawable vectorDrawable = ContextCompat.getDrawable(getActivity(), vectorResId);
-
-        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),
-                vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-
-        Canvas canvas = new Canvas(bitmap);
-
-        vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        vectorDrawable.draw(canvas);
-
-        BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmap);
-
-        return bitmapDescriptor;
-    }
-
 }

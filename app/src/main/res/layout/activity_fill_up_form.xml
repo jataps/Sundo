@@ -84,31 +84,10 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/nameMContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/nameLContainer">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/middleName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="20dp"
-                        android:layout_marginVertical="10dp"
-                        android:background="#E6E6E6"
-                        android:drawablePadding="20dp"
-                        android:hint="Enter middle initial"
-                        android:padding="20dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/black"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/phoneNumberContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/nameMContainer">
+                    android:layout_below="@id/nameLContainer">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/phoneNumber"
