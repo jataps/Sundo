@@ -195,7 +195,7 @@ public class LogIn extends AppCompatActivity {
 
                                             Intent studentIntent;
 
-                                            if (infoIdValue.equals(false)) {
+                                            if (infoIdValue.equals("false")) {
 
                                                 studentIntent = new Intent(getApplicationContext(), FillUpForm.class);
 
@@ -211,7 +211,6 @@ public class LogIn extends AppCompatActivity {
 
                                         } else {
                                             // "INFO_ID" does not exist for this user
-
                                         }
                                     }
 
@@ -223,7 +222,6 @@ public class LogIn extends AppCompatActivity {
 
                             } else {
                                 // User with the given UID does not exist in either DRIVER or STUDENT node
-
                             }
                         }
 
