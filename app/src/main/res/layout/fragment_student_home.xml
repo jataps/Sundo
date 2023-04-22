@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".StudentFragmentHome">
 
     <RelativeLayout
@@ -13,11 +14,152 @@
             android:id="@+id/txtHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DO THE MAGIC"
+            android:text="STATUS"
             android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"/>
+        
+        <LinearLayout
+            android:id="@+id/layoutLinear1"
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="100dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_status"/>
+
+            <ImageView
+                android:id="@+id/imageLine1"
+                android:layout_width="2dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:background="@color/black"/>
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_status"/>
+
+            <ImageView
+                android:id="@+id/imageLine2"
+                android:layout_width="2dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:background="@color/black"
+                android:layout_below="@+id/imageView1"/>
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_status"
+                android:layout_below="@+id/imageView2"/>
+
+            <ImageView
+                android:id="@+id/imageLine3"
+                android:layout_width="2dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:background="@color/black"
+                android:layout_below="@+id/imageView1"/>
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_status"
+                android:layout_below="@+id/imageView3"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutLinear2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/layoutLinear1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtOTW1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Service is on the way"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_marginTop="100dp"/>
+
+            <TextView
+                android:id="@+id/txtOTW2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="In Progress"
+                android:textStyle="normal"
+                android:textSize="15dp"/>
+
+            <TextView
+                android:id="@+id/txtPickedUp1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Student Picked Up"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_marginTop="60dp"/>
+
+            <TextView
+                android:id="@+id/txtPickedUp2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="In Progress"
+                android:textStyle="normal"
+                android:textSize="15dp"/>
+
+            <TextView
+                android:id="@+id/txtDropped1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="At School Drop off"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_marginTop="60dp"/>
+
+            <TextView
+                android:id="@+id/txtDropped2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="In Progress"
+                android:textStyle="normal"
+                android:textSize="15dp"/>
+
+            <TextView
+                android:id="@+id/txtDropAtHome1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="At Home Drop off"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_marginTop="60dp"/>
+
+            <TextView
+                android:id="@+id/txtDropAtHome2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="In Progress"
+                android:textStyle="normal"
+                android:textSize="15dp"/>
+
+
+        </LinearLayout>
 
     </RelativeLayout>
 
