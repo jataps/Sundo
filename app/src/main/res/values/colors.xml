@@ -11,4 +11,6 @@
     <color name="color_design1">#424242</color>
     <color name="tracking_incomplete">#E30404</color>
     <color name="tracking_complete">#01D30A</color>
+    <color name="yellow">#FCD949</color>
+    <color name="medium_black">#C6000000</color>
 </resources>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/medium_black"
     tools:context=".LogIn">
 
     <View
@@ -16,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="150dp"
         android:layout_marginBottom="220dp"
         android:gravity="left"
@@ -28,12 +29,11 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="150dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         app:cardCornerRadius="30dp"
-        app:cardElevation="20dp"
-        >
+        app:cardElevation="20dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -59,15 +59,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txtSignin"
-                android:id="@+id/usernameContainer">
+                android:id="@+id/usernameContainer"
+                android:hint="Email"
+                app:boxStrokeColor="@color/black"
+                app:hintTextColor="@color/medium_black"
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/username"
                     android:background="#E6E6E6"
-                    android:hint="Email"
-                    android:textColorHint="@color/black"
                     android:textColor="@color/black"
                     android:layout_marginVertical="10dp"
                     android:layout_marginHorizontal="5dp"
@@ -75,7 +77,8 @@
                     android:drawableLeft="@drawable/user_logo"
                     android:drawablePadding="20dp"
                     android:singleLine="true"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:textCursorDrawable="@drawable/color_cursor"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,16 +87,17 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/usernameContainer"
                 android:id="@+id/passwordContainer"
-                app:passwordToggleEnabled="true">
+                app:passwordToggleEnabled="true"
+                android:hint="Password"
+                app:boxStrokeColor="@color/black"
+                app:hintTextColor="@color/medium_black">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/password"
                     android:background="#E6E6E6"
-                    android:hint="Password"
                     android:inputType="textPassword"
-                    android:textColorHint="@color/black"
                     android:textColor="@color/black"
                     android:layout_marginVertical="10dp"
                     android:layout_marginHorizontal="5dp"
@@ -101,7 +105,8 @@
                     android:drawableStart="@drawable/pass_logo"
                     android:drawablePadding="20dp"
                     android:singleLine="true"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:textCursorDrawable="@drawable/color_cursor"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -133,8 +138,9 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:backgroundTint="@color/teal_700"
-                android:text="LOGIN" />
+                android:backgroundTint="@color/yellow"
+                android:text="LOGIN"
+                android:textColor="@color/black"/>
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
@@ -142,9 +148,9 @@
                 android:id="@+id/registerbtn"
                 android:layout_below="@id/loginbtn"
                 android:text="REGISTER ACCOUNT"
-                android:backgroundTint="@color/teal_700"
+                android:backgroundTint="@color/yellow"
                 android:layout_centerHorizontal="true"
-                />
+                android:textColor="@color/black"/>
 
         </RelativeLayout>
 
