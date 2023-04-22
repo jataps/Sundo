@@ -6,10 +6,14 @@
     tools:context=".DriverFragmentAssignStudent">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    
+    <SearchView
+        android:id="@+id/searchBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="ASSIGN STUDENT HERE"/>
+        android:layout_height="wrap_content"
+        android:background="@drawable/searchview_border"
+        android:layout_margin="10dp"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,11 +23,11 @@
             android:id="@+id/allStudentList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
             android:padding="20dp"
             android:layout_centerHorizontal="true"
             android:layout_above="@id/addStudentBtn"
-            android:layout_marginVertical="20dp"/>
+            android:layout_marginTop="70dp"
+            android:layout_marginBottom="28dp"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/addStudentBtn"
