@@ -151,7 +151,7 @@ public class LogIn extends AppCompatActivity {
 
                                 Intent driverIntent;
 
-                                if (infoIdValue.equals("false")) {
+                                if (infoIdValue.equals(false)) {
 
                                     driverIntent = new Intent(getApplicationContext(), FillUpForm.class);
 
@@ -165,6 +165,8 @@ public class LogIn extends AppCompatActivity {
                                 finish();
 
                             } else {
+
+                                Toast.makeText(LogIn.this, "Error bro driver", Toast.LENGTH_SHORT).show();
 
                             }
                         }
@@ -195,7 +197,7 @@ public class LogIn extends AppCompatActivity {
 
                                             Intent studentIntent;
 
-                                            if (infoIdValue.equals("false")) {
+                                            if (infoIdValue.equals(false)) {
 
                                                 studentIntent = new Intent(getApplicationContext(), FillUpForm.class);
 
@@ -211,6 +213,7 @@ public class LogIn extends AppCompatActivity {
 
                                         } else {
                                             // "INFO_ID" does not exist for this user
+                                            Toast.makeText(LogIn.this, "Error bro student", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 

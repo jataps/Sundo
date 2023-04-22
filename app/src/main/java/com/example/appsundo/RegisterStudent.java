@@ -108,8 +108,8 @@ public class RegisterStudent extends AppCompatActivity {
                                                 //USER UID store in realtime database
                                                 studentRef.child("email").setValue(email);
                                                 studentRef.child("UID").setValue(currentUser);
-                                                studentRef.child("INFO_ID").setValue(false);
-                                                studentRef.child("HISTORY_ID").setValue(false);
+                                                studentRef.child("INFO_ID").setValue(0);
+                                                studentRef.child("HISTORY_ID").setValue(0);
 
                                                 Intent intent = new Intent(getApplicationContext(), LogIn.class);
                                                 startActivity(intent);

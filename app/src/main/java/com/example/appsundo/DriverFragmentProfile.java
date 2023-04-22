@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.opengl.Visibility;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
@@ -19,8 +20,11 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -112,22 +116,34 @@ public class DriverFragmentProfile extends Fragment {
     private String selectedProvince;
     private String selectedCity;
     private String selectedBarangay;
-    private String userType;
+    private String uid;
+    private String infoID;
 
-    private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://sundo-app-44703-default-rtdb.firebaseio.com/");
+    private DatabaseReference dbRef;
+    private DatabaseReference infoIdRef;
+    private DatabaseReference profileRef;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_driver_profile, container, false);
 
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        CustomRulesFunctions etr = new CustomRulesFunctions();
+        dbRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://sundo-app-44703-default-rtdb.firebaseio.com/");
+
+        infoIdRef = dbRef.child("USERS").child("DRIVER").child(uid).child("INFO_ID");
+
 
         btnEditProfile = view.findViewById(R.id.btnEditProfile);
         btnSaveProfile = view.findViewById(R.id.btnSaveProfile);
         signOutBtnDriver = view.findViewById(R.id.signOutBtnDriver);
+
+        provinceSpinner = view.findViewById(R.id.provinceSpinner);
+        citySpinner = view.findViewById(R.id.citySpinner);
+        barangaySpinner = view.findViewById(R.id.barangaySpinner);
+
+        txtFName = view.findViewById(R.id.txtFName);
 
         textArr.add(txtfieldFirstName = view.findViewById(R.id.txtfieldFirstName));
         textArr.add(txtfieldLastName = view.findViewById(R.id.txtfieldLastName));
@@ -137,19 +153,60 @@ public class DriverFragmentProfile extends Fragment {
         numArr.add(txtfieldPhone = view.findViewById(R.id.txtfieldPhone));
         numArr.add(txtSeatingCapacity = view.findViewById(R.id.txtSeatingCapacity));
 
+        CustomRulesFunctions etr = new CustomRulesFunctions();
         etr.restrictText(textArr);
         etr.restrictNumber(numArr);
 
-        //SPINNER
-        provinceSpinner = view.findViewById(R.id.provinceSpinner);
-        citySpinner = view.findViewById(R.id.citySpinner);
-        barangaySpinner = view.findViewById(R.id.barangaySpinner);
+        infoIdRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // User with the given UID exists in DRIVER
 
-        provinceAdapter = ArrayAdapter.createFromResource(view.getContext(), R.array.array_provinces, R.layout.spinner_layout);
-        provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        provinceSpinner.setAdapter(provinceAdapter);
+                    infoID = String.valueOf(snapshot.getValue());
+
+                    txtFName.setText(infoID);
+
+                    profileRef = dbRef.child("USER_INFORMATION").child("DRIVER").child(infoID);
+
+                    profileRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                // User with the given UID exists in DRIVER
+
+                                txtfieldFirstName.setText(String.valueOf(snapshot.child("firstName").getValue()));
+                                txtfieldLastName.setText(String.valueOf(snapshot.child("lastName").getValue()));
+                                txtAddressNote.setText(String.valueOf(snapshot.child("completeAdd").getValue()));
+                                txtfieldPhone.setText(String.valueOf(snapshot.child("contactNumber").getValue()));
+
+                                txtPlateNumber.setText(String.valueOf(snapshot.child("VEHICLE").child("plateNumber").getValue()));
+                                txtSeatingCapacity.setText(String.valueOf(snapshot.child("VEHICLE").child("capacity").getValue()));
+
+                            } else {
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         getHashMaps();
+
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -239,11 +296,10 @@ public class DriverFragmentProfile extends Fragment {
                 //String emergencyName = String.valueOf(editTextEmergencyName.getText());
                 //String emergencyNumber = String.valueOf(editTextEmergencyNumber.getText());
 
-                String province = String.valueOf(selectedProvince);
-                String city = String.valueOf(selectedCity);
-                String barangay = String.valueOf(selectedBarangay);
-
                 String addNote = String.valueOf(txtAddressNote.getText());
+
+                String plateNumber = String.valueOf(txtPlateNumber.getText());
+                String seatingCapacity = String.valueOf(txtSeatingCapacity.getText());
 
                 /*
                 etr.editTextEmpty(txtfieldFirstName, firstName, "Enter first Name!");
@@ -261,16 +317,6 @@ public class DriverFragmentProfile extends Fragment {
                 etr.containerVisible(seatingCapacityContainer, txtSeatingCapacity, "Enter valid number");
                  */
 
-                String completeAdd = addNote + " Brgy. " + barangay + ", " + city + ", " + province;
-
-                DatabaseReference userRef = dbRef.child("USERS").child("DRIVER").child(uid).child("INFO_ID");
-                DatabaseReference recordRef = dbRef.child("USER_INFORMATION").child("DRIVER");
-
-                // need to change
-                String requestID = recordRef.push().getKey();
-
-                userRef.setValue(requestID);
-
                 HashMap map = new HashMap();
                 map.put("uid", uid);
                 map.put("lastName", lastName);
@@ -280,19 +326,16 @@ public class DriverFragmentProfile extends Fragment {
                 //map.put("emergencyName", emergencyName);
                 //map.put("emergencyNumber", emergencyNumber);
 
-                map.put("completeAdd", completeAdd);
+                map.put("ADDRESS/province", selectedProvince);
+                map.put("ADDRESS/city", selectedCity);
+                map.put("ADDRESS/barangay", selectedBarangay);
+                map.put("ADDRESS/streetAddress", addNote);
 
-                if (userType.equals("DRIVER")) {
-                    String plateNumber = String.valueOf(txtPlateNumber.getText());
-                    String seatingCapacity = String.valueOf(txtSeatingCapacity.getText());
+                map.put("VEHICLE/plateNumber", plateNumber);
+                map.put("VEHICLE/capacity", seatingCapacity);
+                map.put("VEHICLE/status", "active");
 
-                    map.put("VEHICLE/plateNumber", plateNumber);
-                    map.put("VEHICLE/capacity", seatingCapacity);
-                    map.put("VEHICLE/status", "active");
-
-                }
-
-                recordRef.child(requestID).updateChildren(map);
+                profileRef.child(infoID).updateChildren(map);
 
                 enableFields(false);
                 btnSaveProfile.setVisibility(View.GONE);

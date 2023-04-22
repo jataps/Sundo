@@ -34,6 +34,14 @@ public class ContainerStudent extends AppCompatActivity {
                     replaceFragment(new StudentFragmentRecords());
                     break;
 
+                case "fragment_track":
+                    replaceFragment(new StudentFragmentTrack());
+                    break;
+
+                case "fragment_settings":
+                    replaceFragment(new StudentFragmentSettings());
+                    break;
+
                 default:
                     break;
             }
@@ -46,6 +54,10 @@ public class ContainerStudent extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navHome:
                     replaceFragment(new StudentFragmentHome());
+                    break;
+
+                case R.id.navTrack:
+                    replaceFragment(new StudentFragmentTrack());
                     break;
 
                 case R.id.navProfile:

@@ -29,7 +29,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class FillUpForm extends AppCompatActivity {
 
@@ -69,18 +71,14 @@ public class FillUpForm extends AppCompatActivity {
     String selectedProvince;
     String selectedCity;
     String selectedBarangay;
+
+    String firstName, lastName, contactNumber, emergencyName, emergencyNumber, addNote;
     //endregion
 
     //region Spinners
     Spinner provinceSpinner;
     Spinner citySpinner;
     Spinner barangaySpinner;
-    //endregion
-
-    //region Adapters
-    ArrayAdapter<CharSequence> provinceAdapter;
-    ArrayAdapter<CharSequence> cityAdapter;
-    ArrayAdapter<CharSequence> barangayAdapter;
     //endregion
 
     //region HashMap
@@ -131,19 +129,16 @@ public class FillUpForm extends AppCompatActivity {
         barangayText = findViewById(R.id.barangayText);
         vehicleText = findViewById(R.id.vehicleText);
 
+        provinceSpinner = findViewById(R.id.provinceSpinner);
+        citySpinner = findViewById(R.id.citySpinner);
+        barangaySpinner = findViewById(R.id.barangaySpinner);
+
+
         CustomRulesFunctions crf = new CustomRulesFunctions();
         crf.restrictText(editTextArray);
         crf.restrictNumber(editNumberArray);
 
-        //SPINNER
-        provinceSpinner = findViewById(R.id.provinceSpinner);
-        provinceAdapter = ArrayAdapter.createFromResource(this, R.array.array_provinces, R.layout.spinner_layout);
-        provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        provinceSpinner.setAdapter(provinceAdapter);
 
-        //endregion declaration
-
-        // WILL GET THE USER TYPE
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         dbRef.child("USERS").child("STUDENT").orderByChild("UID").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -187,20 +182,15 @@ public class FillUpForm extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String firstName = String.valueOf(editTextFirstName.getText());
-                String lastName = String.valueOf(editTextLastName.getText());
-                String contactNumber = String.valueOf(editTextPhoneNumber.getText());
+                firstName = String.valueOf(editTextFirstName.getText());
+                lastName = String.valueOf(editTextLastName.getText());
+                contactNumber = String.valueOf(editTextPhoneNumber.getText());
 
-                String emergencyName = String.valueOf(editTextEmergencyName.getText());
-                String emergencyNumber = String.valueOf(editTextEmergencyNumber.getText());
-
-                String province = String.valueOf(selectedProvince);
-                String city = String.valueOf(selectedCity);
-                String barangay = String.valueOf(selectedBarangay);
+                emergencyName = String.valueOf(editTextEmergencyName.getText());
+                emergencyNumber = String.valueOf(editTextEmergencyNumber.getText());
 
                 String addNote = String.valueOf(editTextAddNotes.getText());
 
-                // CHECK IF EDIT TEXTS ARE EMPTY
                 if (TextUtils.isEmpty(firstName)) {
                     editTextFirstName.setError("Enter first name!");
                     editTextFirstName.requestFocus();
@@ -273,9 +263,6 @@ public class FillUpForm extends AppCompatActivity {
                     }
                 }
 
-
-                String completeAdd = addNote + " Brgy. " + barangay + ", " + city + ", " + province;
-
                 DatabaseReference userRef = dbRef.child("USERS").child(userType).child(uid).child("INFO_ID");
                 DatabaseReference recordRef = dbRef.child("USER_INFORMATION").child(userType);
 
@@ -292,7 +279,10 @@ public class FillUpForm extends AppCompatActivity {
                 map.put("emergencyName", emergencyName);
                 map.put("emergencyNumber", emergencyNumber);
 
-                map.put("completeAdd", completeAdd);
+                map.put("ADDRESS/province", selectedProvince);
+                map.put("ADDRESS/city", selectedCity);
+                map.put("ADDRESS/barangay", selectedBarangay);
+                map.put("ADDRESS/streetAddress", addNote);
 
                 if (userType.equals("DRIVER")) {
                     String plateNumber = String.valueOf(editTextPlateNumber.getText());
@@ -301,7 +291,6 @@ public class FillUpForm extends AppCompatActivity {
                     map.put("VEHICLE/plateNumber", plateNumber);
                     map.put("VEHICLE/capacity", seatingCapacity);
                     map.put("VEHICLE/status", "active");
-
                 }
 
                 recordRef.child(requestID).updateChildren(map);
@@ -318,6 +307,69 @@ public class FillUpForm extends AppCompatActivity {
             }
         });
 
+        ArrayAdapter<CharSequence> provinceAdapter = ArrayAdapter.createFromResource(this, R.array.array_provinces, R.layout.spinner_layout);
+        provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        provinceSpinner.setAdapter(provinceAdapter);
+
+        ArrayAdapter<CharSequence> cityAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout, new ArrayList<>());
+        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        citySpinner.setAdapter(cityAdapter);
+
+        ArrayAdapter<CharSequence> barangayAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout, new ArrayList<>());
+        barangayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        barangaySpinner.setAdapter(barangayAdapter);
+
+        provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                selectedProvince = (String) adapterView.getItemAtPosition(i);
+                // Update the middle spinner's items based on the selected value of the outer spinner
+
+                List<String> cityItems = Arrays.asList(getResources().getStringArray(provinces.get(selectedProvince)));
+
+                cityAdapter.clear();
+                cityAdapter.addAll(cityItems);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                selectedCity = (String) adapterView.getItemAtPosition(i);
+                // Update the middle spinner's items based on the selected value of the outer spinner
+
+                List<String> innerItems = Arrays.asList(getResources().getStringArray(cities.get(selectedCity)));
+
+                barangayAdapter.clear();
+                barangayAdapter.addAll(innerItems);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        barangaySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedBarangay = (String) adapterView.getItemAtPosition(i);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         signOutBtnStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -325,75 +377,6 @@ public class FillUpForm extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), LogIn.class);
                 startActivity(intent);
                 finish();
-            }
-        });
-
-        provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                citySpinner = findViewById(R.id.citySpinner);
-
-                selectedProvince = provinceSpinner.getSelectedItem().toString();
-
-                int parentID = adapterView.getId();
-                if(parentID == R.id.provinceSpinner){
-
-                    if (provinces.containsKey(selectedProvince)){
-                        cityAdapter = ArrayAdapter.createFromResource(adapterView.getContext(), provinces.get(selectedProvince), R.layout.spinner_layout);
-                    }
-
-                    cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                    //populate the cities according to selected province
-                    citySpinner.setAdapter(cityAdapter);
-
-                    //To obtain the selected city from the cityspinner
-                    citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                            barangaySpinner = findViewById(R.id.barangaySpinner);
-
-                            selectedCity = citySpinner.getSelectedItem().toString();
-
-                            int parentID = adapterView.getId();
-
-                            if(parentID == R.id.citySpinner) {
-
-                                if (cities.containsKey(selectedCity)){
-                                    barangayAdapter = ArrayAdapter.createFromResource(adapterView.getContext(), cities.get(selectedCity), R.layout.spinner_layout);
-                                }
-
-                                barangayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                                barangaySpinner.setAdapter(barangayAdapter);
-
-                                barangaySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                        selectedBarangay = barangaySpinner.getSelectedItem().toString();
-                                    }
-
-                                    @Override
-                                    public void onNothingSelected(AdapterView<?> adapterView) {
-
-                                    }
-                                });
-
-                            }
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> adapterView) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
 

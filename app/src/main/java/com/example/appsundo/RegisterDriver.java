@@ -108,8 +108,8 @@ public class RegisterDriver extends AppCompatActivity {
                                                 //USER UID store in realtime database
                                                 driverRef.child("email").setValue(email);
                                                 driverRef.child("UID").setValue(currentUser);
-                                                driverRef.child("INFO_ID").setValue(false);
-                                                driverRef.child("HISTORY_ID").setValue(false);
+                                                driverRef.child("INFO_ID").setValue(0);
+                                                driverRef.child("HISTORY_ID").setValue(0);
 
                                                 Intent intent = new Intent(getApplicationContext(), LogIn.class);
                                                 startActivity((intent));

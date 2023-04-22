@@ -215,7 +215,7 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
     private void uploadLocationToFirebase(LatLng latlng) {
         String uid = String.valueOf(FirebaseAuth.getInstance().getUid());
 
-        dbRef.child("ACTIVE_DRIVER").child(uid).setValue(latlng);
+        dbRef.child("ACTIVE_STUDENT").child(uid).setValue(latlng);
     }
 
     private void moveCameraToCurrentLocation() {
