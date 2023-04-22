@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:text="First Name :"
                     android:textColor="@color/black"
-                    android:textSize="26sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"/>
                 <TextView
                     android:id="@+id/textFN"
@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:text="Last Name :"
                     android:textColor="@color/black"
-                    android:textSize="26sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"/>
                 <TextView
                     android:id="@+id/textLN"
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:text="Email :"
                     android:textColor="@color/black"
-                    android:textSize="26sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"/>
                 <TextView
                     android:id="@+id/textMail"
