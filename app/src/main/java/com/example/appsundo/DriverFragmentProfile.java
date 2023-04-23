@@ -158,6 +158,21 @@ public class DriverFragmentProfile extends Fragment {
 
         enableFields(false);
 
+        getHashMaps();
+
+        ArrayAdapter<CharSequence> provinceAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.array_provinces, R.layout.spinner_layout);
+        provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        provinceSpinner.setAdapter(provinceAdapter);
+
+        provinceItems = Arrays.asList(getResources().getStringArray(R.array.array_provinces));
+
+        ArrayAdapter<CharSequence> cityAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_layout, new ArrayList<>());
+        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        citySpinner.setAdapter(cityAdapter);
+
+        ArrayAdapter<CharSequence> barangayAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_layout, new ArrayList<>());
+        barangayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        barangaySpinner.setAdapter(barangayAdapter);
 
         infoIdRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -200,8 +215,70 @@ public class DriverFragmentProfile extends Fragment {
                                 txtSeatingCapacity.setText(capacity);
 
                                 provinceSpinner.setSelection(provinceItems.indexOf(selectedProvince));
+
+                                cityItems = Arrays.asList(getResources().getStringArray(provinces.get(selectedProvince)));
+                                cityAdapter.clear();
+                                cityAdapter.addAll(cityItems);
+
                                 citySpinner.setSelection(cityItems.indexOf(selectedCity));
+
+                                barangayItems = Arrays.asList(getResources().getStringArray(cities.get(selectedCity)));
+                                barangayAdapter.clear();
+                                barangayAdapter.addAll(barangayItems);
+
                                 barangaySpinner.setSelection(barangayItems.indexOf(selectedBarangay));
+
+                                /*
+                                provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                        if (selectedProvince == "") {
+                                            selectedProvince = (String) adapterView.getItemAtPosition(i);
+                                        }
+
+                                        // Update the middle spinner's items based on the selected value of the outer spinner
+
+                                        cityItems = Arrays.asList(getResources().getStringArray(provinces.get(selectedProvince)));
+
+                                        cityAdapter.clear();
+                                        cityAdapter.addAll(cityItems);
+
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                                    }
+                                });
+
+
+
+
+
+                                citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                        if (selectedCity == "") {
+                                            selectedCity = (String) adapterView.getItemAtPosition(i);
+                                        }
+                                        // Update the middle spinner's items based on the selected value of the outer spinner
+
+                                        barangayItems = Arrays.asList(getResources().getStringArray(cities.get(selectedCity)));
+
+                                        barangayAdapter.clear();
+                                        barangayAdapter.addAll(barangayItems);
+
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                                    }
+                                });
+                                 */
+
 
                             } else {
 
@@ -225,30 +302,12 @@ public class DriverFragmentProfile extends Fragment {
             }
         });
 
-
-        ArrayAdapter<CharSequence> provinceAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.array_provinces, R.layout.spinner_layout);
-        provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        provinceSpinner.setAdapter(provinceAdapter);
-
-        provinceItems = Arrays.asList(getResources().getStringArray(R.array.array_provinces));
-
-        ArrayAdapter<CharSequence> cityAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_layout, new ArrayList<>());
-        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        citySpinner.setAdapter(cityAdapter);
-
-        ArrayAdapter<CharSequence> barangayAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_layout, new ArrayList<>());
-        barangayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        barangaySpinner.setAdapter(barangayAdapter);
-
-        getHashMaps();
-
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if (selectedProvince == "") {
-                    selectedProvince = (String) adapterView.getItemAtPosition(i);
-                }
+                selectedProvince = (String) adapterView.getItemAtPosition(i);
+
 
                 // Update the middle spinner's items based on the selected value of the outer spinner
 
@@ -269,9 +328,7 @@ public class DriverFragmentProfile extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if (selectedCity == "") {
-                    selectedCity = (String) adapterView.getItemAtPosition(i);
-                }
+                selectedCity = (String) adapterView.getItemAtPosition(i);
                 // Update the middle spinner's items based on the selected value of the outer spinner
 
                 barangayItems = Arrays.asList(getResources().getStringArray(cities.get(selectedCity)));
@@ -297,6 +354,7 @@ public class DriverFragmentProfile extends Fragment {
 
             }
         });
+
 
         btnCancelSave.setOnClickListener(new View.OnClickListener() {
             @Override
