@@ -106,6 +106,10 @@ public class DriverFragmentProfile extends Fragment {
     private ArrayList<TextInputEditText> textArr = new ArrayList<>();
     private ArrayList<TextInputEditText> numArr = new ArrayList<>();
 
+    private ArrayAdapter<CharSequence> provinceAdapter;
+    private ArrayAdapter<CharSequence> cityAdapter;
+    private ArrayAdapter<CharSequence> barangayAdapter;
+
     private HashMap<String, Integer> provinces = new HashMap<>();
     private HashMap<String, Integer> cities = new HashMap<>();
 
@@ -113,11 +117,17 @@ public class DriverFragmentProfile extends Fragment {
     private List<String> cityItems;
     private List<String> barangayItems;
 
-    private String selectedProvince = "";
-    private String selectedCity = "";
-    private String selectedBarangay = "";
     private String uid;
+    private String selectedProvince;
+    private String selectedCity;
+    private String selectedBarangay;
     private String infoID;
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
+    private String addressNote;
+    private String plateNumber;
+    private String capacity;
 
     private DatabaseReference dbRef;
     private DatabaseReference infoIdRef;
@@ -160,17 +170,18 @@ public class DriverFragmentProfile extends Fragment {
 
         getHashMaps();
 
-        ArrayAdapter<CharSequence> provinceAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.array_provinces, R.layout.spinner_layout);
+
+        provinceAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.array_provinces, R.layout.spinner_layout);
         provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         provinceSpinner.setAdapter(provinceAdapter);
 
         provinceItems = Arrays.asList(getResources().getStringArray(R.array.array_provinces));
 
-        ArrayAdapter<CharSequence> cityAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_layout, new ArrayList<>());
+        cityAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_layout, new ArrayList<>());
         cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         citySpinner.setAdapter(cityAdapter);
 
-        ArrayAdapter<CharSequence> barangayAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_layout, new ArrayList<>());
+        barangayAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_layout, new ArrayList<>());
         barangayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         barangaySpinner.setAdapter(barangayAdapter);
 
@@ -190,95 +201,19 @@ public class DriverFragmentProfile extends Fragment {
                             if (snapshot.exists()) {
                                 // User with the given UID exists in DRIVER
 
-                                String firstName = String.valueOf(snapshot.child("firstName").getValue());
-                                String lastName = String.valueOf(snapshot.child("lastName").getValue());
-                                String phoneNumber = String.valueOf(snapshot.child("contactNumber").getValue());
+                                firstName = String.valueOf(snapshot.child("firstName").getValue());
+                                lastName = String.valueOf(snapshot.child("lastName").getValue());
+                                phoneNumber = String.valueOf(snapshot.child("contactNumber").getValue());
 
-                                String addressNote = String.valueOf(snapshot.child("ADDRESS/streetAddress").getValue());
+                                addressNote = String.valueOf(snapshot.child("ADDRESS/streetAddress").getValue());
                                 selectedProvince = String.valueOf(snapshot.child("ADDRESS/province").getValue());
                                 selectedCity = String.valueOf(snapshot.child("ADDRESS/city").getValue());
                                 selectedBarangay = String.valueOf(snapshot.child("ADDRESS/barangay").getValue());
 
-                                String plateNumber = String.valueOf(snapshot.child("VEHICLE/plateNumber").getValue());
-                                String capacity = String.valueOf(snapshot.child("VEHICLE/capacity").getValue());
+                                plateNumber = String.valueOf(snapshot.child("VEHICLE/plateNumber").getValue());
+                                capacity = String.valueOf(snapshot.child("VEHICLE/capacity").getValue());
 
-                                txtFirstName.setText(firstName);
-                                txtLastName.setText(lastName);
-
-                                txtfieldFirstName.setText(firstName);
-                                txtfieldLastName.setText(lastName);
-                                txtfieldPhone.setText(phoneNumber);
-
-                                txtAddressNote.setText(addressNote);
-
-                                txtPlateNumber.setText(plateNumber);
-                                txtSeatingCapacity.setText(capacity);
-
-                                provinceSpinner.setSelection(provinceItems.indexOf(selectedProvince));
-
-                                cityItems = Arrays.asList(getResources().getStringArray(provinces.get(selectedProvince)));
-                                cityAdapter.clear();
-                                cityAdapter.addAll(cityItems);
-
-                                citySpinner.setSelection(cityItems.indexOf(selectedCity));
-
-                                barangayItems = Arrays.asList(getResources().getStringArray(cities.get(selectedCity)));
-                                barangayAdapter.clear();
-                                barangayAdapter.addAll(barangayItems);
-
-                                barangaySpinner.setSelection(barangayItems.indexOf(selectedBarangay));
-
-                                /*
-                                provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                                        if (selectedProvince == "") {
-                                            selectedProvince = (String) adapterView.getItemAtPosition(i);
-                                        }
-
-                                        // Update the middle spinner's items based on the selected value of the outer spinner
-
-                                        cityItems = Arrays.asList(getResources().getStringArray(provinces.get(selectedProvince)));
-
-                                        cityAdapter.clear();
-                                        cityAdapter.addAll(cityItems);
-
-                                    }
-
-                                    @Override
-                                    public void onNothingSelected(AdapterView<?> adapterView) {
-
-                                    }
-                                });
-
-
-
-
-
-                                citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                                        if (selectedCity == "") {
-                                            selectedCity = (String) adapterView.getItemAtPosition(i);
-                                        }
-                                        // Update the middle spinner's items based on the selected value of the outer spinner
-
-                                        barangayItems = Arrays.asList(getResources().getStringArray(cities.get(selectedCity)));
-
-                                        barangayAdapter.clear();
-                                        barangayAdapter.addAll(barangayItems);
-
-                                    }
-
-                                    @Override
-                                    public void onNothingSelected(AdapterView<?> adapterView) {
-
-                                    }
-                                });
-                                 */
-
+                                fillInfoFields();
 
                             } else {
 
@@ -363,6 +298,8 @@ public class DriverFragmentProfile extends Fragment {
                 btnSaveProfile.setVisibility(View.GONE);
                 btnCancelSave.setVisibility(View.GONE);
                 btnEditProfile.setVisibility(View.VISIBLE);
+
+                fillInfoFields();
 
                 enableFields(false);
             }
@@ -509,8 +446,37 @@ public class DriverFragmentProfile extends Fragment {
             }
         });
 
+
         // Inflate the layout for this fragment
         return view;
+    }
+
+    public void fillInfoFields() {
+        txtFirstName.setText(firstName);
+        txtLastName.setText(lastName);
+
+        txtfieldFirstName.setText(firstName);
+        txtfieldLastName.setText(lastName);
+        txtfieldPhone.setText(phoneNumber);
+
+        txtAddressNote.setText(addressNote);
+
+        txtPlateNumber.setText(plateNumber);
+        txtSeatingCapacity.setText(capacity);
+
+        provinceSpinner.setSelection(provinceItems.indexOf(selectedProvince));
+
+        cityItems = Arrays.asList(getResources().getStringArray(provinces.get(selectedProvince)));
+        cityAdapter.clear();
+        cityAdapter.addAll(cityItems);
+
+        citySpinner.setSelection(cityItems.indexOf(selectedCity));
+
+        barangayItems = Arrays.asList(getResources().getStringArray(cities.get(selectedCity)));
+        barangayAdapter.clear();
+        barangayAdapter.addAll(barangayItems);
+
+        barangaySpinner.setSelection(barangayItems.indexOf(selectedBarangay));
     }
 
     public void enableFields (Boolean isEnabled) {
