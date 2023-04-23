@@ -45,7 +45,11 @@
                     android:id="@+id/nameFContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/basicInfo">
+                    android:layout_below="@id/basicInfo"
+                    android:hint="Enter first name"
+                    app:boxStrokeColor="@color/black"
+                    app:hintTextColor="@color/medium_black"
+                    app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/firstName"
@@ -55,10 +59,11 @@
                         android:layout_marginVertical="10dp"
                         android:background="#E6E6E6"
                         android:drawablePadding="20dp"
-                        android:hint="Enter first name"
                         android:padding="20dp"
                         android:textColor="@color/black"
-                        android:textColorHint="@color/black"/>
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:textCursorDrawable="@drawable/color_cursor"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,7 +71,11 @@
                     android:id="@+id/nameLContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/nameFContainer">
+                    android:layout_below="@id/nameFContainer"
+                    android:hint="Enter last name"
+                    app:boxStrokeColor="@color/black"
+                    app:hintTextColor="@color/medium_black"
+                    app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/lastName"
@@ -76,10 +85,11 @@
                         android:layout_marginVertical="10dp"
                         android:background="#E6E6E6"
                         android:drawablePadding="20dp"
-                        android:hint="Enter last name"
                         android:padding="20dp"
                         android:textColor="@color/black"
-                        android:textColorHint="@color/black"/>
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:textCursorDrawable="@drawable/color_cursor"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,7 +97,11 @@
                     android:id="@+id/phoneNumberContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/nameLContainer">
+                    android:layout_below="@id/nameLContainer"
+                    android:hint="Enter phone number"
+                    app:boxStrokeColor="@color/black"
+                    app:hintTextColor="@color/medium_black"
+                    app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/phoneNumber"
@@ -97,10 +111,11 @@
                         android:layout_marginVertical="10dp"
                         android:background="#E6E6E6"
                         android:drawablePadding="20dp"
-                        android:hint="Enter phone number"
                         android:padding="20dp"
                         android:textColor="@color/black"
-                        android:textColorHint="@color/black" />
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:textCursorDrawable="@drawable/color_cursor"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -118,7 +133,11 @@
                     android:id="@+id/emergencyNameContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/emergencyText">
+                    android:layout_below="@id/emergencyText"
+                    android:hint="Enter name"
+                    app:boxStrokeColor="@color/black"
+                    app:hintTextColor="@color/medium_black"
+                    app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/emergencyName"
@@ -128,10 +147,11 @@
                         android:layout_marginVertical="10dp"
                         android:background="#E6E6E6"
                         android:drawablePadding="20dp"
-                        android:hint="Enter name"
                         android:padding="20dp"
                         android:textColor="@color/black"
-                        android:textColorHint="@color/black"/>
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:textCursorDrawable="@drawable/color_cursor"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -139,7 +159,11 @@
                     android:id="@+id/emergencyNumberContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/emergencyNameContainer">
+                    android:layout_below="@id/emergencyNameContainer"
+                    android:hint="Enter phone number"
+                    app:boxStrokeColor="@color/black"
+                    app:hintTextColor="@color/medium_black"
+                    app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/emergencyNumber"
@@ -149,10 +173,11 @@
                         android:layout_marginVertical="10dp"
                         android:background="#E6E6E6"
                         android:drawablePadding="20dp"
-                        android:hint="Enter phone number"
                         android:padding="20dp"
                         android:textColor="@color/black"
-                        android:textColorHint="@color/black" />
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:textCursorDrawable="@drawable/color_cursor"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -186,7 +211,7 @@
                     android:background="#E6E6E6"
                     android:drawablePadding="20dp"
                     android:padding="20dp"
-                    android:textColor="@color/teal_200" />
+                    android:textColor="@color/medium_black" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -208,7 +233,7 @@
                     android:background="#E6E6E6"
                     android:drawablePadding="20dp"
                     android:padding="20dp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/medium_black"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -230,13 +255,17 @@
                     android:background="#E6E6E6"
                     android:drawablePadding="20dp"
                     android:padding="20dp"
-                    android:textColor="#FFFFFF"/>
+                    android:textColor="@color/medium_black"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/addNoteContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/barangaySpinner">
+                    android:layout_below="@id/barangaySpinner"
+                    android:hint="Enter address note"
+                    app:boxStrokeColor="@color/black"
+                    app:hintTextColor="@color/medium_black"
+                    app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/addressNote"
@@ -246,10 +275,11 @@
                         android:layout_marginVertical="10dp"
                         android:background="#E6E6E6"
                         android:drawablePadding="20dp"
-                        android:hint="Enter address note"
                         android:padding="20dp"
                         android:textColor="@color/black"
-                        android:textColorHint="@color/black"/>
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:textCursorDrawable="@drawable/color_cursor"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -269,7 +299,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/vehicleText"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:hint="Enter Vehicle Plate Number"
+                    app:boxStrokeColor="@color/black"
+                    app:hintTextColor="@color/medium_black"
+                    app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/plateNumber"
@@ -279,10 +313,11 @@
                         android:layout_marginVertical="10dp"
                         android:background="#E6E6E6"
                         android:drawablePadding="20dp"
-                        android:hint="Enter Vehicle Plate Number"
                         android:padding="20dp"
                         android:textColor="@color/black"
-                        android:textColorHint="@color/black"/>
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:textCursorDrawable="@drawable/color_cursor"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 

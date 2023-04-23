@@ -141,7 +141,7 @@
                         android:background="#E6E6E6"
                         android:drawablePadding="20dp"
                         android:padding="20dp"
-                        android:textColor="@color/teal_200"
+                        android:textColor="@color/black"
                         android:enabled="false"/>
 
                     <TextView
@@ -186,7 +186,7 @@
                         android:background="#E6E6E6"
                         android:drawablePadding="20dp"
                         android:padding="20dp"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/black"
                         android:enabled="false"/>
 
                     <com.google.android.material.textfield.TextInputLayout

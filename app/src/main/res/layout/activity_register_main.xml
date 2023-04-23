@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/medium_black"
     tools:context=".RegisterMain">
 
     <View
@@ -36,9 +37,10 @@
         android:layout_marginTop="100dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/teal_700"
+        android:backgroundTint="@color/yellow"
         android:text="STUDENT"
-        android:textSize="30dp" />
+        android:textColor="@color/black"
+         />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/driverBtn"
@@ -50,8 +52,8 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/teal_700"
-        android:textSize="30dp"
-        android:text="DRIVER" />
+        android:backgroundTint="@color/yellow"
+        android:textColor="@color/black"
+        android:text="DRIVER"/>
 
 </RelativeLayout>
