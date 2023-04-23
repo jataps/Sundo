@@ -27,7 +27,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,8 +37,6 @@ import java.util.HashMap;
  * create an instance of this fragment.
  */
 public class DriverFragmentProfile extends Fragment {
-
-
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,16 +81,15 @@ public class DriverFragmentProfile extends Fragment {
     private MaterialButton signOutBtnDriver;
     private MaterialButton btnEditProfile;
     private MaterialButton btnSaveProfile;
+    private MaterialButton btnCancelSave;
 
-    private TextView txtFName;
+    private TextView txtFirstName;
+    private TextView txtLastName;
     private TextView uidText;
     private TextView provinceText;
     private TextView cityText;
     private TextView barangayText;
     private TextView vehicleText;
-
-    private TextInputLayout plateNumberContainer;
-    private TextInputLayout seatingCapacityContainer;
 
     private TextInputEditText txtfieldFirstName;
     private TextInputEditText txtfieldLastName;
@@ -103,9 +102,6 @@ public class DriverFragmentProfile extends Fragment {
     private Spinner citySpinner;
     private Spinner barangaySpinner;
 
-    private ArrayAdapter<CharSequence> provinceAdapter;
-    private ArrayAdapter<CharSequence> cityAdapter;
-    private ArrayAdapter<CharSequence> barangayAdapter;
 
     private ArrayList<TextInputEditText> textArr = new ArrayList<>();
     private ArrayList<TextInputEditText> numArr = new ArrayList<>();
@@ -113,9 +109,13 @@ public class DriverFragmentProfile extends Fragment {
     private HashMap<String, Integer> provinces = new HashMap<>();
     private HashMap<String, Integer> cities = new HashMap<>();
 
-    private String selectedProvince;
-    private String selectedCity;
-    private String selectedBarangay;
+    private List<String> provinceItems;
+    private List<String> cityItems;
+    private List<String> barangayItems;
+
+    private String selectedProvince = "";
+    private String selectedCity = "";
+    private String selectedBarangay = "";
     private String uid;
     private String infoID;
 
@@ -129,21 +129,20 @@ public class DriverFragmentProfile extends Fragment {
         View view = inflater.inflate(R.layout.fragment_driver_profile, container, false);
 
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
         dbRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://sundo-app-44703-default-rtdb.firebaseio.com/");
-
         infoIdRef = dbRef.child("USERS").child("DRIVER").child(uid).child("INFO_ID");
-
 
         btnEditProfile = view.findViewById(R.id.btnEditProfile);
         btnSaveProfile = view.findViewById(R.id.btnSaveProfile);
         signOutBtnDriver = view.findViewById(R.id.signOutBtnDriver);
+        btnCancelSave = view.findViewById(R.id.btnCancelSave);
 
         provinceSpinner = view.findViewById(R.id.provinceSpinner);
         citySpinner = view.findViewById(R.id.citySpinner);
         barangaySpinner = view.findViewById(R.id.barangaySpinner);
 
-        txtFName = view.findViewById(R.id.txtFName);
+        txtFirstName = view.findViewById(R.id.txtFName);
+        txtLastName = view.findViewById(R.id.txtLName);
 
         textArr.add(txtfieldFirstName = view.findViewById(R.id.txtfieldFirstName));
         textArr.add(txtfieldLastName = view.findViewById(R.id.txtfieldLastName));
@@ -157,6 +156,9 @@ public class DriverFragmentProfile extends Fragment {
         etr.restrictText(textArr);
         etr.restrictNumber(numArr);
 
+        enableFields(false);
+
+
         infoIdRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -164,8 +166,6 @@ public class DriverFragmentProfile extends Fragment {
                     // User with the given UID exists in DRIVER
 
                     infoID = String.valueOf(snapshot.getValue());
-
-                    txtFName.setText(infoID);
 
                     profileRef = dbRef.child("USER_INFORMATION").child("DRIVER").child(infoID);
 
@@ -175,13 +175,33 @@ public class DriverFragmentProfile extends Fragment {
                             if (snapshot.exists()) {
                                 // User with the given UID exists in DRIVER
 
-                                txtfieldFirstName.setText(String.valueOf(snapshot.child("firstName").getValue()));
-                                txtfieldLastName.setText(String.valueOf(snapshot.child("lastName").getValue()));
-                                txtAddressNote.setText(String.valueOf(snapshot.child("completeAdd").getValue()));
-                                txtfieldPhone.setText(String.valueOf(snapshot.child("contactNumber").getValue()));
+                                String firstName = String.valueOf(snapshot.child("firstName").getValue());
+                                String lastName = String.valueOf(snapshot.child("lastName").getValue());
+                                String phoneNumber = String.valueOf(snapshot.child("contactNumber").getValue());
 
-                                txtPlateNumber.setText(String.valueOf(snapshot.child("VEHICLE").child("plateNumber").getValue()));
-                                txtSeatingCapacity.setText(String.valueOf(snapshot.child("VEHICLE").child("capacity").getValue()));
+                                String addressNote = String.valueOf(snapshot.child("ADDRESS/streetAddress").getValue());
+                                selectedProvince = String.valueOf(snapshot.child("ADDRESS/province").getValue());
+                                selectedCity = String.valueOf(snapshot.child("ADDRESS/city").getValue());
+                                selectedBarangay = String.valueOf(snapshot.child("ADDRESS/barangay").getValue());
+
+                                String plateNumber = String.valueOf(snapshot.child("VEHICLE/plateNumber").getValue());
+                                String capacity = String.valueOf(snapshot.child("VEHICLE/capacity").getValue());
+
+                                txtFirstName.setText(firstName);
+                                txtLastName.setText(lastName);
+
+                                txtfieldFirstName.setText(firstName);
+                                txtfieldLastName.setText(lastName);
+                                txtfieldPhone.setText(phoneNumber);
+
+                                txtAddressNote.setText(addressNote);
+
+                                txtPlateNumber.setText(plateNumber);
+                                txtSeatingCapacity.setText(capacity);
+
+                                provinceSpinner.setSelection(provinceItems.indexOf(selectedProvince));
+                                citySpinner.setSelection(cityItems.indexOf(selectedCity));
+                                barangaySpinner.setSelection(barangayItems.indexOf(selectedBarangay));
 
                             } else {
 
@@ -205,66 +225,38 @@ public class DriverFragmentProfile extends Fragment {
             }
         });
 
+
+        ArrayAdapter<CharSequence> provinceAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.array_provinces, R.layout.spinner_layout);
+        provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        provinceSpinner.setAdapter(provinceAdapter);
+
+        provinceItems = Arrays.asList(getResources().getStringArray(R.array.array_provinces));
+
+        ArrayAdapter<CharSequence> cityAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_layout, new ArrayList<>());
+        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        citySpinner.setAdapter(cityAdapter);
+
+        ArrayAdapter<CharSequence> barangayAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_layout, new ArrayList<>());
+        barangayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        barangaySpinner.setAdapter(barangayAdapter);
+
         getHashMaps();
 
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                selectedProvince = provinceSpinner.getSelectedItem().toString();
-
-                int parentID = adapterView.getId();
-                if(parentID == R.id.provinceSpinner){
-
-                    if (provinces.containsKey(selectedProvince)){
-                        cityAdapter = ArrayAdapter.createFromResource(adapterView.getContext(), provinces.get(selectedProvince), R.layout.spinner_layout);
-                    }
-
-                    cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                    //populate the cities according to selected province
-                    citySpinner.setAdapter(cityAdapter);
-
-                    //To obtain the selected city from the cityspinner
-                    citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                            selectedCity = citySpinner.getSelectedItem().toString();
-
-                            int parentID = adapterView.getId();
-
-                            if(parentID == R.id.citySpinner) {
-
-                                if (cities.containsKey(selectedCity)){
-                                    barangayAdapter = ArrayAdapter.createFromResource(adapterView.getContext(), cities.get(selectedCity), R.layout.spinner_layout);
-                                }
-
-                                barangayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                                barangaySpinner.setAdapter(barangayAdapter);
-
-                                barangaySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                                        selectedBarangay = barangaySpinner.getSelectedItem().toString();
-                                    }
-
-                                    @Override
-                                    public void onNothingSelected(AdapterView<?> adapterView) {
-
-                                    }
-                                });
-
-                            }
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> adapterView) {
-
-                        }
-                    });
+                if (selectedProvince == "") {
+                    selectedProvince = (String) adapterView.getItemAtPosition(i);
                 }
+
+                // Update the middle spinner's items based on the selected value of the outer spinner
+
+                cityItems = Arrays.asList(getResources().getStringArray(provinces.get(selectedProvince)));
+
+                cityAdapter.clear();
+                cityAdapter.addAll(cityItems);
+
             }
 
             @Override
@@ -273,11 +265,57 @@ public class DriverFragmentProfile extends Fragment {
             }
         });
 
+        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                if (selectedCity == "") {
+                    selectedCity = (String) adapterView.getItemAtPosition(i);
+                }
+                // Update the middle spinner's items based on the selected value of the outer spinner
+
+                barangayItems = Arrays.asList(getResources().getStringArray(cities.get(selectedCity)));
+
+                barangayAdapter.clear();
+                barangayAdapter.addAll(barangayItems);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        barangaySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedBarangay = (String) adapterView.getItemAtPosition(i);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        btnCancelSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                btnSaveProfile.setVisibility(View.GONE);
+                btnCancelSave.setVisibility(View.GONE);
+                btnEditProfile.setVisibility(View.VISIBLE);
+
+                enableFields(false);
+            }
+        });
+
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 btnSaveProfile.setVisibility(View.VISIBLE);
+                btnCancelSave.setVisibility(View.VISIBLE);
                 btnEditProfile.setVisibility(View.GONE);
 
                 enableFields(true);
@@ -297,25 +335,78 @@ public class DriverFragmentProfile extends Fragment {
                 //String emergencyNumber = String.valueOf(editTextEmergencyNumber.getText());
 
                 String addNote = String.valueOf(txtAddressNote.getText());
-
                 String plateNumber = String.valueOf(txtPlateNumber.getText());
                 String seatingCapacity = String.valueOf(txtSeatingCapacity.getText());
 
+
+                if (TextUtils.isEmpty(firstName)) {
+                    txtfieldFirstName.setError("Enter first name!");
+                    txtfieldFirstName.requestFocus();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(lastName)) {
+                    txtfieldLastName.setError("Enter last name!");
+                    txtfieldLastName.requestFocus();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(contactNumber)) {
+                    txtfieldPhone.setError("Enter valid number!");
+                    txtfieldPhone.requestFocus();
+                    return;
+                }
+
                 /*
-                etr.editTextEmpty(txtfieldFirstName, firstName, "Enter first Name!");
-                etr.editTextEmpty(txtfieldLastName, lastName, "Enter last name!");
-                etr.editTextEmpty(txtfieldPhone, contactNumber, "Enter contact number!");
-                etr.editTextEmpty(txtAddressNote, addNote, "Enter address note!");
-                //etr.editTextEmpty(txtfieldFirstName, firstName, "Enter First Name!");
-                //etr.editTextEmpty(txtfieldFirstName, firstName, "Enter First Name!");
+                if (TextUtils.isEmpty(emergencyName)) {
+                    editTextEmergencyName.setError("Enter valid name !");
+                    editTextEmergencyName.requestFocus();
+                    return;
+                }
 
-                etr.spinnerDefault(provinceText, province, "Select your province", "Select province");
-                etr.spinnerDefault(cityText, city, "Select your city", "Select city");
-                etr.spinnerDefault(barangayText, barangay, "Select your barangay", "Select barangay");
+                if (TextUtils.isEmpty(emergencyNumber)) {
+                    editTextEmergencyNumber.setError("Enter valid number!");
+                    editTextEmergencyNumber.requestFocus();
+                    return;
+                }
+                */
 
-                etr.containerVisible(plateNumberContainer, txtPlateNumber, "Enter valid number");
-                etr.containerVisible(seatingCapacityContainer, txtSeatingCapacity, "Enter valid number");
-                 */
+                if (selectedProvince.equals("Select your province")) {
+                    provinceText.setError("Select province!");
+                    provinceText.requestFocus();
+                    return;
+                }
+
+                if (selectedCity.equals("Select your city")) {
+                    ((TextView)citySpinner.getSelectedView()).setError("Select city");
+                    citySpinner.requestFocus();
+                    return;
+                }
+
+                if (selectedBarangay.equals("Select your barangay")) {
+                    barangayText.setError("Select barangay");
+                    barangayText.requestFocus();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(addNote)) {
+                    txtAddressNote.setError("Enter note!");
+                    txtAddressNote.requestFocus();
+                    return;
+                }
+
+
+                if (TextUtils.isEmpty(seatingCapacity)) {
+                    txtSeatingCapacity.setError("Enter vehicle seating capacity!");
+                    txtSeatingCapacity.requestFocus();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(plateNumber)) {
+                    txtPlateNumber.setError("Enter vehicle plate number!");
+                    txtPlateNumber.requestFocus();
+                    return;
+                }
 
                 HashMap map = new HashMap();
                 map.put("uid", uid);
@@ -335,10 +426,11 @@ public class DriverFragmentProfile extends Fragment {
                 map.put("VEHICLE/capacity", seatingCapacity);
                 map.put("VEHICLE/status", "active");
 
-                profileRef.child(infoID).updateChildren(map);
+                profileRef.updateChildren(map);
 
                 enableFields(false);
                 btnSaveProfile.setVisibility(View.GONE);
+                btnCancelSave.setVisibility(View.GONE);
                 btnEditProfile.setVisibility(View.VISIBLE);
 
             }
@@ -387,11 +479,4 @@ public class DriverFragmentProfile extends Fragment {
 
     }
 
-    public void vehicleDetailShow(int is_visible) {
-
-        vehicleText.setVisibility(is_visible);
-        plateNumberContainer.setVisibility(is_visible);
-        seatingCapacityContainer.setVisibility(is_visible);
-
-    }
 }
