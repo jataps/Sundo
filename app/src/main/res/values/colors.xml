@@ -8,9 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#F2F2F2</color>
+    <color name="green">#5CDB5C</color>
+    <color name="red">#FF0021</color>
     <color name="color_design1">#393A3C</color>
-    <color name="tracking_incomplete">#E30404</color>
-    <color name="tracking_complete">#01D30A</color>
+    <color name="tracking_incomplete">@color/red</color>
+    <color name="tracking_complete">@color/green</color>
     <color name="yellow">#FCD949</color>
     <color name="medium_black">#C6000000</color>
 </resources>

@@ -1,19 +1,19 @@
 package com.example.appsundo;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.TypeEvaluator;
+import android.animation.ValueAnimator;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -30,7 +30,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,11 +38,15 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
 
+    private MaterialButton gpsBtn;
+
+    private Boolean isGpsON = false;
     private MapView mMapView;
     private GoogleMap mGoogleMap;
     private FusedLocationProviderClient mLocationProvider;
     private Polyline mPolyline;
     private Marker marker;
+    private ValueAnimator animator;
 
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
@@ -56,101 +59,31 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_driver_home, container, false);
 
+        gpsBtn = view.findViewById(R.id.gpsBtn);
+
         mMapView = view.findViewById(R.id.mapViewDriver);
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(this);
 
         mLocationProvider = LocationServices.getFusedLocationProviderClient(getActivity());
 
-        // Inflate the layout for this fragment
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        mMapView.onResume();
-
-        handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        gpsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                moveCameraToCurrentLocation();
-                handler.postDelayed(this, 60000);
-            }
-        }, 60000);
+            public void onClick(View view) {
 
-        locationRequest = new LocationRequest
-                .Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
-                .setWaitForAccurateLocation(false)
-                .setMinUpdateIntervalMillis(5000)
-                .setMaxUpdateDelayMillis(10000)
-                .build();
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                super.onLocationResult(locationResult);
+                if(isGpsON) {
+                    gpsBtnOn(false);
 
-                Location location = locationResult.getLastLocation();
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-                if (marker != null) {
-                    marker.remove();
+                } else {
+                    gpsBtnOn(true);
+                    onResume();
                 }
 
-                MarkerOptions markerOptions = new MarkerOptions()
-                        .position(latLng)
-                        .title("Current Location");
-
-                marker = mGoogleMap.addMarker(markerOptions);
-
-                //not yet working
-                mPolyline.getPoints().add(latLng);
-
-                uploadLocationToFirebase(latLng);
             }
-        };
+        });
 
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        mMapView.onPause();
-
-        handler.removeCallbacksAndMessages(null);
-
-        mLocationProvider.removeLocationUpdates(locationCallback);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mMapView.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mMapView.onLowMemory();
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mGoogleMap = googleMap;
-
-        // Request location updates
-        requestLocationUpdates();
-
-        // Create a new Polyline object and add it to the map
-        mPolyline = mGoogleMap.addPolyline(new PolylineOptions()
-                .width(10)
-                .color(Color.RED));
-
-        // Move the camera to the initial position
-        moveCameraToCurrentLocation();
+        // Inflate the layout for this fragment
+        return view;
     }
 
     //CUSTOM FUNCTIONS
@@ -187,4 +120,132 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
             });
         }
     }
+
+    private void gpsBtnOn(Boolean isON) {
+
+        if (isON) {
+            gpsBtn.setText("GPS ON");
+            gpsBtn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.green));
+
+        } else {
+
+            handler.removeCallbacksAndMessages(null);
+            mLocationProvider.removeLocationUpdates(locationCallback);
+            marker.remove();
+
+            gpsBtn.setText("GPS OFF");
+            gpsBtn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.red));
+        }
+
+        isGpsON = isON;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        mMapView.onResume();
+
+        if (isGpsON) {
+
+            handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    moveCameraToCurrentLocation();
+                    requestLocationUpdates();
+                    handler.postDelayed(this, 60000);
+                }
+            }, 1000);
+
+            locationRequest = new LocationRequest
+                    .Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
+                    .setWaitForAccurateLocation(false)
+                    .setMinUpdateIntervalMillis(1000)
+                    .setMaxUpdateDelayMillis(1200)
+                    .build();
+            locationCallback = new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult locationResult) {
+                    super.onLocationResult(locationResult);
+
+                    Location location = locationResult.getLastLocation();
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+                    if (marker != null) {
+                        animateMarkerToNewPosition(marker, latLng);
+                    } else {
+                        MarkerOptions markerOptions = new MarkerOptions()
+                                .position(latLng)
+                                .title("Current Location");
+                        marker = mGoogleMap.addMarker(markerOptions);
+                    }
+
+                    uploadLocationToFirebase(latLng);
+                }
+            };
+
+        }
+
+    }
+
+    private void animateMarkerToNewPosition(Marker marker, LatLng newPosition) {
+        if (animator != null) {
+            animator.cancel();
+        }
+        animator = ValueAnimator.ofObject(new LatLngEvaluator(), marker.getPosition(), newPosition);
+        animator.setDuration(500); // Animation duration in milliseconds
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                LatLng position = (LatLng) animation.getAnimatedValue();
+                marker.setPosition(position);
+            }
+        });
+        animator.start();
+    }
+
+    public class LatLngEvaluator implements TypeEvaluator<LatLng> {
+        @Override
+        public LatLng evaluate(float fraction, LatLng startValue, LatLng endValue) {
+            double lat = (endValue.latitude - startValue.latitude) * fraction + startValue.latitude;
+            double lng = (endValue.longitude - startValue.longitude) * fraction + startValue.longitude;
+            return new LatLng(lat, lng);
+        }
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        mMapView.onPause();
+
+        if (!isGpsON) {
+
+            handler.removeCallbacksAndMessages(null);
+            mLocationProvider.removeLocationUpdates(locationCallback);
+
+        }
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mMapView.onLowMemory();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+
+    }
+
 }
