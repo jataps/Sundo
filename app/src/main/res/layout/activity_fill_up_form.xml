@@ -101,7 +101,8 @@
                     android:hint="Enter phone number"
                     app:boxStrokeColor="@color/black"
                     app:hintTextColor="@color/medium_black"
-                    app:endIconMode="clear_text">
+                    app:endIconMode="clear_text"
+                    app:prefixText="+63">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/phoneNumber"

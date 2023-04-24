@@ -114,7 +114,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Phone Number"
-                        android:layout_below="@id/nameLContainer">
+                        android:layout_below="@id/nameLContainer"
+                        app:prefixText="+63">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/txtfieldPhone"
@@ -175,6 +176,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/emergencyNameContainer"
                         android:hint="Enter phone number"
+                        app:prefixText="+63"
                         app:boxStrokeColor="@color/black"
                         app:hintTextColor="@color/medium_black"
                         app:endIconMode="clear_text">
