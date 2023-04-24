@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class FillUpForm extends AppCompatActivity {
 
@@ -266,12 +267,15 @@ public class FillUpForm extends AppCompatActivity {
                 DatabaseReference userRef = dbRef.child("USERS").child(userType).child(uid).child("INFO_ID");
                 DatabaseReference recordRef = dbRef.child("USER_INFORMATION").child(userType);
 
+                String accountCode = uid.substring(6, 13).toUpperCase();
+
                 String requestID = recordRef.push().getKey();
 
                 userRef.setValue(requestID);
 
                 HashMap map = new HashMap();
                 map.put("uid", uid);
+                map.put("accountCode", accountCode);
                 map.put("lastName", lastName);
                 map.put("firstName", firstName);
                 map.put("contactNumber", contactNumber);
