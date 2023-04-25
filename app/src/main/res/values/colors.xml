@@ -9,10 +9,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#F2F2F2</color>
     <color name="green">#5CDB5C</color>
-    <color name="red">#F8C8DC</color>
+    <color name="red">#FF0021</color>
     <color name="color_design1">#393A3C</color>
     <color name="tracking_incomplete">@color/red</color>
     <color name="tracking_complete">@color/green</color>
     <color name="yellow">#FCD949</color>
     <color name="medium_black">#C6000000</color>
+    <color name="light_black">#4E4E50</color>
+    <color name="blue">#FF4E65F3</color>
 </resources>

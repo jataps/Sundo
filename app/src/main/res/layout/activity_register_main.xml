@@ -23,8 +23,8 @@
         android:layout_marginBottom="220dp"
         android:gravity="left"
         android:text="Register Account As?"
-        android:textColor="@color/white"
-        android:textSize="30dp"
+        android:textColor="@color/medium_black"
+        android:textSize="35dp"
         android:textStyle="bold" />
 
     <com.google.android.material.button.MaterialButton
