@@ -14,11 +14,10 @@
         android:background="@drawable/simple_wave"/>
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="150dp"
         android:layout_marginBottom="220dp"
         android:gravity="left"
         android:text="Welcome back !"
@@ -51,7 +50,7 @@
                 android:layout_marginBottom="25dp"
                 android:gravity="center"
                 android:text="Sign_in"
-                android:textColor="@color/black"
+                android:textColor="@color/medium_black"
                 android:textSize="30dp"
                 android:textStyle="bold"/>
 
