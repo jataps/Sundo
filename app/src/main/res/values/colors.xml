@@ -9,7 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#F2F2F2</color>
     <color name="green">#5CDB5C</color>
-    <color name="red">#FF0021</color>
+    <color name="red">#FF6961</color>
     <color name="color_design1">#393A3C</color>
     <color name="tracking_incomplete">@color/red</color>
     <color name="tracking_complete">@color/green</color>
