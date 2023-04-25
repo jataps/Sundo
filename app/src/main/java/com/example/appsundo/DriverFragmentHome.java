@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -33,8 +34,15 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
 
@@ -52,12 +60,18 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
     private LocationCallback locationCallback;
     private Handler handler;
 
+    private String uid;
+    private String accountCode;
+
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_driver_home, container, false);
+
+        uid = String.valueOf(FirebaseAuth.getInstance().getUid());
+        fetchAccountCode();
 
         gpsBtn = view.findViewById(R.id.gpsBtn);
 
@@ -67,20 +81,73 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
 
         mLocationProvider = LocationServices.getFusedLocationProviderClient(getActivity());
 
+
+
         gpsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                String status;
+                String timeString;
+
                 if(isGpsON) {
                     gpsBtnOn(false);
 
+                    status = "OFFLINE";
+                    timeString = "TIME_OUT";
+
                 } else {
                     gpsBtnOn(true);
+
+                    status = "ONLINE";
+                    timeString = "TIME_IN";
+
                     onResume();
                 }
 
+                dbRef.child("ONLINE_DRIVER").child(accountCode).child("serviceStatus").setValue("In Transit");
+
+                Date currentTime = Calendar.getInstance().getTime();
+                SimpleDateFormat dateTimeFormat = new SimpleDateFormat("HH:mm:ss");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+
+                dbRef.child("ONLINE_DRIVER").child(accountCode).child(dateFormat.format(currentTime)).child(timeString).setValue(dateTimeFormat.format(currentTime));
+
+                DatabaseReference historyRef = dbRef.child("HISTORY").child(accountCode);
+                //TIME IN AND TIME OUT
+                historyRef.child(dateFormat.format(currentTime)).child(timeString).child(dateTimeFormat.format(currentTime));
+                historyRef.child(dateFormat.format(currentTime)).child(timeString).child(dateTimeFormat.format(currentTime));
+
+
+                String studentUid = "abcde";
+/*
+                DatabaseReference toSchoolRef = historyRef.child("STUDENTS ONBOARD").child(studentUid).child("TO_SCHOOL");
+                //STUDENT / TO SCHOOL / PICKUP
+                toSchoolRef.child("PICKUP_TIME").setValue(dateTimeFormat.format(currentTime));
+                toSchoolRef.child("LOCATION").child("longitude").setValue("insert longitude here");
+                toSchoolRef.child("LOCATION").child("latitude").setValue("insert longitude here");
+
+                //STUDENT / TO SCHOOL / DROP OFF
+                toSchoolRef.child("DROPOFF_TIME").setValue(dateTimeFormat.format(currentTime));
+                toSchoolRef.child("LOCATION").child("longitude").setValue("insert longitude here");
+                toSchoolRef.child("LOCATION").child("latitude").setValue("insert longitude here");
+
+                //STUDENT / TO SCHOOL / DROP OFF
+                DatabaseReference toHomeRef = historyRef.child("STUDENTS ONBOARD").child(studentUid).child("TO_HOME");
+                toHomeRef.child("PICKUP_TIME").setValue(dateTimeFormat.format(currentTime));
+                toHomeRef.child("LOCATION").child("longitude").setValue("insert longitude here");
+                toHomeRef.child("LOCATION").child("latitude").setValue("insert longitude here");
+
+                toHomeRef.child("DROPOFF_TIME").setValue(dateTimeFormat.format(currentTime));
+                toHomeRef.child("LOCATION").child("longitude").setValue("insert longitude here");
+                toHomeRef.child("LOCATION").child("latitude").setValue("insert longitude here");
+
+ */
+
             }
         });
+
+
 
         // Inflate the layout for this fragment
         return view;
@@ -97,10 +164,41 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    private void uploadLocationToFirebase(LatLng latlng) {
-        String uid = String.valueOf(FirebaseAuth.getInstance().getUid());
+    private void fetchAccountCode() {
+        DatabaseReference infoIdRef = dbRef.child("USERS").child("DRIVER").child(uid).child("INFO_ID");
+        infoIdRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-        dbRef.child("ACTIVE_DRIVER").child(uid).setValue(latlng);
+                String infoID = String.valueOf(snapshot.getValue());
+
+                DatabaseReference acctCodeRef = dbRef.child("USER_INFORMATION").child("DRIVER").child(infoID).child("accountCode");
+
+                acctCodeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        accountCode = String.valueOf(snapshot.getValue());
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void uploadLocationToFirebase(LatLng latlng) {
+        uid = String.valueOf(FirebaseAuth.getInstance().getUid());
+
+        dbRef.child("ONLINE_DRIVER").child(accountCode).child("CURRENT_LOCATION").child("latitude").setValue(latlng.latitude);
+        dbRef.child("ONLINE_DRIVER").child(accountCode).child("CURRENT_LOCATION").child("longitude").setValue(latlng.longitude);
     }
 
     private void moveCameraToCurrentLocation() {
@@ -128,10 +226,13 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
             gpsBtn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.green));
 
         } else {
-
             handler.removeCallbacksAndMessages(null);
             mLocationProvider.removeLocationUpdates(locationCallback);
-            marker.remove();
+
+            if (marker!=null) {
+                marker.remove();
+                marker = null;
+            }
 
             gpsBtn.setText("GPS OFF");
             gpsBtn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.red));
@@ -154,9 +255,9 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
                 public void run() {
                     moveCameraToCurrentLocation();
                     requestLocationUpdates();
-                    handler.postDelayed(this, 60000);
+                    handler.postDelayed(this, 5000);
                 }
-            }, 1000);
+            }, 500);
 
             locationRequest = new LocationRequest
                     .Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
@@ -172,13 +273,15 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
                     Location location = locationResult.getLastLocation();
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-                    if (marker != null) {
-                        animateMarkerToNewPosition(marker, latLng);
-                    } else {
-                        MarkerOptions markerOptions = new MarkerOptions()
-                                .position(latLng)
-                                .title("Current Location");
-                        marker = mGoogleMap.addMarker(markerOptions);
+                    if (isGpsON) {
+                        if (marker != null) {
+                            animateMarkerToNewPosition(marker, latLng);
+                        } else {
+                            MarkerOptions markerOptions = new MarkerOptions()
+                                    .position(latLng)
+                                    .title("Current Location");
+                            marker = mGoogleMap.addMarker(markerOptions);
+                        }
                     }
 
                     uploadLocationToFirebase(latLng);
@@ -214,19 +317,17 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
         }
     }
 
-
     @Override
     public void onPause() {
         super.onPause();
 
         mMapView.onPause();
 
-        if (!isGpsON) {
-
+        if (isGpsON){
             handler.removeCallbacksAndMessages(null);
             mLocationProvider.removeLocationUpdates(locationCallback);
-
         }
+
 
     }
 
@@ -245,7 +346,6 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-
     }
 
 }
