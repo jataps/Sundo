@@ -113,41 +113,35 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
 
                 dbRef.child("ONLINE_DRIVER").child(accountCode).child(dateFormat.format(currentTime)).child(timeString).setValue(dateTimeFormat.format(currentTime));
 
-                DatabaseReference historyRef = dbRef.child("HISTORY").child(accountCode);
+                DatabaseReference historyRef = dbRef.child("HISTORY").child(dateFormat.format(currentTime)).child(accountCode);
                 //TIME IN AND TIME OUT
                 historyRef.child(dateFormat.format(currentTime)).child(timeString).child(dateTimeFormat.format(currentTime));
                 historyRef.child(dateFormat.format(currentTime)).child(timeString).child(dateTimeFormat.format(currentTime));
 
-
-                String studentUid = "abcde";
-/*
+                String studentUid = "studentC";
                 DatabaseReference toSchoolRef = historyRef.child("STUDENTS ONBOARD").child(studentUid).child("TO_SCHOOL");
                 //STUDENT / TO SCHOOL / PICKUP
-                toSchoolRef.child("PICKUP_TIME").setValue(dateTimeFormat.format(currentTime));
-                toSchoolRef.child("LOCATION").child("longitude").setValue("insert longitude here");
-                toSchoolRef.child("LOCATION").child("latitude").setValue("insert longitude here");
+                toSchoolRef.child("PICKUP").child("pickupTime").setValue(dateTimeFormat.format(currentTime));
+                toSchoolRef.child("PICKUP").child("longitude").setValue("insert longitude here");
+                toSchoolRef.child("PICKUP").child("latitude").setValue("insert latitude here");
 
                 //STUDENT / TO SCHOOL / DROP OFF
-                toSchoolRef.child("DROPOFF_TIME").setValue(dateTimeFormat.format(currentTime));
-                toSchoolRef.child("LOCATION").child("longitude").setValue("insert longitude here");
-                toSchoolRef.child("LOCATION").child("latitude").setValue("insert longitude here");
+                toSchoolRef.child("DROP_OFF").child("dropOffTime").setValue(dateTimeFormat.format(currentTime));
+                toSchoolRef.child("DROP_OFF").child("longitude").setValue("insert longitude here");
+                toSchoolRef.child("DROP_OFF").child("latitude").setValue("insert latitude here");
 
                 //STUDENT / TO SCHOOL / DROP OFF
                 DatabaseReference toHomeRef = historyRef.child("STUDENTS ONBOARD").child(studentUid).child("TO_HOME");
-                toHomeRef.child("PICKUP_TIME").setValue(dateTimeFormat.format(currentTime));
-                toHomeRef.child("LOCATION").child("longitude").setValue("insert longitude here");
-                toHomeRef.child("LOCATION").child("latitude").setValue("insert longitude here");
+                toHomeRef.child("PICKUP").child("pickupTime").setValue(dateTimeFormat.format(currentTime));
+                toHomeRef.child("PICKUP").child("longitude").setValue("insert longitude here");
+                toHomeRef.child("PICKUP").child("latitude").setValue("insert latitude here");
 
-                toHomeRef.child("DROPOFF_TIME").setValue(dateTimeFormat.format(currentTime));
-                toHomeRef.child("LOCATION").child("longitude").setValue("insert longitude here");
-                toHomeRef.child("LOCATION").child("latitude").setValue("insert longitude here");
-
- */
+                toHomeRef.child("DROP_OFF").child("dropOffTime").setValue(dateTimeFormat.format(currentTime));
+                toHomeRef.child("DROP_OFF").child("longitude").setValue("insert longitude here");
+                toHomeRef.child("DROP_OFF").child("latitude").setValue("insert latitude here");
 
             }
         });
-
-
 
         // Inflate the layout for this fragment
         return view;
