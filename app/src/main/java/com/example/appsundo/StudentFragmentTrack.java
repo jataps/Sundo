@@ -169,7 +169,6 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
         mMapView.onPause();
 
         handler.removeCallbacksAndMessages(null);
-
         mLocationProvider.removeLocationUpdates(locationCallback);
     }
 
