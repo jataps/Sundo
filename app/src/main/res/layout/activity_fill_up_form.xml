@@ -14,8 +14,9 @@
         android:id="@+id/uidText"
         android:text="Complete Registration"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/white"
-        android:textSize="25sp" />
+        android:textColor="@color/grey"
+        android:textSize="25sp"
+        android:padding="20dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,14 +34,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/basicInfo"
                     android:text="Basic Info"
+                    android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey"
                     android:textSize="25sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -50,8 +51,8 @@
                     android:layout_below="@id/basicInfo"
                     android:textColorHint="@color/white"
                     android:hint="Enter first name"
-                    app:boxStrokeColor="@color/black"
-                    app:hintTextColor="@color/medium_black"
+                    app:boxStrokeColor="@color/grey"
+                    app:hintTextColor="@color/grey"
                     app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -63,10 +64,10 @@
                         android:background="@color/light_black"
                         android:drawablePadding="20dp"
                         android:padding="20dp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey"
                         android:singleLine="true"
                         android:maxLines="1"
-                        android:textCursorDrawable="@drawable/color_cursor"/>
+                        android:textCursorDrawable="@color/grey"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -76,8 +77,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/nameFContainer"
                     android:hint="Enter last name"
-                    app:boxStrokeColor="@color/black"
-                    app:hintTextColor="@color/medium_black"
+                    android:textColorHint="@color/grey"
+                    app:boxStrokeColor="@color/grey"
+                    app:hintTextColor="@color/grey"
                     app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -86,13 +88,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginVertical="10dp"
-                        android:background="#E6E6E6"
+                        android:background="@color/light_black"
                         android:drawablePadding="20dp"
                         android:padding="20dp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey"
                         android:singleLine="true"
                         android:maxLines="1"
-                        android:textCursorDrawable="@drawable/color_cursor"/>
+                        android:textCursorDrawable="@color/grey"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -102,8 +104,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/nameLContainer"
                     android:hint="Enter phone number"
-                    app:boxStrokeColor="@color/black"
-                    app:hintTextColor="@color/medium_black"
+                    android:textColorHint="@color/grey"
+                    app:boxStrokeColor="@color/grey"
+                    app:hintTextColor="@color/grey"
                     app:endIconMode="clear_text"
                     app:prefixText="+63">
 
@@ -113,13 +116,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginVertical="10dp"
-                        android:background="#E6E6E6"
+                        android:background="@color/light_black"
                         android:drawablePadding="20dp"
                         android:padding="20dp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey"
                         android:singleLine="true"
                         android:maxLines="1"
-                        android:textCursorDrawable="@drawable/color_cursor"/>
+                        android:textCursorDrawable="@color/grey"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -128,8 +131,9 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/emergencyText"
                     android:text="In Case of emergency"
+                    android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/grey"
                     android:textSize="25sp"
                     android:layout_below="@id/phoneNumberContainer"/>
 
@@ -139,8 +143,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/emergencyText"
                     android:hint="Enter name"
-                    app:boxStrokeColor="@color/black"
-                    app:hintTextColor="@color/medium_black"
+                    android:textColorHint="@color/grey"
+                    app:boxStrokeColor="@color/grey"
+                    app:hintTextColor="@color/grey"
                     app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -149,13 +154,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginVertical="10dp"
-                        android:background="#E6E6E6"
+                        android:background="@color/light_black"
                         android:drawablePadding="20dp"
                         android:padding="20dp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey"
                         android:singleLine="true"
                         android:maxLines="1"
-                        android:textCursorDrawable="@drawable/color_cursor"/>
+                        android:textCursorDrawable="@color/grey"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -165,8 +170,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/emergencyNameContainer"
                     android:hint="Enter phone number"
-                    app:boxStrokeColor="@color/black"
-                    app:hintTextColor="@color/medium_black"
+                    android:textColorHint="@color/grey"
+                    app:boxStrokeColor="@color/grey"
+                    app:hintTextColor="@color/grey"
                     app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -175,13 +181,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginVertical="10dp"
-                        android:background="#E6E6E6"
+                        android:background="@color/light_black"
                         android:drawablePadding="20dp"
                         android:padding="20dp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey"
                         android:singleLine="true"
                         android:maxLines="1"
-                        android:textCursorDrawable="@drawable/color_cursor"/>
+                        android:textCursorDrawable="@color/grey"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -190,18 +196,20 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/addressText"
                     android:text="Address"
+                    android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/grey"
                     android:textSize="25sp"
                     android:layout_below="@id/emergencyNumberContainer"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:id="@+id/provinceText"
                     android:text="Province *"
                     android:layout_marginStart="20dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/grey"
                     android:textSize="20dp"
                     android:layout_below="@id/addressText"/>
 
@@ -212,7 +220,7 @@
                     android:layout_below="@id/provinceText"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginVertical="10dp"
-                    android:background="#E6E6E6"
+                    android:background="@color/light_black"
                     android:drawablePadding="20dp"
                     android:padding="20dp"
                     android:textColor="@color/medium_black" />
@@ -223,7 +231,7 @@
                     android:id="@+id/cityText"
                     android:text="City *"
                     android:layout_marginStart="20dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/grey"
                     android:textSize="20dp"
                     android:layout_below="@id/provinceSpinner"/>
 
@@ -234,10 +242,10 @@
                     android:layout_below="@id/cityText"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginVertical="10dp"
-                    android:background="#E6E6E6"
+                    android:background="@color/light_black"
                     android:drawablePadding="20dp"
                     android:padding="20dp"
-                    android:textColor="@color/medium_black"/>
+                    android:textColor="@color/grey"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -245,7 +253,7 @@
                     android:id="@+id/barangayText"
                     android:text="Barangay *"
                     android:layout_marginStart="20dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/grey"
                     android:textSize="20dp"
                     android:layout_below="@id/citySpinner"/>
 
@@ -256,10 +264,10 @@
                     android:layout_below="@id/barangayText"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginVertical="10dp"
-                    android:background="#E6E6E6"
+                    android:background="@color/light_black"
                     android:drawablePadding="20dp"
                     android:padding="20dp"
-                    android:textColor="@color/medium_black"/>
+                    android:textColor="@color/grey"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/addNoteContainer"
@@ -267,8 +275,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/barangaySpinner"
                     android:hint="Enter address note"
-                    app:boxStrokeColor="@color/black"
-                    app:hintTextColor="@color/medium_black"
+                    android:textColorHint="@color/grey"
+                    app:boxStrokeColor="@color/grey"
+                    app:hintTextColor="@color/grey"
                     app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -277,13 +286,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginVertical="10dp"
-                        android:background="#E6E6E6"
+                        android:background="@color/light_black"
                         android:drawablePadding="20dp"
                         android:padding="20dp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey"
                         android:singleLine="true"
                         android:maxLines="1"
-                        android:textCursorDrawable="@drawable/color_cursor"/>
+                        android:textCursorDrawable="@color/grey"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -292,8 +301,9 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/vehicleText"
                     android:text="Vehicle Details (For Drivers only)"
+                    android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/grey"
                     android:textSize="20dp"
                     android:layout_below="@id/addNoteContainer"
                     android:visibility="gone"/>
@@ -305,8 +315,9 @@
                     android:layout_below="@id/vehicleText"
                     android:visibility="gone"
                     android:hint="Enter Vehicle Plate Number"
-                    app:boxStrokeColor="@color/black"
-                    app:hintTextColor="@color/medium_black"
+                    android:textColorHint="@color/grey"
+                    app:boxStrokeColor="@color/grey"
+                    app:hintTextColor="@color/grey"
                     app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -315,13 +326,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginVertical="10dp"
-                        android:background="#E6E6E6"
+                        android:background="@color/light_black"
                         android:drawablePadding="20dp"
                         android:padding="20dp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey"
                         android:singleLine="true"
                         android:maxLines="1"
-                        android:textCursorDrawable="@drawable/color_cursor"/>
+                        android:textCursorDrawable="@color/grey"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -330,6 +341,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/plateNumberContainer"
+                    android:textColorHint="@color/grey"
+                    app:boxStrokeColor="@color/grey"
+                    app:hintTextColor="@color/grey"
+                    app:endIconMode="clear_text"
                     android:visibility="gone">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -338,22 +353,22 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginVertical="10dp"
-                        android:background="#E6E6E6"
+                        android:background="@color/light_black"
                         android:drawablePadding="20dp"
                         android:hint="Enter Vehicle seating capacity"
                         android:padding="20dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/black"/>
+                        android:textColor="@color/grey"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0"
                     android:layout_below="@id/seatingCapacityContainer"
                     android:text="Submit"
                     android:id="@+id/submitBtnStudent"
+                    android:backgroundTint="@color/yellow"
+                    android:textColor="@color/medium_black"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginVertical="20dp"
                     android:layout_marginBottom="20dp"
@@ -375,7 +390,7 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             android:backgroundTint="@color/yellow"
-            android:textColor="@color/black"/>
+            android:textColor="@color/medium_black"/>
 
     </LinearLayout>
 

@@ -123,7 +123,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:text="Already have an account?"
-                android:textColor="@color/black" />
+                android:textColor="@color/blue" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
