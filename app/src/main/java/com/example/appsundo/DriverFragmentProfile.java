@@ -94,6 +94,8 @@ public class DriverFragmentProfile extends Fragment {
     private TextInputEditText txtfieldFirstName;
     private TextInputEditText txtfieldLastName;
     private TextInputEditText txtfieldPhone;
+    private TextInputEditText txtEmergencyName;
+    private TextInputEditText txtEmergencyNumber;
     private TextInputEditText txtAddressNote;
     private TextInputEditText txtPlateNumber;
     private TextInputEditText txtSeatingCapacity;
@@ -125,6 +127,8 @@ public class DriverFragmentProfile extends Fragment {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    private String emergName;
+    private String emergNumber;
     private String addressNote;
     private String plateNumber;
     private String capacity;
@@ -158,6 +162,9 @@ public class DriverFragmentProfile extends Fragment {
         textArr.add(txtfieldLastName = view.findViewById(R.id.txtfieldLastName));
         textArr.add(txtAddressNote = view.findViewById(R.id.txtAddressNote));
         textArr.add(txtPlateNumber = view.findViewById(R.id.txtPlateNumber));
+
+        textArr.add(txtEmergencyName = view.findViewById(R.id.emergencyName));
+        numArr.add(txtEmergencyNumber = view.findViewById(R.id.emergencyNumber));
 
         numArr.add(txtfieldPhone = view.findViewById(R.id.txtfieldPhone));
         numArr.add(txtSeatingCapacity = view.findViewById(R.id.txtSeatingCapacity));
@@ -204,6 +211,9 @@ public class DriverFragmentProfile extends Fragment {
                                 firstName = String.valueOf(snapshot.child("firstName").getValue());
                                 lastName = String.valueOf(snapshot.child("lastName").getValue());
                                 phoneNumber = String.valueOf(snapshot.child("contactNumber").getValue());
+
+                                emergName = String.valueOf(snapshot.child("emergencyName").getValue());
+                                emergNumber = String.valueOf(snapshot.child("emergencyNumber").getValue());
 
                                 addressNote = String.valueOf(snapshot.child("ADDRESS/streetAddress").getValue());
                                 selectedProvince = String.valueOf(snapshot.child("ADDRESS/province").getValue());
@@ -326,8 +336,8 @@ public class DriverFragmentProfile extends Fragment {
                 String lastName = String.valueOf(txtfieldLastName.getText());
                 String contactNumber = String.valueOf(txtfieldPhone.getText());
 
-                //String emergencyName = String.valueOf(editTextEmergencyName.getText());
-                //String emergencyNumber = String.valueOf(editTextEmergencyNumber.getText());
+                String emergName = String.valueOf(txtEmergencyName.getText());
+                String emergNumber = String.valueOf(txtEmergencyNumber.getText());
 
                 String addNote = String.valueOf(txtAddressNote.getText());
                 String plateNumber = String.valueOf(txtPlateNumber.getText());
@@ -352,19 +362,19 @@ public class DriverFragmentProfile extends Fragment {
                     return;
                 }
 
-                /*
-                if (TextUtils.isEmpty(emergencyName)) {
-                    editTextEmergencyName.setError("Enter valid name !");
-                    editTextEmergencyName.requestFocus();
+
+                if (TextUtils.isEmpty(emergName)) {
+                    txtEmergencyName.setError("Enter valid name !");
+                    txtEmergencyName.requestFocus();
                     return;
                 }
 
-                if (TextUtils.isEmpty(emergencyNumber)) {
-                    editTextEmergencyNumber.setError("Enter valid number!");
-                    editTextEmergencyNumber.requestFocus();
+                if (TextUtils.isEmpty(emergNumber)) {
+                    txtEmergencyNumber.setError("Enter valid number!");
+                    txtEmergencyNumber.requestFocus();
                     return;
                 }
-                */
+
 
                 if (selectedProvince.equals("Select your province")) {
                     provinceText.setError("Select province!");
@@ -409,8 +419,8 @@ public class DriverFragmentProfile extends Fragment {
                 map.put("firstName", firstName);
                 map.put("contactNumber", contactNumber);
 
-                //map.put("emergencyName", emergencyName);
-                //map.put("emergencyNumber", emergencyNumber);
+                map.put("emergencyName", emergName);
+                map.put("emergencyNumber", emergNumber);
 
                 map.put("ADDRESS/province", selectedProvince);
                 map.put("ADDRESS/city", selectedCity);
@@ -459,6 +469,9 @@ public class DriverFragmentProfile extends Fragment {
         txtfieldLastName.setText(lastName);
         txtfieldPhone.setText(phoneNumber);
 
+        txtEmergencyName.setText(emergName);
+        txtEmergencyNumber.setText(emergNumber);
+
         txtAddressNote.setText(addressNote);
 
         txtPlateNumber.setText(plateNumber);
@@ -484,6 +497,8 @@ public class DriverFragmentProfile extends Fragment {
         txtfieldFirstName.setEnabled(isEnabled);
         txtfieldLastName.setEnabled(isEnabled);
         txtAddressNote.setEnabled(isEnabled);
+        txtEmergencyName.setEnabled(isEnabled);
+        txtEmergencyNumber.setEnabled(isEnabled);
         txtPlateNumber.setEnabled(isEnabled);
         txtfieldPhone.setEnabled(isEnabled);
         txtSeatingCapacity.setEnabled(isEnabled);

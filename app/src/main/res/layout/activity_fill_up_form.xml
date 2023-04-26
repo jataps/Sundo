@@ -42,7 +42,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
                     android:textColor="@color/grey"
-                    android:textSize="25sp" />
+                    android:textSize="20sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/nameFContainer"
@@ -108,6 +108,7 @@
                     app:boxStrokeColor="@color/grey"
                     app:hintTextColor="@color/grey"
                     app:endIconMode="clear_text"
+                    app:prefixTextColor="@color/grey"
                     app:prefixText="+63">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -134,7 +135,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
                     android:textColor="@color/grey"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
                     android:layout_below="@id/phoneNumberContainer"/>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -173,7 +174,8 @@
                     android:textColorHint="@color/grey"
                     app:boxStrokeColor="@color/grey"
                     app:hintTextColor="@color/grey"
-                    app:endIconMode="clear_text">
+                    app:endIconMode="clear_text"
+                    app:prefixTextColor="@color/grey">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/emergencyNumber"
@@ -199,7 +201,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
                     android:textColor="@color/grey"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
                     android:layout_below="@id/emergencyNumberContainer"/>
 
                 <TextView
@@ -207,10 +209,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:id="@+id/provinceText"
-                    android:text="Province *"
+                    android:text="Province"
                     android:layout_marginStart="20dp"
                     android:textColor="@color/grey"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:layout_below="@id/addressText"/>
 
                 <Spinner
@@ -229,10 +231,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/cityText"
-                    android:text="City *"
+                    android:text="City"
                     android:layout_marginStart="20dp"
                     android:textColor="@color/grey"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:layout_below="@id/provinceSpinner"/>
 
                 <Spinner
@@ -251,10 +253,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/barangayText"
-                    android:text="Barangay *"
+                    android:text="Barangay"
                     android:layout_marginStart="20dp"
                     android:textColor="@color/grey"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:layout_below="@id/citySpinner"/>
 
                 <Spinner
