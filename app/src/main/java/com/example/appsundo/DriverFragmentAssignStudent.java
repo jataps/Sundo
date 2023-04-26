@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class DriverFragmentAssignStudent extends Fragment {
+public class DriverFragmentAssignStudent extends Fragment implements RecyclerViewInterface {
 
     RecyclerView allStudentList;
     DatabaseReference mRef;
@@ -43,7 +43,7 @@ public class DriverFragmentAssignStudent extends Fragment {
         allStudentList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         list = new ArrayList<>();
-        adapter = new CustomStudentAdapter(getActivity(), list);
+        adapter = new CustomStudentAdapter(getActivity(), list, this);
         allStudentList.setAdapter(adapter);
 
         mRef.addValueEventListener(new ValueEventListener() {
@@ -80,5 +80,10 @@ public class DriverFragmentAssignStudent extends Fragment {
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
     }
 }

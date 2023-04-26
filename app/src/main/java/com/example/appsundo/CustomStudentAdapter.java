@@ -13,12 +13,15 @@ import java.util.ArrayList;
 
 public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdapter.MyViewHolder> {
 
+    private final RecyclerViewInterface recyclerViewInterface;
+
     Context context;
     ArrayList<Student> list;
 
-    public CustomStudentAdapter(Context context, ArrayList<Student> list) {
+    public CustomStudentAdapter(Context context, ArrayList<Student> list, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.list = list;
+        this.recyclerViewInterface = recyclerViewInterface;
     }
 
     @NonNull
@@ -26,7 +29,7 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_student_list, parent, false);
 
-        return new MyViewHolder(view);
+        return new MyViewHolder(view, recyclerViewInterface);
     }
 
     @Override
@@ -34,9 +37,11 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
 
         Student student = list.get(position);
 
-        holder.textFN.setText(student.getFirstName());
-        holder.textLN.setText(student.getLastName());
-        holder.textMail.setText(student.getCompleteAdd());
+        String fullName = student.getFirstName() + " " + student.getLastName();
+
+        holder.textFN.setText(fullName);
+        //holder.textLN.setText(student.getLastName());
+        //holder.textMail.setText(student.getCompleteAdd());
 
     }
 
@@ -49,12 +54,25 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
 
         TextView textFN, textLN, textMail;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
             textFN = itemView.findViewById(R.id.textFN);
             textLN = itemView.findViewById(R.id.textLN);
-            textMail = itemView.findViewById(R.id.textMail);
+            //textMail = itemView.findViewById(R.id.textMail);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (recyclerViewInterface != null) {
+                        int pos = getAdapterPosition();
+
+                        if(pos != RecyclerView.NO_POSITION) {
+                            recyclerViewInterface.onItemClick(pos);
+                        }
+                    }
+                }
+            });
 
         }
     }
