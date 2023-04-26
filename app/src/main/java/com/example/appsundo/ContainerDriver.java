@@ -23,6 +23,7 @@ public class ContainerDriver extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         if (getIntent().hasExtra("fragment_to_display")) {
+
             String fragmentToDisplay = getIntent().getStringExtra("fragment_to_display");
 
             switch (fragmentToDisplay) {
@@ -40,6 +41,7 @@ public class ContainerDriver extends AppCompatActivity {
 
                 default:
                     break;
+
             }
         } else {
             replaceFragment(new DriverFragmentHome());
