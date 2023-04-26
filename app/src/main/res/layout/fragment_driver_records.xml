@@ -5,17 +5,28 @@
     android:layout_height="match_parent"
     tools:context=".DriverFragmentRecords">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/txtV1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="FRAGMENT DRIVER RECORDS"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/white"
-            android:textSize="34sp" />
+            android:layout_marginTop="20dp"
+            android:text="STUDENT RECORDS FRAGMENT"
+            android:textSize="20dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recordList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:layout_below="@+id/txtV1"
+            />
 
     </RelativeLayout>
+
 </FrameLayout>
