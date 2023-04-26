@@ -18,7 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class DriverAddStudent extends AppCompatActivity {
+public class DriverAddStudent extends AppCompatActivity implements RecyclerViewInterface {
 
     RecyclerView studentList;
     DatabaseReference mRef;
@@ -42,8 +42,9 @@ public class DriverAddStudent extends AppCompatActivity {
         studentList.setLayoutManager(new LinearLayoutManager(this));
 
         list = new ArrayList<>();
-        adapter = new CustomStudentAdapter(this, list);
+        adapter = new CustomStudentAdapter(this, list, this);
         studentList.setAdapter(adapter);
+
 
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -76,6 +77,11 @@ public class DriverAddStudent extends AppCompatActivity {
                 finish();
             }
         });
+
+    }
+
+    @Override
+    public void onItemClick(int position) {
 
     }
 }
