@@ -38,13 +38,13 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
         User user = list.get(position);
 
 
-        String fullName = student.getFirstName() + " " + student.getLastName();
-        String barangayAtCity = student.getBarangay() + ", " + student.getCity();
+        String fullName = user.getFirstName() + " " + user.getLastName();
+        String barangayAtCity = user.getADDRESS().getBarangay() + ", " + user.getADDRESS().getCity();
 
         holder.textFN.setText(fullName);
-        holder.textStAddress.setText(student.getstreetAddress());
+        holder.textStAddress.setText(user.getADDRESS().getStreetAddress());
         holder.textBrgyCity.setText(barangayAtCity);
-        holder.textProvince.setText(student.getProvince());
+        holder.textProvince.setText(user.getADDRESS().getProvince());
 
 
         //holder.textLN.setText(student.getLastName());
