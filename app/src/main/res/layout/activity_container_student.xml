@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/medium_black"
     tools:context=".ContainerStudent">
 
     <FrameLayout
@@ -13,12 +13,16 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomNavigationView">
     </FrameLayout>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_nav_menu"/>
+        
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@drawable/nav_round_corners"
+            android:layout_alignParentBottom="true"
+            app:menu="@menu/bottom_nav_menu"
+            app:itemTextColor="@color/medium_black"
+            app:itemIconTint="@color/medium_black"
+            />
 
 </RelativeLayout>

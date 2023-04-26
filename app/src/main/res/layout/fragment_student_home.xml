@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/medium_black"
     tools:context=".StudentFragmentHome">
 
     <RelativeLayout
@@ -17,7 +17,7 @@
             android:text="STATUS"
             android:textSize="20dp"
             android:textStyle="bold"
-            android:textColor="@color/black"
+            android:textColor="@color/grey"
             android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"/>
         
@@ -40,7 +40,7 @@
                 android:layout_width="2dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
-                android:background="@color/black"/>
+                android:background="@color/light_black"/>
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -54,7 +54,7 @@
                 android:layout_width="2dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
-                android:background="@color/black"
+                android:background="@color/light_black"
                 android:layout_below="@+id/imageView1"/>
 
             <ImageView
@@ -70,7 +70,7 @@
                 android:layout_width="2dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
-                android:background="@color/black"
+                android:background="@color/light_black"
                 android:layout_below="@+id/imageView1"/>
 
             <ImageView
@@ -94,6 +94,7 @@
                 android:id="@+id/txtOTW1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/grey"
                 android:text="Service is on the way"
                 android:textStyle="bold"
                 android:textSize="20dp"
@@ -104,6 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="In Progress"
+                android:textColor="@color/grey"
                 android:textStyle="normal"
                 android:textSize="15dp"/>
 
@@ -112,6 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Student Picked Up"
+                android:textColor="@color/grey"
                 android:textStyle="bold"
                 android:textSize="20dp"
                 android:layout_marginTop="60dp"/>
@@ -121,6 +124,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="In Progress"
+                android:textColor="@color/grey"
                 android:textStyle="normal"
                 android:textSize="15dp"/>
 
@@ -129,6 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="At School Drop off"
+                android:textColor="@color/grey"
                 android:textStyle="bold"
                 android:textSize="20dp"
                 android:layout_marginTop="60dp"/>
@@ -138,6 +143,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="In Progress"
+                android:textColor="@color/grey"
                 android:textStyle="normal"
                 android:textSize="15dp"/>
 
@@ -146,6 +152,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="At Home Drop off"
+                android:textColor="@color/grey"
                 android:textStyle="bold"
                 android:textSize="20dp"
                 android:layout_marginTop="60dp"/>
@@ -155,6 +162,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="In Progress"
+                android:textColor="@color/grey"
                 android:textStyle="normal"
                 android:textSize="15dp"/>
 

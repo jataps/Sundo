@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/medium_black"
     tools:context=".ContainerDriver">
 
     <FrameLayout
@@ -20,6 +20,9 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_nav_menu_driver"/>
+        android:background="@drawable/nav_round_corners"
+        app:menu="@menu/bottom_nav_menu_driver"
+        app:itemTextColor="@color/medium_black"
+        app:itemIconTint="@color/medium_black"/>
 
 </RelativeLayout>
