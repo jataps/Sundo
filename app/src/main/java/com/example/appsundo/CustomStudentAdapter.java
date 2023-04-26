@@ -38,8 +38,15 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
         Student student = list.get(position);
 
         String fullName = student.getFirstName() + " " + student.getLastName();
+        String barangayAtCity = student.getBarangay() + ", " + student.getCity();
+
 
         holder.textFN.setText(fullName);
+        holder.textStAddress.setText(student.getstreetAddress());
+        holder.textBrgyCity.setText(barangayAtCity);
+        holder.textProvince.setText(student.getProvince());
+
+
         //holder.textLN.setText(student.getLastName());
         //holder.textMail.setText(student.getCompleteAdd());
 
@@ -52,13 +59,17 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView textFN, textLN, textMail;
+        TextView textFN, textLN, textStAddress, textBrgyCity, textCity, textProvince;
 
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
             textFN = itemView.findViewById(R.id.textFN);
             textLN = itemView.findViewById(R.id.textLN);
+            textStAddress = itemView.findViewById(R.id.textStAddress);
+            textBrgyCity = itemView.findViewById(R.id.textBrgyCity);
+            textCity = itemView.findViewById(R.id.textCity);
+            textProvince = itemView.findViewById(R.id.textProvince);
             //textMail = itemView.findViewById(R.id.textMail);
 
             itemView.setOnClickListener(new View.OnClickListener() {
