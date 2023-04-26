@@ -23,8 +23,7 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
     RecyclerView studentList;
     DatabaseReference mRef;
     CustomStudentAdapter adapter;
-    ArrayList<Student> list;
-
+    ArrayList<User> list;
     MaterialButton addBtnConfirm;
 
     @Override
@@ -53,8 +52,8 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
                 list.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
 
-                    Student student = dataSnapshot.getValue(Student.class);
-                    list.add(student);
+                    User user = dataSnapshot.getValue(User.class);
+                    list.add(user);
 
                 }
 

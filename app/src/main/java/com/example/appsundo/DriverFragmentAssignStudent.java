@@ -26,7 +26,7 @@ public class DriverFragmentAssignStudent extends Fragment implements RecyclerVie
     RecyclerView allStudentList;
     DatabaseReference mRef;
     CustomStudentAdapter adapter;
-    ArrayList<Student> list;
+    ArrayList<User> list;
     MaterialButton addStudentBtn;
 
     @Override
@@ -53,8 +53,8 @@ public class DriverFragmentAssignStudent extends Fragment implements RecyclerVie
                 list.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
 
-                    Student student = dataSnapshot.getValue(Student.class);
-                    list.add(student);
+                    User user = dataSnapshot.getValue(User.class);
+                    list.add(user);
 
                 }
 
@@ -76,7 +76,6 @@ public class DriverFragmentAssignStudent extends Fragment implements RecyclerVie
                 startActivity(intent);
             }
         });
-
 
         // Inflate the layout for this fragment
         return view;

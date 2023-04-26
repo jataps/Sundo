@@ -16,9 +16,9 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
     private final RecyclerViewInterface recyclerViewInterface;
 
     Context context;
-    ArrayList<Student> list;
+    ArrayList<User> list;
 
-    public CustomStudentAdapter(Context context, ArrayList<Student> list, RecyclerViewInterface recyclerViewInterface) {
+    public CustomStudentAdapter(Context context, ArrayList<User> list, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.list = list;
         this.recyclerViewInterface = recyclerViewInterface;
@@ -35,11 +35,11 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        Student student = list.get(position);
+        User user = list.get(position);
+
 
         String fullName = student.getFirstName() + " " + student.getLastName();
         String barangayAtCity = student.getBarangay() + ", " + student.getCity();
-
 
         holder.textFN.setText(fullName);
         holder.textStAddress.setText(student.getstreetAddress());
@@ -59,7 +59,9 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
+
         TextView textFN, textLN, textStAddress, textBrgyCity, textCity, textProvince;
+
 
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);

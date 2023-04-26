@@ -1,7 +1,6 @@
 package com.example.appsundo;
 
 import android.content.Intent;
-import android.opengl.Visibility;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,52 +29,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DriverFragmentProfile#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DriverFragmentProfile extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public DriverFragmentProfile() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DriverFragmentProfile.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DriverFragmentProfile newInstance(String param1, String param2) {
-        DriverFragmentProfile fragment = new DriverFragmentProfile();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     private MaterialButton signOutBtnDriver;
     private MaterialButton btnEditProfile;
@@ -112,6 +65,8 @@ public class DriverFragmentProfile extends Fragment {
     private ArrayAdapter<CharSequence> cityAdapter;
     private ArrayAdapter<CharSequence> barangayAdapter;
 
+    private ArrayList<User> userList;
+
     private HashMap<String, Integer> provinces = new HashMap<>();
     private HashMap<String, Integer> cities = new HashMap<>();
 
@@ -132,6 +87,8 @@ public class DriverFragmentProfile extends Fragment {
     private String addressNote;
     private String plateNumber;
     private String capacity;
+
+    private User user;
 
     private DatabaseReference dbRef;
     private DatabaseReference infoIdRef;
@@ -202,26 +159,31 @@ public class DriverFragmentProfile extends Fragment {
 
                     profileRef = dbRef.child("USER_INFORMATION").child("DRIVER").child(infoID);
 
+
                     profileRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.exists()) {
                                 // User with the given UID exists in DRIVER
 
-                                firstName = String.valueOf(snapshot.child("firstName").getValue());
-                                lastName = String.valueOf(snapshot.child("lastName").getValue());
-                                phoneNumber = String.valueOf(snapshot.child("contactNumber").getValue());
+                                //studentList.clear();
 
-                                emergName = String.valueOf(snapshot.child("emergencyName").getValue());
-                                emergNumber = String.valueOf(snapshot.child("emergencyNumber").getValue());
+                                user = snapshot.getValue(User.class);
 
-                                addressNote = String.valueOf(snapshot.child("ADDRESS/streetAddress").getValue());
-                                selectedProvince = String.valueOf(snapshot.child("ADDRESS/province").getValue());
-                                selectedCity = String.valueOf(snapshot.child("ADDRESS/city").getValue());
-                                selectedBarangay = String.valueOf(snapshot.child("ADDRESS/barangay").getValue());
+                                firstName = user.getFirstName();
+                                lastName = user.getLastName();
+                                phoneNumber = user.getContactNumber();
 
-                                plateNumber = String.valueOf(snapshot.child("VEHICLE/plateNumber").getValue());
-                                capacity = String.valueOf(snapshot.child("VEHICLE/capacity").getValue());
+                                emergName = user.getEmergencyName();
+                                emergNumber = user.getEmergencyNumber();
+
+                                addressNote = user.getADDRESS().getStreetAddress();
+                                selectedProvince = user.getADDRESS().getProvince();
+                                selectedCity = user.getADDRESS().getCity();
+                                selectedBarangay = user.getADDRESS().getBarangay();
+
+                                plateNumber = user.getVEHICLE().getPlateNumber();
+                                capacity = user.getVEHICLE().getCapacity();
 
                                 fillInfoFields();
 
@@ -478,13 +440,11 @@ public class DriverFragmentProfile extends Fragment {
         txtSeatingCapacity.setText(capacity);
 
         provinceSpinner.setSelection(provinceItems.indexOf(selectedProvince));
-
         cityItems = Arrays.asList(getResources().getStringArray(provinces.get(selectedProvince)));
         cityAdapter.clear();
         cityAdapter.addAll(cityItems);
 
         citySpinner.setSelection(cityItems.indexOf(selectedCity));
-
         barangayItems = Arrays.asList(getResources().getStringArray(cities.get(selectedCity)));
         barangayAdapter.clear();
         barangayAdapter.addAll(barangayItems);
