@@ -17,13 +17,15 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/addBtnConfirm"
-        android:layout_width="345dp"
-        android:layout_height="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/medium_black"
+        android:backgroundTint="@color/yellow"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="28dp"
         android:text="Confirm"
-        android:textSize="20dp" />
+        android:textSize="20dp"/>
 
 </RelativeLayout>

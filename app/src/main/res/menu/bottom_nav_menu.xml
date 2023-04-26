@@ -15,11 +15,12 @@
         android:title="Profile"
         android:icon="@drawable/round_account_circle_24"
         android:id="@+id/navProfile" />
-
+    <!-- INSERT CODE HERE
     <item
         android:title="Settings"
         android:icon="@drawable/baseline_settings_24"
         android:id="@+id/navSettings" />
+    -->
 
     <item
         android:title="Records"

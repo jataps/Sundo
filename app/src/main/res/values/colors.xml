@@ -17,4 +17,5 @@
     <color name="medium_black">#C6000000</color>
     <color name="light_black">#4E4E50</color>
     <color name="blue">#FF4E65F3</color>
+    <color name="transparent">#1AFFFFFF</color>
 </resources>

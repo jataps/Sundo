@@ -37,11 +37,11 @@ public class ContainerStudent extends AppCompatActivity {
                 case "fragment_track":
                     replaceFragment(new StudentFragmentTrack());
                     break;
-
+                /*
                 case "fragment_settings":
                     replaceFragment(new StudentFragmentSettings());
                     break;
-
+                */
                 default:
                     break;
             }
@@ -64,10 +64,10 @@ public class ContainerStudent extends AppCompatActivity {
                     replaceFragment(new StudentFragmentProfile());
                     break;
 
-                case R.id.navSettings:
+                /*case R.id.navSettings:
                     replaceFragment(new StudentFragmentSettings());
                     break;
-
+                */
                 case R.id.navRecords:
                     replaceFragment(new StudentFragmentRecords());
                     break;
