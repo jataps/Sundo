@@ -59,9 +59,13 @@ public class DriverFragmentAssignStudent extends Fragment implements RecyclerVie
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
 
                     user = dataSnapshot.getValue(User.class);
-                    list.add(user);
+                    user.setReferenceID(dataSnapshot.getKey());
 
-                    Collections.sort(list);
+                    if(user.getDRIVER_ASSIGNED() == null) {
+                        list.add(user);
+                        Collections.sort(list);
+                    }
+
                 }
 
 
@@ -95,6 +99,7 @@ public class DriverFragmentAssignStudent extends Fragment implements RecyclerVie
         Intent intent = new Intent(getActivity(), DriverAddStudent.class);
 
         intent.putExtra("fragment_to_display","fragment_service");
+        intent.putExtra("INFO_REF", list.get(position).getReferenceID());
         intent.putExtra("UID", list.get(position).getUid());
         intent.putExtra("LAST_NAME", list.get(position).getLastName());
         intent.putExtra("FIRST_NAME", list.get(position).getFirstName());

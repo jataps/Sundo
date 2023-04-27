@@ -42,7 +42,7 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
 
     User userDriver;
 
-    String firstName, lastName, emerName, emerNumber, contactNumber, province, city, barangay, stAddress, uidStudent, accountCode;
+    String firstName, lastName, emerName, emerNumber, contactNumber, province, city, barangay, stAddress, uidStudent, accountCode, infoId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +71,7 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
         city = getIntent().getStringExtra("CITY");
         barangay = getIntent().getStringExtra("BARANGAY");
         stAddress = getIntent().getStringExtra("ST_ADDRESS");
+        infoId = getIntent().getStringExtra("INFO_REF");
 
         txtFname.setText(firstName);
         txtLname.setText(lastName);
@@ -139,6 +140,8 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
                                 studentRef.child("province").setValue(userDriver.getADDRESS().getProvince());
                                 studentRef.child("city").setValue(userDriver.getADDRESS().getCity());
                                 studentRef.child("barangay").setValue(userDriver.getADDRESS().getBarangay());
+
+                                dbRef.child("USER_INFORMATION").child("STUDENT").child(infoId).child("DRIVER_ASSIGNED").setValue(userDriver.getAccountCode());
 
                                 Toast.makeText(DriverAddStudent.this, "Student Successfully Assigned", Toast.LENGTH_SHORT).show();
 

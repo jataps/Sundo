@@ -11,6 +11,9 @@ public class User implements Comparable<User> {
 
     private String referenceID;
 
+
+
+    private String DRIVER_ASSIGNED;
     private String uid;
     private Address ADDRESS;
 
@@ -18,6 +21,10 @@ public class User implements Comparable<User> {
 
     //Driver details;
     private Vehicle VEHICLE;
+
+    public String getDRIVER_ASSIGNED() {
+        return DRIVER_ASSIGNED;
+    }
 
     public void setReferenceID(String referenceID) {
         this.referenceID = referenceID;
@@ -65,7 +72,15 @@ public class User implements Comparable<User> {
 
     @Override
     public int compareTo(User user) {
-        return this.lastName.compareTo(user.getLastName());
+        if (this.lastName == null && user.getLastName() == null) {
+            return 0;
+        } else if (this.lastName == null) {
+            return -1;
+        } else if (user.getLastName() == null) {
+            return 1;
+        } else {
+            return this.lastName.compareTo(user.getLastName());
+        }
     }
 
 
