@@ -1,5 +1,7 @@
 package com.example.appsundo;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,11 +10,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class LogIn extends AppCompatActivity {
 
@@ -161,6 +167,7 @@ public class LogIn extends AppCompatActivity {
 
                                 }
 
+                                storeFCMtoken(uid);
                                 startActivity(driverIntent);
                                 finish();
 
@@ -207,6 +214,7 @@ public class LogIn extends AppCompatActivity {
 
                                             }
 
+                                            storeFCMtoken(uid);
                                             startActivity(studentIntent);
                                             finish();
 
@@ -241,6 +249,28 @@ public class LogIn extends AppCompatActivity {
                 // Handle error
             }
         });
+
+    }
+
+    public void storeFCMtoken(String uid){
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()) {
+                    Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                    return;
+                }
+
+                // Get new FCM registration token
+                String token = task.getResult();
+
+                FirebaseDatabase.getInstance().getReference().child("TOKEN").child(uid).child("fcmToken").setValue(token);
+
+
+            }
+        });
+
+
 
     }
 

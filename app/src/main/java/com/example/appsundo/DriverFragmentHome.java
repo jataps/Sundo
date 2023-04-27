@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,6 +51,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -104,7 +116,9 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
                 String status;
                 String timeString;
 
-                createnotif();
+                //createnotif();
+
+                fcmNotif("BPi1q83xINXluhaMCGJ4BFU3R4H3");
 
                 if (isGpsON) {
                     gpsBtnOn(false);
@@ -398,6 +412,85 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
             return;
         }
         m.notify(1, builder.build());
+
+    }
+
+    public void fcmNotif(String sendUID) {
+
+        User user = new User();
+        // Set the FCM server key
+        String serverKey = user.getFCM_KEY();
+        String authorizationHeader = "key=" + serverKey;
+
+        FirebaseDatabase.getInstance().getReference("USERS").child(sendUID).child("fcmToken")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String fcmToken = dataSnapshot.getValue(String.class);
+
+                        // Build the notification
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), "myCh")
+                                .setSmallIcon(R.drawable.notif_icon)
+                                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.bus))
+                                .setContentTitle("DRIVER IS ON SERVICE")
+                                .setContentText("Please be prepare for the arrival")
+                                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                                .setVibrate(new long[]{100, 1000, 200, 340})
+                                .setAutoCancel(false)
+                                .setTicker("Notification");
+
+                        // Send the notification to the user's device
+                        try {
+                            JSONObject notification = new JSONObject();
+                            notification.put("to", fcmToken);
+                            notification.put("data", new JSONObject(builder.build().toString()));
+
+                            AsyncTask.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        URL url = new URL("https://fcm.googleapis.com/fcm/send");
+                                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                                        conn.setRequestMethod("POST");
+                                        conn.setRequestProperty("Content-Type", "application/json");
+                                        conn.setRequestProperty("Authorization", authorizationHeader);
+                                        conn.setDoOutput(true);
+
+                                        OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+                                        writer.write(notification.toString());
+                                        writer.flush();
+
+                                        int responseCode = conn.getResponseCode();
+                                        System.out.println("\nSending 'POST' request to URL : " + url);
+                                        System.out.println("Post parameters : " + notification);
+                                        System.out.println("Response Code : " + responseCode);
+
+                                        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                                        String inputLine;
+                                        StringBuffer response = new StringBuffer();
+
+                                        while ((inputLine = in.readLine()) != null) {
+                                            response.append(inputLine);
+                                        }
+                                        in.close();
+
+                                        System.out.println(response.toString());
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Handle errors here
+                    }
+                });
+
 
     }
 
