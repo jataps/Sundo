@@ -31,6 +31,49 @@ import java.util.List;
 
 public class StudentFragmentProfile extends Fragment {
 
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    public StudentFragmentProfile() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment StudentFragmentProfile.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static StudentFragmentProfile newInstance(String param1, String param2) {
+        StudentFragmentProfile fragment = new StudentFragmentProfile();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    //private TextView emailText;
+    //------------
+
     private MaterialButton signOutBtnStudent;
     private MaterialButton btnEditProfile;
     private MaterialButton btnSaveProfile;
@@ -81,8 +124,6 @@ public class StudentFragmentProfile extends Fragment {
     private String emergName;
     private String emergNumber;
     private String addressNote;
-
-    private User userStudent;
 
     private DatabaseReference dbRef;
     private DatabaseReference infoIdRef;
@@ -147,7 +188,6 @@ public class StudentFragmentProfile extends Fragment {
         barangayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         barangaySpinner.setAdapter(barangayAdapter);
 
-
         infoIdRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -164,7 +204,17 @@ public class StudentFragmentProfile extends Fragment {
                             if (snapshot.exists()) {
                                 // User with the given UID exists in STUDENT
 
-                                userStudent = snapshot.getValue(User.class);
+                                firstName = String.valueOf(snapshot.child("firstName").getValue());
+                                lastName = String.valueOf(snapshot.child("lastName").getValue());
+                                phoneNumber = String.valueOf(snapshot.child("contactNumber").getValue());
+
+                                emergName = String.valueOf(snapshot.child("emergencyName").getValue());
+                                emergNumber = String.valueOf(snapshot.child("emergencyNumber").getValue());
+
+                                addressNote = String.valueOf(snapshot.child("ADDRESS/streetAddress").getValue());
+                                selectedProvince = String.valueOf(snapshot.child("ADDRESS/province").getValue());
+                                selectedCity = String.valueOf(snapshot.child("ADDRESS/city").getValue());
+                                selectedBarangay = String.valueOf(snapshot.child("ADDRESS/barangay").getValue());
 
                                 fillInfoFields();
 
@@ -196,12 +246,13 @@ public class StudentFragmentProfile extends Fragment {
 
                 selectedProvince = (String) adapterView.getItemAtPosition(i);
 
+
                 // Update the middle spinner's items based on the selected value of the outer spinner
+
                 cityItems = Arrays.asList(getResources().getStringArray(provinces.get(selectedProvince)));
 
                 cityAdapter.clear();
                 cityAdapter.addAll(cityItems);
-
 
             }
 
@@ -216,8 +267,8 @@ public class StudentFragmentProfile extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 selectedCity = (String) adapterView.getItemAtPosition(i);
-
                 // Update the middle spinner's items based on the selected value of the outer spinner
+
                 barangayItems = Arrays.asList(getResources().getStringArray(cities.get(selectedCity)));
 
                 barangayAdapter.clear();
@@ -227,22 +278,20 @@ public class StudentFragmentProfile extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                citySpinner.setSelection(0);
+
             }
         });
 
         barangaySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
                 selectedBarangay = (String) adapterView.getItemAtPosition(i);
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                barangaySpinner.setSelection(0);
+
             }
         });
-
 
         btnCancelSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -389,19 +438,6 @@ public class StudentFragmentProfile extends Fragment {
     }
 
     public void fillInfoFields() {
-
-        firstName = userStudent.getFirstName();
-        lastName = userStudent.getLastName();
-        phoneNumber = userStudent.getContactNumber();
-
-        emergName = userStudent.getEmergencyName();
-        emergNumber = userStudent.getEmergencyNumber();
-
-        addressNote = userStudent.getADDRESS().getStreetAddress();
-        selectedProvince = userStudent.getADDRESS().getProvince();
-        selectedCity = userStudent.getADDRESS().getCity();
-        selectedBarangay = userStudent.getADDRESS().getBarangay();
-
         txtFirstName.setText(firstName);
         txtLastName.setText(lastName);
 

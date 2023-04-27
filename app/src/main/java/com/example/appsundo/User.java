@@ -10,14 +10,9 @@ public class User {
     private String email;
     private Address ADDRESS;
 
-    private String accountCode;
-
     //Driver details;
     private Vehicle VEHICLE;
 
-    public String getAccountCode() {
-        return accountCode;
-    }
     public String getEmail() {
         return email;
     }
