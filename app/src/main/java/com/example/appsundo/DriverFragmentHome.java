@@ -249,7 +249,7 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
                 public void run() {
                     moveCameraToCurrentLocation();
                     requestLocationUpdates();
-                    handler.postDelayed(this, 5000);
+                    handler.postDelayed(this, 60000);
                 }
             }, 500);
 

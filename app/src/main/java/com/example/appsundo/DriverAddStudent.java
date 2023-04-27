@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,7 +27,7 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
     DatabaseReference mRef;
     CustomStudentAdapter adapter;
     ArrayList<User> list;
-    MaterialButton addBtnConfirm;
+    MaterialButton btnAddStudent;
 
     TextView txtFname;
     TextView txtLname;
@@ -39,7 +40,9 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
     TextView txtStAddress;
     TextView txtUid;
 
-    String firstName, lastName, emerName, emerNumber, contactNumber, province, city, barangay, stAddress, uid, fragment_to_display;
+    User userDriver;
+
+    String firstName, lastName, emerName, emerNumber, contactNumber, province, city, barangay, stAddress, uidStudent, accountCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,7 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
         setContentView(R.layout.activity_driver_add_student);
 
         studentList = findViewById(R.id.studentList);
-        addBtnConfirm = findViewById(R.id.addBtnConfirm);
+        btnAddStudent = findViewById(R.id.btnAddStudent);
 
         txtFname = findViewById(R.id.txtFName);
         txtLname = findViewById(R.id.txtLName);
@@ -57,7 +60,8 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
         txtProvince = findViewById(R.id.textAddress);
         txtStAddress = findViewById(R.id.textStAddress);
         
-        uid = getIntent().getStringExtra("UID");
+        uidStudent = getIntent().getStringExtra("UID");
+        accountCode = getIntent().getStringExtra("ACCOUNT_CODE");
         lastName = getIntent().getStringExtra("LAST_NAME");
         firstName = getIntent().getStringExtra("FIRST_NAME");
         contactNumber = getIntent().getStringExtra("CONTACT_NUMBER");
@@ -76,29 +80,88 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
         txtProvince.setText(barangay + " | " + city + " | " + province);
         txtStAddress.setText(stAddress);
 
-        mRef = FirebaseDatabase.getInstance().getReference().child("USER_INFORMATION").child("STUDENT");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
-        studentList.setHasFixedSize(true);
-        studentList.setLayoutManager(new LinearLayoutManager(this));
+        btnAddStudent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        list = new ArrayList<>();
-        adapter = new CustomStudentAdapter(this, list, this);
-        studentList.setAdapter(adapter);
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        mRef.addValueEventListener(new ValueEventListener() {
+                DatabaseReference driverRef = ref.child("USERS").child("DRIVER").child(uid).child("ASSIGNED_STUDENT").child(accountCode);
+
+                driverRef.child("UID").setValue(uidStudent);
+                driverRef.child("firstName").setValue(firstName);
+                driverRef.child("lastName").setValue(lastName);
+                driverRef.child("ADDRESS/province").setValue(province);
+                driverRef.child("ADDRESS/city").setValue(city);
+                driverRef.child("ADDRESS/barangay").setValue(barangay);
+                driverRef.child("ADDRESS/streetAddress").setValue(barangay);
+                driverRef.child("contactNumber").setValue(contactNumber);
+
+                getDriverInfo(ref, uid);
+
+            }
+        });
+
+    }
+
+    public void getDriverInfo(DatabaseReference dbRef, String uid) {
+
+        DatabaseReference infoIdRef;
+
+        infoIdRef = dbRef.child("USERS").child("DRIVER").child(uid).child("INFO_ID");
+        infoIdRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // User with the given UID exists in DRIVER
 
-                list.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String infoID = String.valueOf(snapshot.getValue());
 
-                    User user = dataSnapshot.getValue(User.class);
-                    list.add(user);
+                    DatabaseReference profileRef = dbRef.child("USER_INFORMATION").child("DRIVER").child(infoID);
+
+                    profileRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                // User with the given UID exists in DRIVER
+
+                                //studentList.clear();
+                                userDriver = snapshot.getValue(User.class);
+
+                                DatabaseReference studentRef = dbRef.child("USERS").child("STUDENT").child(uidStudent).child("ASSIGNED_DRIVER").child(userDriver.getAccountCode());
+
+                                studentRef.child("UID").setValue(userDriver.getUid());
+                                studentRef.child("firstName").setValue(userDriver.getFirstName());
+                                studentRef.child("lastName").setValue(userDriver.getLastName());
+                                studentRef.child("contactNumber").setValue(userDriver.getContactNumber());
+                                studentRef.child("province").setValue(userDriver.getADDRESS().getProvince());
+                                studentRef.child("city").setValue(userDriver.getADDRESS().getCity());
+                                studentRef.child("barangay").setValue(userDriver.getADDRESS().getBarangay());
+
+                                Toast.makeText(DriverAddStudent.this, "Student Successfully Assigned", Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(getApplicationContext(),ContainerDriver.class);
+                                intent.putExtra("fragment_to_display","fragment_service");
+                                intent.putExtra("service_to_display","add_student");
+                                startActivity(intent);
+                                finish();
+
+                            } else {
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                } else {
 
                 }
-
-                adapter.notifyDataSetChanged();
-
             }
 
             @Override
@@ -106,19 +169,6 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
 
             }
         });
-
-        addBtnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(getApplicationContext(),ContainerDriver.class);
-                intent.putExtra("fragment_to_display","fragment_service");
-                intent.putExtra("service_to_display","add_student");
-                startActivity(intent);
-                finish();
-            }
-        });
-
     }
 
     @Override

@@ -64,6 +64,8 @@ public class DriverFragmentAssignStudent extends Fragment implements RecyclerVie
                     Collections.sort(list);
                 }
 
+
+
                 adapter.notifyDataSetChanged();
 
             }
@@ -89,7 +91,6 @@ public class DriverFragmentAssignStudent extends Fragment implements RecyclerVie
 
     @Override
     public void onItemClick(int position) {
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         Intent intent = new Intent(getActivity(), DriverAddStudent.class);
 
@@ -104,14 +105,9 @@ public class DriverFragmentAssignStudent extends Fragment implements RecyclerVie
         intent.putExtra("CITY", list.get(position).getADDRESS().getCity());
         intent.putExtra("BARANGAY", list.get(position).getADDRESS().getBarangay());
         intent.putExtra("ST_ADDRESS", list.get(position).getADDRESS().getStreetAddress());
+        intent.putExtra("ACCOUNT_CODE", list.get(position).getAccountCode());
 
         startActivity(intent);
-
-
-        // Get the User object from the list using the position
-        User user = list.get(position);
-
-        // Update the data to Firebase using the User object
 
     }
 }

@@ -8,12 +8,17 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.appsundo.databinding.ActivityContainerDriverBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ContainerDriver extends AppCompatActivity {
     
     ActivityContainerDriverBinding binding;
+
+    BottomNavigationView bottomNavigationViewDriver;
     String message;
 
     @Override
@@ -21,6 +26,8 @@ public class ContainerDriver extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivityContainerDriverBinding.inflate(getLayoutInflater());
+
+        bottomNavigationViewDriver = findViewById(R.id.bottomNavigationViewDriver);
 
         setContentView(binding.getRoot());
 
@@ -53,10 +60,22 @@ public class ContainerDriver extends AppCompatActivity {
             replaceFragment(new DriverFragmentHome());
         }
 
+        Menu menu = binding.bottomNavigationViewDriver.getMenu();
+
         binding.bottomNavigationViewDriver.setOnItemSelectedListener(item -> {
+
+            for (int i = 0; i < menu.size(); i++) {
+                MenuItem menuItem = menu.getItem(i);
+                if (menuItem.getItemId() != item.getItemId()) {
+                    menuItem.setEnabled(true);
+                } else {
+                    menuItem.setEnabled(false);
+                }
+            }
 
             switch (item.getItemId()) {
                 case R.id.navHomeDriver:
+
                     replaceFragment(new DriverFragmentHome());
                     break;
 
@@ -92,15 +111,19 @@ public class ContainerDriver extends AppCompatActivity {
 
     }
 
-    private void replaceFragment(Fragment fragment, String from, String message) {
+    private void replaceFragment(Fragment fragment, String from, String mMessage) {
         Bundle args = new Bundle();
-        args.putString(from, message);
+        args.putString(from, mMessage);
+
+        getIntent().removeExtra(from);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragment.setArguments(args);
+
         fragmentTransaction.replace(R.id.frame_layout_driver, fragment);
         fragmentTransaction.commit();
+
     }
 
     @Override

@@ -59,7 +59,7 @@ public class DriverFragmentService extends Fragment {
 
         Bundle args = getArguments();
         if (args != null) {
-            message = args.getString("service_to_display");
+//            message = args.getString("service_to_display");
         }
 
         tabLayout = view.findViewById(R.id.tabLayout);

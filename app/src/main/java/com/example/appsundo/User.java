@@ -9,6 +9,8 @@ public class User implements Comparable<User> {
     private String contactNumber;
     private String email;
 
+    private String referenceID;
+
     private String uid;
     private Address ADDRESS;
 
@@ -16,6 +18,12 @@ public class User implements Comparable<User> {
 
     //Driver details;
     private Vehicle VEHICLE;
+
+    public void setReferenceID(String referenceID) {
+        this.referenceID = referenceID;
+    }
+
+    public String getReferenceID() {return referenceID; }
 
     public String getUid() {
         return uid;

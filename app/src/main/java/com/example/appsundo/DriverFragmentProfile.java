@@ -159,7 +159,6 @@ public class DriverFragmentProfile extends Fragment {
 
                     profileRef = dbRef.child("USER_INFORMATION").child("DRIVER").child(infoID);
 
-
                     profileRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
