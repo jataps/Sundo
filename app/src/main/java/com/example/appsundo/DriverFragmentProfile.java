@@ -88,7 +88,7 @@ public class DriverFragmentProfile extends Fragment {
     private String plateNumber;
     private String capacity;
 
-    private User user;
+    private User userDriver;
 
     private DatabaseReference dbRef;
     private DatabaseReference infoIdRef;
@@ -167,23 +167,7 @@ public class DriverFragmentProfile extends Fragment {
                                 // User with the given UID exists in DRIVER
 
                                 //studentList.clear();
-
-                                user = snapshot.getValue(User.class);
-
-                                firstName = user.getFirstName();
-                                lastName = user.getLastName();
-                                phoneNumber = user.getContactNumber();
-
-                                emergName = user.getEmergencyName();
-                                emergNumber = user.getEmergencyNumber();
-
-                                addressNote = user.getADDRESS().getStreetAddress();
-                                selectedProvince = user.getADDRESS().getProvince();
-                                selectedCity = user.getADDRESS().getCity();
-                                selectedBarangay = user.getADDRESS().getBarangay();
-
-                                plateNumber = user.getVEHICLE().getPlateNumber();
-                                capacity = user.getVEHICLE().getCapacity();
+                                userDriver = snapshot.getValue(User.class);
 
                                 fillInfoFields();
 
@@ -407,7 +391,7 @@ public class DriverFragmentProfile extends Fragment {
             @Override
             public void onClick(View view) {
 
-                // Navigate the user to the login screen
+                // Navigate the userDriver to the login screen
                 FirebaseAuth.getInstance().signOut();
 
                 Intent intent = new Intent(getActivity(), LogIn.class);
@@ -424,6 +408,23 @@ public class DriverFragmentProfile extends Fragment {
     }
 
     public void fillInfoFields() {
+
+
+        firstName = userDriver.getFirstName();
+        lastName = userDriver.getLastName();
+        phoneNumber = userDriver.getContactNumber();
+
+        emergName = userDriver.getEmergencyName();
+        emergNumber = userDriver.getEmergencyNumber();
+
+        addressNote = userDriver.getADDRESS().getStreetAddress();
+        selectedProvince = userDriver.getADDRESS().getProvince();
+        selectedCity = userDriver.getADDRESS().getCity();
+        selectedBarangay = userDriver.getADDRESS().getBarangay();
+
+        plateNumber = userDriver.getVEHICLE().getPlateNumber();
+        capacity = userDriver.getVEHICLE().getCapacity();
+
         txtFirstName.setText(firstName);
         txtLastName.setText(lastName);
 
