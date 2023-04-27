@@ -10,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -377,10 +378,13 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
         PendingIntent contentIntent = PendingIntent.getActivity(getContext(), 0, notificationIntent, 0);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), id)
                 .setSmallIcon(R.drawable.notif_icon)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.bus))
                 .setContentTitle("DRIVER IS ON SERVICE")
                 .setContentText("Please be prepare for the arrival")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(false);
+                .setVibrate(new long[]{100,1000,200,340})
+                .setAutoCancel(false)
+                .setTicker("Notification");
         builder.setContentIntent(contentIntent);
         NotificationManagerCompat m = NotificationManagerCompat.from(getActivity().getApplicationContext());
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
