@@ -308,19 +308,20 @@
                     android:textColor="@color/grey"
                     android:textSize="20dp"
                     android:layout_below="@id/addNoteContainer"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/plateNumberContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/vehicleText"
-                    android:visibility="gone"
                     android:hint="Enter Vehicle Plate Number"
                     android:textColorHint="@color/grey"
                     app:boxStrokeColor="@color/grey"
                     app:hintTextColor="@color/grey"
-                    app:endIconMode="clear_text">
+                    app:endIconMode="clear_text"
+                    android:visibility="gone">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/plateNumber"
@@ -347,7 +348,8 @@
                     app:boxStrokeColor="@color/grey"
                     app:hintTextColor="@color/grey"
                     app:endIconMode="clear_text"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/seatingCapacity"
@@ -363,10 +365,402 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- CARDVIEW BELOW IS FOR STUDENTS ONLY-->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/rV1"
+                    android:layout_below="@id/seatingCapacityContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@color/medium_black">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Service Schedule"
+                                android:textColor="@color/grey"
+                                android:textSize="20sp"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="10dp"
+                                android:orientation="horizontal">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginVertical="20dp"/>
+
+                                <TextView
+                                    android:layout_width="50dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginVertical="20dp"
+                                    android:text="Monday"
+                                    android:textSize="13dp"
+                                    android:textColor="@color/grey"/>
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="15dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginRight="5dp"
+                                        android:text="School In"
+                                        android:textColor="@color/grey"/>
+
+                                    <Spinner
+                                        android:id="@+id/timeInSpinner1"
+                                        android:layout_width="80dp"
+                                        android:layout_height="50dp"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginTop="20dp"
+                                        android:padding="5dp"
+                                        android:background="@color/light_black"/>
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginRight="5dp"
+                                        android:text="School Out"
+                                        android:textColor="@color/grey"/>
+
+                                    <Spinner
+                                        android:id="@+id/timeOutSpinner1"
+                                        android:layout_width="80dp"
+                                        android:layout_height="50dp"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginTop="20dp"
+                                        android:padding="5dp"
+                                        android:background="@color/light_black"/>
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="10dp"
+                                android:orientation="horizontal">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginVertical="20dp"/>
+
+                                <TextView
+                                    android:layout_width="50dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginVertical="20dp"
+                                    android:text="Tuesday"
+                                    android:textSize="13dp"
+                                    android:textColor="@color/grey"/>
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="15dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginRight="5dp"
+                                        android:text="School In"
+                                        android:textColor="@color/grey"/>
+
+                                    <Spinner
+                                        android:id="@+id/timeInSpinner2"
+                                        android:layout_width="80dp"
+                                        android:layout_height="50dp"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginTop="20dp"
+                                        android:padding="5dp"
+                                        android:background="@color/light_black"/>
+
+                                </RelativeLayout>
+
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginRight="5dp"
+                                        android:text="School Out"
+                                        android:textColor="@color/grey"/>
+
+                                    <Spinner
+                                        android:id="@+id/timeOutSpinner2"
+                                        android:layout_width="80dp"
+                                        android:layout_height="50dp"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginTop="20dp"
+                                        android:padding="5dp"
+                                        android:background="@color/light_black"/>
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="10dp"
+                                android:orientation="horizontal">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginVertical="20dp"/>
+
+                                <TextView
+                                    android:layout_width="65dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginVertical="20dp"
+                                    android:text="Wednesday"
+                                    android:textSize="12dp"
+                                    android:textColor="@color/grey"/>
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginRight="5dp"
+                                        android:text="School In"
+                                        android:textColor="@color/grey"/>
+
+                                    <Spinner
+                                        android:id="@+id/timeInSpinner3"
+                                        android:layout_width="80dp"
+                                        android:layout_height="50dp"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginTop="20dp"
+                                        android:padding="5dp"
+                                        android:background="@color/light_black"/>
+
+                                </RelativeLayout>
+
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="15dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginRight="5dp"
+                                        android:text="School Out"
+                                        android:textColor="@color/grey"/>
+
+                                    <Spinner
+                                        android:id="@+id/timeOutSpinner3"
+                                        android:layout_width="80dp"
+                                        android:layout_height="50dp"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginTop="20dp"
+                                        android:padding="5dp"
+                                        android:background="@color/light_black"/>
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="10dp"
+                                android:orientation="horizontal">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginVertical="20dp"/>
+
+                                <TextView
+                                    android:layout_width="65dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginVertical="20dp"
+                                    android:text="Thursday"
+                                    android:textSize="13dp"
+                                    android:textColor="@color/grey"/>
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginRight="5dp"
+                                        android:text="School In"
+                                        android:textColor="@color/grey"/>
+
+                                    <Spinner
+                                        android:id="@+id/timeInSpinner4"
+                                        android:layout_width="80dp"
+                                        android:layout_height="50dp"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginTop="20dp"
+                                        android:padding="5dp"
+                                        android:background="@color/light_black"/>
+
+                                </RelativeLayout>
+
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="15dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginRight="5dp"
+                                        android:text="School Out"
+                                        android:textColor="@color/grey"/>
+
+                                    <Spinner
+                                        android:id="@+id/timeOutSpinner4"
+                                        android:layout_width="80dp"
+                                        android:layout_height="50dp"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginTop="20dp"
+                                        android:padding="5dp"
+                                        android:background="@color/light_black"/>
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="10dp"
+                                android:orientation="horizontal">
+
+                                <CheckBox
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginVertical="20dp"/>
+
+                                <TextView
+                                    android:layout_width="65dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginVertical="20dp"
+                                    android:text="Friday"
+                                    android:textSize="13dp"
+                                    android:textColor="@color/grey"/>
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginRight="5dp"
+                                        android:text="School In"
+                                        android:textColor="@color/grey"/>
+
+                                    <Spinner
+                                        android:id="@+id/timeInSpinner5"
+                                        android:layout_width="80dp"
+                                        android:layout_height="50dp"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginTop="20dp"
+                                        android:padding="5dp"
+                                        android:background="@color/light_black"/>
+
+                                </RelativeLayout>
+
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="15dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginRight="5dp"
+                                        android:text="School Out"
+                                        android:textColor="@color/grey"/>
+
+                                    <Spinner
+                                        android:id="@+id/timeOutSpinner5"
+                                        android:layout_width="80dp"
+                                        android:layout_height="50dp"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginTop="20dp"
+                                        android:padding="5dp"
+                                        android:background="@color/light_black"/>
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/seatingCapacityContainer"
+                    android:layout_below="@id/rV1"
                     android:text="Submit"
                     android:id="@+id/submitBtnStudent"
                     android:backgroundTint="@color/yellow"

@@ -256,7 +256,6 @@
                         android:background="@color/light_black"
                         android:drawablePadding="20dp"
                         android:padding="20dp"
-                        android:textColor="@color/grey"
                         android:enabled="false"/>
                     
                     <TextView
@@ -280,7 +279,6 @@
                         android:background="@color/light_black"
                         android:drawablePadding="20dp"
                         android:padding="20dp"
-                        android:textColor="@color/grey"
                         android:enabled="false"/>
 
                     <TextView
@@ -303,7 +301,6 @@
                         android:background="@color/light_black"
                         android:drawablePadding="20dp"
                         android:padding="20dp"
-                        android:textColor="@color/grey"
                         android:enabled="false"/>
 
                     <com.google.android.material.textfield.TextInputLayout
