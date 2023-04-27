@@ -10,8 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
         android:paddingVertical="10dp"
+        android:layout_gravity="center"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -23,24 +23,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:paddingRight="8dp"
                 android:orientation="horizontal">
-
-
-                <TextView
-                    android:id="@+id/textFN"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="full name"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"/>
 
                 <TextView
                     android:id="@+id/textLN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="Last Name,"
                     android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:padding="1dp"
                     android:textSize="15sp"/>
+
+                <TextView
+                    android:id="@+id/textFN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="First Name"
+                    android:padding="1dp"
+                    android:textSize="13sp"/>
 
             </LinearLayout>
 
@@ -55,9 +59,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:text="St. Address"
+                    android:text="Street Address"
                     android:textColor="@color/black"
-                    android:textSize="15sp"/>
+                    android:padding="1dp"
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
@@ -68,49 +73,59 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textBrgyCity"
+                    android:id="@+id/textBrgy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="1dp"
                     android:layout_marginLeft="8dp"
-                    android:text="Barangay, City"
+                    android:text="Barangay,"
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="9sp" />
 
 
                 <TextView
                     android:id="@+id/textCity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
+                    android:padding="1dp"
+                    android:layout_marginLeft="2dp"
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="horizontal">
+                    android:text="City,"
+                    android:textSize="9sp" />
 
                 <TextView
                     android:id="@+id/textProvince"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="Province"
+                    android:padding="1dp"
+                    android:layout_marginLeft="2dp"
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:text="Province"
+                    android:textSize="9sp" />
 
             </LinearLayout>
 
+
         </LinearLayout>
 
-        <CheckBox
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            />
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADD"
+                android:backgroundTint="@color/green"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:padding="5dp"/>
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
 

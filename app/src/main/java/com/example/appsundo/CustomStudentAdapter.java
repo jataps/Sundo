@@ -38,17 +38,21 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
         User user = list.get(position);
 
 
-        String fullName = user.getFirstName() + " " + user.getLastName();
-        String barangayAtCity = user.getADDRESS().getBarangay() + ", " + user.getADDRESS().getCity();
+        String firstName = user.getFirstName() ;
+        String lastName = user.getLastName() + ", ";
+        String streetAddress = user.getADDRESS().getStreetAddress();
+        String barangay = user.getADDRESS().getBarangay().toUpperCase() + " |";
+        String finalCity = user.getADDRESS().getCity().replace("CITY OF ","") + " |";
+        String province = user.getADDRESS().getProvince();
+        String accountCode = user.getAccountCode();
 
-        holder.textFN.setText(fullName);
-        holder.textStAddress.setText(user.getADDRESS().getStreetAddress());
-        holder.textBrgyCity.setText(barangayAtCity);
-        holder.textProvince.setText(user.getADDRESS().getProvince());
-
-
-        //holder.textLN.setText(student.getLastName());
-        //holder.textMail.setText(student.getCompleteAdd());
+        //holder.accountCode.setText(accountCode);
+        holder.textFN.setText(firstName);
+        holder.textLN.setText(lastName);
+        holder.textStAddress.setText(streetAddress);
+        holder.textBrgy.setText(barangay);
+        holder.textCity.setText(finalCity);
+        holder.textProvince.setText(province);
 
     }
 
@@ -60,8 +64,7 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
 
-        TextView textFN, textLN, textStAddress, textBrgyCity, textCity, textProvince;
-
+        TextView textFN, textLN, textStAddress, textBrgy, textCity, textProvince, accountCode;
 
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
@@ -69,9 +72,10 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
             textFN = itemView.findViewById(R.id.textFN);
             textLN = itemView.findViewById(R.id.textLN);
             textStAddress = itemView.findViewById(R.id.textStAddress);
-            textBrgyCity = itemView.findViewById(R.id.textBrgyCity);
+            textBrgy = itemView.findViewById(R.id.textBrgy);
             textCity = itemView.findViewById(R.id.textCity);
             textProvince = itemView.findViewById(R.id.textProvince);
+            //accountCode = itemView.findViewById(R.id.txtACode);
             //textMail = itemView.findViewById(R.id.textMail);
 
             itemView.setOnClickListener(new View.OnClickListener() {
