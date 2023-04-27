@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +28,19 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
     ArrayList<User> list;
     MaterialButton addBtnConfirm;
 
+    TextView txtFname;
+    TextView txtLname;
+    TextView txtEmerName;
+    TextView txtEmerNumber;
+    TextView txtContactNumber;
+    TextView txtProvince;
+    TextView txtCity;
+    TextView txtBarangay;
+    TextView txtStAddress;
+    TextView txtUid;
+
+    String firstName, lastName, emerName, emerNumber, contactNumber, province, city, barangay, stAddress, uid, fragment_to_display;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +49,32 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
         studentList = findViewById(R.id.studentList);
         addBtnConfirm = findViewById(R.id.addBtnConfirm);
 
+        txtFname = findViewById(R.id.txtFName);
+        txtLname = findViewById(R.id.txtLName);
+        txtEmerName = findViewById(R.id.textEmerName);
+        txtEmerNumber = findViewById(R.id.textEmerNumber);
+        txtContactNumber = findViewById(R.id.txtContactNumber);
+        txtProvince = findViewById(R.id.textAddress);
+        txtStAddress = findViewById(R.id.textStAddress);
+        
+        uid = getIntent().getStringExtra("UID");
+        lastName = getIntent().getStringExtra("LAST_NAME");
+        firstName = getIntent().getStringExtra("FIRST_NAME");
+        contactNumber = getIntent().getStringExtra("CONTACT_NUMBER");
+        emerName = getIntent().getStringExtra("EMERGENCY_NAME");
+        emerNumber = getIntent().getStringExtra("EMERGENCY_NUMBER");
+        province = getIntent().getStringExtra("PROVINCE");
+        city = getIntent().getStringExtra("CITY");
+        barangay = getIntent().getStringExtra("BARANGAY");
+        stAddress = getIntent().getStringExtra("ST_ADDRESS");
+
+        txtFname.setText(firstName);
+        txtLname.setText(lastName);
+        txtEmerName.setText(emerName);
+        txtEmerNumber.setText(emerNumber);
+        txtContactNumber.setText(contactNumber);
+        txtProvince.setText(barangay + " | " + city + " | " + province);
+        txtStAddress.setText(stAddress);
 
         mRef = FirebaseDatabase.getInstance().getReference().child("USER_INFORMATION").child("STUDENT");
 
@@ -43,7 +84,6 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
         list = new ArrayList<>();
         adapter = new CustomStudentAdapter(this, list, this);
         studentList.setAdapter(adapter);
-
 
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -70,8 +110,10 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
         addBtnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(getApplicationContext(),ContainerDriver.class);
                 intent.putExtra("fragment_to_display","fragment_service");
+                intent.putExtra("service_to_display","add_student");
                 startActivity(intent);
                 finish();
             }
@@ -81,6 +123,8 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
 
     @Override
     public void onItemClick(int position) {
+
+
 
     }
 }

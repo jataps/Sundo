@@ -14,6 +14,8 @@ import com.example.appsundo.databinding.ActivityContainerDriverBinding;
 public class ContainerDriver extends AppCompatActivity {
     
     ActivityContainerDriverBinding binding;
+    String message;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +34,11 @@ public class ContainerDriver extends AppCompatActivity {
                     break;
 
                 case "fragment_service":
-                    replaceFragment(new DriverFragmentService());
+                    if (getIntent().hasExtra("service_to_display")) {
+                        message = getIntent().getStringExtra("service_to_display");
+                        replaceFragment(new DriverFragmentService(), "service_to_display", message );
+                    } else
+                        replaceFragment(new DriverFragmentService());
                     break;
 
                 case "fragment_records":
@@ -59,11 +65,16 @@ public class ContainerDriver extends AppCompatActivity {
                     break;
 
                 case R.id.navServiceDriver:
-                    replaceFragment(new DriverFragmentService());
+                    if (getIntent().hasExtra("service_to_display")) {
+                        message = getIntent().getStringExtra("service_to_display");
+                        replaceFragment(new DriverFragmentService(), "service_to_display", message );
+                    } else
+                        replaceFragment(new DriverFragmentService());
+
                     break;
 
                 case R.id.navRecordsDriver:
-                    replaceFragment(new DriverFragmentRecords());
+                    replaceFragment(new DriverFragmentRecords(), "service_to_display", message);
                     break;
             }
             return true;
@@ -79,21 +90,17 @@ public class ContainerDriver extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_layout_driver, fragment);
         fragmentTransaction.commit();
 
-/*
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.container_fragment, new Fragment1(), "Fragment1");
+    }
+
+    private void replaceFragment(Fragment fragment, String from, String message) {
+        Bundle args = new Bundle();
+        args.putString(from, message);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragment.setArguments(args);
+        fragmentTransaction.replace(R.id.frame_layout_driver, fragment);
         fragmentTransaction.commit();
-
-        if (getIntent().hasExtra("fragment_to_display")) {
-            String fragmentToDisplay = getIntent().getStringExtra("fragment_to_display");
-            if (fragmentToDisplay.equals("fragment2")) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.container_fragment, new Fragment2(), "Fragment2");
-                transaction.commit();
-            }
-        }
-*/
-
     }
 
     @Override

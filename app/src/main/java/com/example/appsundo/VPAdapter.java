@@ -14,8 +14,6 @@ import java.util.ArrayList;
 public class VPAdapter extends FragmentStateAdapter {
 
 
-    private String [] titles = new String[] {"PICKUP", "DROPOFF", "ADD"};
-
     private final ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
 
     public ArrayList<String> getFragmentTitle() {

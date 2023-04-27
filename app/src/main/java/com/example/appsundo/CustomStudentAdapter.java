@@ -5,9 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -16,7 +23,7 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
     private final RecyclerViewInterface recyclerViewInterface;
 
     Context context;
-    ArrayList<User> list;
+    static ArrayList<User> list;
 
     public CustomStudentAdapter(Context context, ArrayList<User> list, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
@@ -37,22 +44,20 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
 
         User user = list.get(position);
 
-
         String firstName = user.getFirstName() ;
         String lastName = user.getLastName() + ", ";
         String streetAddress = user.getADDRESS().getStreetAddress();
-        String barangay = user.getADDRESS().getBarangay().toUpperCase() + " |";
-        String finalCity = user.getADDRESS().getCity().replace("CITY OF ","") + " |";
+        String barangay = user.getADDRESS().getBarangay().toUpperCase();
+        String finalCity = user.getADDRESS().getCity().replace("CITY OF ","");
         String province = user.getADDRESS().getProvince();
+        String finalAddress = barangay + " | " + finalCity + " | " + province;
         String accountCode = user.getAccountCode();
 
         //holder.accountCode.setText(accountCode);
         holder.textFN.setText(firstName);
         holder.textLN.setText(lastName);
         holder.textStAddress.setText(streetAddress);
-        holder.textBrgy.setText(barangay);
-        holder.textCity.setText(finalCity);
-        holder.textProvince.setText(province);
+        holder.textAddress.setText(finalAddress);
 
     }
 
@@ -63,35 +68,41 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
+        TextView textFN, textLN, textStAddress, textAddress, accountCode;
 
-        TextView textFN, textLN, textStAddress, textBrgy, textCity, textProvince, accountCode;
+        MaterialButton btnAdd;
 
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
+            btnAdd = itemView.findViewById(R.id.btnAddStudent);
             textFN = itemView.findViewById(R.id.textFN);
             textLN = itemView.findViewById(R.id.textLN);
             textStAddress = itemView.findViewById(R.id.textStAddress);
-            textBrgy = itemView.findViewById(R.id.textBrgy);
-            textCity = itemView.findViewById(R.id.textCity);
-            textProvince = itemView.findViewById(R.id.textProvince);
+            textAddress = itemView.findViewById(R.id.textAddress);
             //accountCode = itemView.findViewById(R.id.txtACode);
             //textMail = itemView.findViewById(R.id.textMail);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (recyclerViewInterface != null) {
+
+                    if(recyclerViewInterface != null) {
                         int pos = getAdapterPosition();
 
-                        if(pos != RecyclerView.NO_POSITION) {
+                        if (pos != RecyclerView.NO_POSITION) {
                             recyclerViewInterface.onItemClick(pos);
                         }
+
                     }
+
                 }
             });
 
+
         }
+
+
     }
 
 }
