@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/medium_black"
-    tools:context=".DriverDropoffStudent">
+    tools:context=".DriverOnBoardStudent">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -142,6 +142,7 @@
 
             </LinearLayout>
 
+            <!--
             <TextView
                 android:id="@+id/textEmerName"
                 android:layout_width="wrap_content"
@@ -161,6 +162,7 @@
                 android:text="Emergency Number"
                 android:textColor="@color/white"
                 android:textSize="9sp" />
+                -->
 
             <TextView
                 android:id="@+id/txtContactNumber"
@@ -189,7 +191,7 @@
         android:visibility="gone"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnAddStudent"
+        android:id="@+id/btnDropOffStudent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/medium_black"
@@ -198,7 +200,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="28dp"
-        android:text="DROP STUDENT"
+        android:text="DROP OFF STUDENT"
         android:textSize="20dp"
         android:textStyle="bold"/>
 

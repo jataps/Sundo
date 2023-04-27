@@ -91,7 +91,6 @@ public class ContainerDriver extends AppCompatActivity {
                         replaceFragment(new DriverFragmentService());
 
                     break;
-
                 case R.id.navRecordsDriver:
                     replaceFragment(new DriverFragmentRecords(), "service_to_display", message);
                     break;

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/medium_black"
-    tools:context=".DriverPickupStudent">
+    tools:context=".DriverArrivedDetails">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -190,6 +190,7 @@
         android:layout_below="@id/scrollView"
         android:visibility="gone"/>
 
+    <!--
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAddStudent"
         android:layout_width="match_parent"
@@ -203,5 +204,6 @@
         android:text="PICKUP STUDENT"
         android:textSize="20dp"
         android:textStyle="bold"/>
+-->
 
 </RelativeLayout>

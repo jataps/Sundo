@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,9 +24,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class DriverFragmentDropOff extends Fragment implements RecyclerViewInterface {
+public class DriverFragmentArrived extends Fragment implements RecyclerViewInterface {
 
-    RecyclerView dropOffStudentList;
+    RecyclerView recyclerArrivedStudent;
     DatabaseReference mRef;
     CustomStudentAdapter adapter;
     ArrayList<User> list;
@@ -36,20 +37,19 @@ public class DriverFragmentDropOff extends Fragment implements RecyclerViewInter
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_driver_drop_off, container, false);
+        View view = inflater.inflate(R.layout.fragment_driver_arrived, container, false);
 
-        dropOffStudentList = view.findViewById(R.id.dropOffStudentList);
+        recyclerArrivedStudent = view.findViewById(R.id.recyclerArrivedStudent);
 
-        String uidDriver = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        mRef = FirebaseDatabase.getInstance().getReference().child("USERS").child("DRIVER").child(uidDriver).child("ASSIGNED_STUDENT");
-
-        dropOffStudentList.setHasFixedSize(true);
-        dropOffStudentList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerArrivedStudent.setHasFixedSize(true);
+        recyclerArrivedStudent.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         list = new ArrayList<>();
         adapter = new CustomStudentAdapter(getActivity(), list, this);
-        dropOffStudentList.setAdapter(adapter);
+        recyclerArrivedStudent.setAdapter(adapter);
+
+        String uidDriver = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mRef = FirebaseDatabase.getInstance().getReference().child("USERS").child("DRIVER").child(uidDriver).child("ASSIGNED_STUDENT");
 
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -59,14 +59,19 @@ public class DriverFragmentDropOff extends Fragment implements RecyclerViewInter
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
 
                     student = dataSnapshot.getValue(User.class);
-                    list.add(student);
+                    student.setReferenceID(dataSnapshot.getKey());
 
-                    Collections.sort(list);
+                    if(student.getStatus().equals("ARRIVED")) {
+                        list.add(student);
+                        Collections.sort(list);
+                    }
+
                 }
 
                 adapter.notifyDataSetChanged();
 
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -80,7 +85,7 @@ public class DriverFragmentDropOff extends Fragment implements RecyclerViewInter
     @Override
     public void onItemClick(int position) {
 
-        Intent intent = new Intent(getActivity(), DriverDropoffStudent.class);
+        Intent intent = new Intent(getActivity(), DriverArrivedDetails.class);
 
         intent.putExtra("fragment_to_display","fragment_service");
         intent.putExtra("INFO_REF", list.get(position).getReferenceID());
@@ -97,7 +102,5 @@ public class DriverFragmentDropOff extends Fragment implements RecyclerViewInter
         intent.putExtra("ACCOUNT_CODE", list.get(position).getAccountCode());
 
         startActivity(intent);
-
     }
-
 }

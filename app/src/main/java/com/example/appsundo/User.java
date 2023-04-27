@@ -2,25 +2,20 @@ package com.example.appsundo;
 
 public class User implements Comparable<User> {
 
-
-    private final String FCM_KEY = "c9039ace64cb4e2dda4eb7af388533810cd2e8a0";
-
     private String lastName;
     private String firstName;
     private String emergencyNumber;
     private String emergencyName;
     private String contactNumber;
     private String email;
-
     private String referenceID;
-
-
 
     private String DRIVER_ASSIGNED;
     private String uid;
     private Address ADDRESS;
-
     private String accountCode;
+
+    private String status;
 
     //Driver details;
     private Vehicle VEHICLE;
@@ -29,13 +24,12 @@ public class User implements Comparable<User> {
         return DRIVER_ASSIGNED;
     }
 
-    public String getFCM_KEY() { return FCM_KEY; }
-
     public void setReferenceID(String referenceID) {
         this.referenceID = referenceID;
     }
-
     public String getReferenceID() {return referenceID; }
+
+    public String getStatus() {return status; }
 
     public String getUid() {
         return uid;

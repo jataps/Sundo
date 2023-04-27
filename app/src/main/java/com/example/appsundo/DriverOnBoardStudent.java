@@ -20,13 +20,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class DriverDropoffStudent extends AppCompatActivity implements RecyclerViewInterface {
+public class DriverOnBoardStudent extends AppCompatActivity implements RecyclerViewInterface {
 
     RecyclerView studentList;
     DatabaseReference mRef;
     CustomStudentAdapter adapter;
     ArrayList<User> list;
-    MaterialButton btnAddStudent;
+    MaterialButton btnDropOffStudent;
 
     TextView txtFname;
     TextView txtLname;
@@ -43,23 +43,20 @@ public class DriverDropoffStudent extends AppCompatActivity implements RecyclerV
 
     String firstName, lastName, emerName, emerNumber, contactNumber, province, city, barangay, stAddress, uidStudent, accountCode, infoId;
 
-    /*Code format copied from DriverPickupStudent*/
     
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_driver_dropoff_student);
-
-
+        setContentView(R.layout.activity_driver_onboard_student);
 
         studentList = findViewById(R.id.studentList);
-        btnAddStudent = findViewById(R.id.btnAddStudent);
+        btnDropOffStudent = findViewById(R.id.btnDropOffStudent);
 
         txtFname = findViewById(R.id.txtFName);
         txtLname = findViewById(R.id.txtLName);
-        txtEmerName = findViewById(R.id.textEmerName);
-        txtEmerNumber = findViewById(R.id.textEmerNumber);
+       // txtEmerName = findViewById(R.id.textEmerName);
+       // txtEmerNumber = findViewById(R.id.textEmerNumber);
         txtContactNumber = findViewById(R.id.txtContactNumber);
         txtProvince = findViewById(R.id.textAddress);
         txtStAddress = findViewById(R.id.textStAddress);
@@ -69,8 +66,8 @@ public class DriverDropoffStudent extends AppCompatActivity implements RecyclerV
         lastName = getIntent().getStringExtra("LAST_NAME");
         firstName = getIntent().getStringExtra("FIRST_NAME");
         contactNumber = getIntent().getStringExtra("CONTACT_NUMBER");
-        emerName = getIntent().getStringExtra("EMERGENCY_NAME");
-        emerNumber = getIntent().getStringExtra("EMERGENCY_NUMBER");
+ //       emerName = getIntent().getStringExtra("EMERGENCY_NAME");
+ //       emerNumber = getIntent().getStringExtra("EMERGENCY_NUMBER");
         province = getIntent().getStringExtra("PROVINCE");
         city = getIntent().getStringExtra("CITY");
         barangay = getIntent().getStringExtra("BARANGAY");
@@ -79,30 +76,23 @@ public class DriverDropoffStudent extends AppCompatActivity implements RecyclerV
 
         txtFname.setText(firstName);
         txtLname.setText(lastName);
-        txtEmerName.setText(emerName);
-        txtEmerNumber.setText(emerNumber);
+//        txtEmerName.setText(emerName);
+//        txtEmerNumber.setText(emerNumber);
         txtContactNumber.setText(contactNumber);
         txtProvince.setText(barangay + " | " + city + " | " + province);
         txtStAddress.setText(stAddress);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
-        btnAddStudent.setOnClickListener(new View.OnClickListener() {
+        btnDropOffStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                DatabaseReference driverRef = ref.child("USERS").child("DRIVER").child(uid).child("ASSIGNED_STUDENT").child(accountCode);
+                DatabaseReference driverRef = ref.child("USERS").child("DRIVER").child(uid).child("ASSIGNED_STUDENT").child(infoId);
 
-                driverRef.child("UID").setValue(uidStudent);
-                driverRef.child("firstName").setValue(firstName);
-                driverRef.child("lastName").setValue(lastName);
-                driverRef.child("ADDRESS/province").setValue(province);
-                driverRef.child("ADDRESS/city").setValue(city);
-                driverRef.child("ADDRESS/barangay").setValue(barangay);
-                driverRef.child("ADDRESS/streetAddress").setValue(barangay);
-                driverRef.child("contactNumber").setValue(contactNumber);
+                driverRef.child("status").setValue("ARRIVED");
 
                 getDriverInfo(ref, uid);
 
@@ -133,7 +123,7 @@ public class DriverDropoffStudent extends AppCompatActivity implements RecyclerV
 
                                 //studentList.clear();
                                 userDriver = snapshot.getValue(User.class);
-
+/*
                                 DatabaseReference studentRef = dbRef.child("USERS").child("STUDENT").child(uidStudent).child("PICKUP_STUDENTS").child(userDriver.getAccountCode());
 
                                 studentRef.child("UID").setValue(userDriver.getUid());
@@ -146,11 +136,13 @@ public class DriverDropoffStudent extends AppCompatActivity implements RecyclerV
 
                                 dbRef.child("USER_INFORMATION").child("STUDENT").child(infoId).child("DRIVER_ASSIGNED").setValue(userDriver.getAccountCode());
 
-                                Toast.makeText(DriverDropoffStudent.this, "Student Successfully Picked Up", Toast.LENGTH_SHORT).show();
+
+ */
+                                Toast.makeText(DriverOnBoardStudent.this, "Student Successfully Arrived", Toast.LENGTH_SHORT).show();
 
                                 Intent intent = new Intent(getApplicationContext(),ContainerDriver.class);
                                 intent.putExtra("fragment_to_display","fragment_service");
-                                intent.putExtra("service_to_display","add_student");
+                                intent.putExtra("service_to_display","onboard_student");
                                 startActivity(intent);
                                 finish();
 

@@ -118,7 +118,7 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
 
                 //createnotif();
 
-                fcmNotif("BPi1q83xINXluhaMCGJ4BFU3R4H3");
+                //fcmNotif("BPi1q83xINXluhaMCGJ4BFU3R4H3");
 
                 if (isGpsON) {
                     gpsBtnOn(false);
@@ -415,6 +415,7 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
 
     }
 
+    /*
     public void fcmNotif(String sendUID) {
 
         User user = new User();
@@ -493,6 +494,8 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
 
 
     }
+
+     */
 
 
 }

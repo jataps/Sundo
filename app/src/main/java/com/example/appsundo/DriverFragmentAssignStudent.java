@@ -67,9 +67,6 @@ public class DriverFragmentAssignStudent extends Fragment implements RecyclerVie
                     }
 
                 }
-
-
-
                 adapter.notifyDataSetChanged();
 
             }

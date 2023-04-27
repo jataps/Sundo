@@ -23,9 +23,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class DriverFragmentPickUp extends Fragment implements RecyclerViewInterface{
+public class DriverFragmentOnBoard extends Fragment implements RecyclerViewInterface {
 
-    RecyclerView pickUpStudentList;
+    RecyclerView dropOffStudentList;
     DatabaseReference mRef;
     CustomStudentAdapter adapter;
     ArrayList<User> list;
@@ -36,19 +36,20 @@ public class DriverFragmentPickUp extends Fragment implements RecyclerViewInterf
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_driver_pick_up, container, false);
+        View view = inflater.inflate(R.layout.fragment_driver_onboard, container, false);
 
-        pickUpStudentList = view.findViewById(R.id.pickUpStudentList);
+        dropOffStudentList = view.findViewById(R.id.dropOffStudentList);
 
-        pickUpStudentList.setHasFixedSize(true);
-        pickUpStudentList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        String uidDriver = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        mRef = FirebaseDatabase.getInstance().getReference().child("USERS").child("DRIVER").child(uidDriver).child("ASSIGNED_STUDENT");
+
+        dropOffStudentList.setHasFixedSize(true);
+        dropOffStudentList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         list = new ArrayList<>();
         adapter = new CustomStudentAdapter(getActivity(), list, this);
-        pickUpStudentList.setAdapter(adapter);
-
-        String uidDriver = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mRef = FirebaseDatabase.getInstance().getReference().child("USERS").child("DRIVER").child(uidDriver).child("ASSIGNED_STUDENT");
+        dropOffStudentList.setAdapter(adapter);
 
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -60,17 +61,15 @@ public class DriverFragmentPickUp extends Fragment implements RecyclerViewInterf
                     student = dataSnapshot.getValue(User.class);
                     student.setReferenceID(dataSnapshot.getKey());
 
-                    if(student.getStatus().equals("WAITING")) {
+                    if(student.getStatus().equals("ONBOARD")) {
                         list.add(student);
                         Collections.sort(list);
                     }
-
                 }
 
                 adapter.notifyDataSetChanged();
 
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -84,7 +83,7 @@ public class DriverFragmentPickUp extends Fragment implements RecyclerViewInterf
     @Override
     public void onItemClick(int position) {
 
-        Intent intent = new Intent(getActivity(), DriverPickupStudent.class);
+        Intent intent = new Intent(getActivity(), DriverOnBoardStudent.class);
 
         intent.putExtra("fragment_to_display","fragment_service");
         intent.putExtra("INFO_REF", list.get(position).getReferenceID());
@@ -102,6 +101,6 @@ public class DriverFragmentPickUp extends Fragment implements RecyclerViewInterf
 
         startActivity(intent);
 
-
     }
+
 }

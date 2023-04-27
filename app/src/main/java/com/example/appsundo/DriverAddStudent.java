@@ -59,7 +59,7 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
         txtContactNumber = findViewById(R.id.txtContactNumber);
         txtProvince = findViewById(R.id.textAddress);
         txtStAddress = findViewById(R.id.textStAddress);
-        
+
         uidStudent = getIntent().getStringExtra("UID");
         accountCode = getIntent().getStringExtra("ACCOUNT_CODE");
         lastName = getIntent().getStringExtra("LAST_NAME");
@@ -90,7 +90,7 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                 DatabaseReference driverRef = ref.child("USERS").child("DRIVER").child(uid).child("ASSIGNED_STUDENT").child(accountCode);
-                DatabaseReference driverRef2 = ref.child("USERS").child("DRIVER").child(uid).child("PICKUP_STUDENT").child(accountCode);
+                //DatabaseReference driverRef2 = ref.child("USERS").child("DRIVER").child(uid).child("PICKUP_STUDENT").child(accountCode);
 
                 driverRef.child("UID").setValue(uidStudent);
                 driverRef.child("firstName").setValue(firstName);
@@ -100,15 +100,7 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
                 driverRef.child("ADDRESS/barangay").setValue(barangay);
                 driverRef.child("ADDRESS/streetAddress").setValue(barangay);
                 driverRef.child("contactNumber").setValue(contactNumber);
-
-                driverRef2.child("UID").setValue(uidStudent);
-                driverRef2.child("firstName").setValue(firstName);
-                driverRef2.child("lastName").setValue(lastName);
-                driverRef2.child("ADDRESS/province").setValue(province);
-                driverRef2.child("ADDRESS/city").setValue(city);
-                driverRef2.child("ADDRESS/barangay").setValue(barangay);
-                driverRef2.child("ADDRESS/streetAddress").setValue(barangay);
-                driverRef2.child("contactNumber").setValue(contactNumber);
+                driverRef.child("status").setValue("WAITING");
 
                 getDriverInfo(ref, uid);
 
