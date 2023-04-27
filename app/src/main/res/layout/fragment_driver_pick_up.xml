@@ -6,10 +6,44 @@
     tools:context=".DriverFragmentPickUp">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Pickup Fragment"
-        android:textColor="@color/white"/>
+        android:layout_height="match_parent">
+
+        <SearchView
+            android:id="@+id/searchView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/searchview_border"
+            android:queryBackground="@android:color/transparent"
+            android:queryHint="Enter user name"
+            android:iconifiedByDefault="false"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/allStudentList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/searchView1"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="100dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addStudentBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/medium_black"
+            android:backgroundTint="@color/yellow"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="28dp"
+            android:text="Confirm"/>
+
+    </RelativeLayout>
 
 </FrameLayout>

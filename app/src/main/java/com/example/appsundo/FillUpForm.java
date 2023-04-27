@@ -73,6 +73,27 @@ public class FillUpForm extends AppCompatActivity {
     String selectedCity;
     String selectedBarangay;
 
+    String selectedTimeIn1;
+
+    String selectedTimeIn2;
+
+    String selectedTimeIn3;
+
+    String selectedTimeIn4;
+
+    String selectedTimeIn5;
+
+    String selectedTimeOut1;
+
+    String selectedTimeOut2;
+
+    String selectedTimeOut3;
+
+    String selectedTimeOut4;
+
+    String selectedTimeOut5;
+
+
     String firstName, lastName, contactNumber, emergencyName, emergencyNumber, addNote;
     //endregion
 
@@ -81,6 +102,28 @@ public class FillUpForm extends AppCompatActivity {
     Spinner citySpinner;
     Spinner barangaySpinner;
     //endregion
+
+    //region time in and out
+    Spinner timeInSpinner1;
+
+    Spinner timeOutSpinner1;
+
+    Spinner timeInSpinner2;
+
+    Spinner timeOutSpinner2;
+
+    Spinner timeInSpinner3;
+
+    Spinner timeOutSpinner3;
+
+    Spinner timeInSpinner4;
+
+    Spinner timeOutSpinner4;
+
+    Spinner timeInSpinner5;
+
+    Spinner timeOutSpinner5;
+    // region end
 
     //region HashMap
     HashMap<String, Integer> provinces = new HashMap<>();
@@ -133,6 +176,18 @@ public class FillUpForm extends AppCompatActivity {
         provinceSpinner = findViewById(R.id.provinceSpinner);
         citySpinner = findViewById(R.id.citySpinner);
         barangaySpinner = findViewById(R.id.barangaySpinner);
+
+        timeInSpinner1 = findViewById(R.id.timeInSpinner1);
+        timeInSpinner2 = findViewById(R.id.timeInSpinner2);
+        timeInSpinner3 = findViewById(R.id.timeInSpinner3);
+        timeInSpinner4 = findViewById(R.id.timeInSpinner4);
+        timeInSpinner5 = findViewById(R.id.timeInSpinner5);
+
+        timeOutSpinner1 = findViewById(R.id.timeOutSpinner1);
+        timeOutSpinner2 = findViewById(R.id.timeOutSpinner2);
+        timeOutSpinner3 = findViewById(R.id.timeOutSpinner3);
+        timeOutSpinner4 = findViewById(R.id.timeOutSpinner4);
+        timeOutSpinner5 = findViewById(R.id.timeOutSpinner5);
 
 
         CustomRulesFunctions crf = new CustomRulesFunctions();
@@ -264,6 +319,7 @@ public class FillUpForm extends AppCompatActivity {
                     }
                 }
 
+
                 DatabaseReference userRef = dbRef.child("USERS").child(userType).child(uid).child("INFO_ID");
                 DatabaseReference recordRef = dbRef.child("USER_INFORMATION").child(userType);
 
@@ -323,6 +379,46 @@ public class FillUpForm extends AppCompatActivity {
         barangayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         barangaySpinner.setAdapter(barangayAdapter);
 
+        ArrayAdapter<CharSequence> timeInAdapter1 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
+        timeInAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timeInSpinner1.setAdapter(timeInAdapter1);
+
+        ArrayAdapter<CharSequence> timeInAdapter2 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
+        timeInAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timeInSpinner2.setAdapter(timeInAdapter2);
+
+        ArrayAdapter<CharSequence> timeInAdapter3 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
+        timeInAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timeInSpinner3.setAdapter(timeInAdapter3);
+
+        ArrayAdapter<CharSequence> timeInAdapter4 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
+        timeInAdapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timeInSpinner4.setAdapter(timeInAdapter4);
+
+        ArrayAdapter<CharSequence> timeInAdapter5 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
+        timeInAdapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timeInSpinner5.setAdapter(timeInAdapter5);
+
+        ArrayAdapter<CharSequence> timeOutAdapter1 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
+        timeOutAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timeOutSpinner1.setAdapter(timeOutAdapter1);
+
+        ArrayAdapter<CharSequence> timeOutAdapter2 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
+        timeOutAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timeOutSpinner2.setAdapter(timeOutAdapter2);
+
+        ArrayAdapter<CharSequence> timeOutAdapter3 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
+        timeOutAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timeOutSpinner3.setAdapter(timeOutAdapter3);
+
+        ArrayAdapter<CharSequence> timeOutAdapter4 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
+        timeOutAdapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timeOutSpinner4.setAdapter(timeOutAdapter4);
+
+        ArrayAdapter<CharSequence> timeOutAdapter5 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
+        timeOutAdapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        timeOutSpinner5.setAdapter(timeOutAdapter5);
+
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -368,6 +464,128 @@ public class FillUpForm extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 selectedBarangay = (String) adapterView.getItemAtPosition(i);
             }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        timeInSpinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                selectedTimeIn1 = (String) adapterView.getItemAtPosition(i);
+                // Update the middle spinner's items based on the selected value of the outer spinner
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        timeInSpinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedTimeIn2 = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        timeInSpinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedTimeIn3 = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        timeInSpinner4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedTimeIn4 = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        timeInSpinner5.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedTimeIn5 = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        timeOutSpinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedTimeOut1 = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        timeOutSpinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedTimeOut2 = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        timeOutSpinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedTimeOut3 = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        timeOutSpinner4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedTimeOut4 = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        timeOutSpinner5.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedTimeOut5 = (String) adapterView.getItemAtPosition(i);
+            }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
