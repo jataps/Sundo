@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DriverFragmentAssignStudent extends Fragment implements RecyclerViewInterface {
 
@@ -28,6 +30,8 @@ public class DriverFragmentAssignStudent extends Fragment implements RecyclerVie
     CustomStudentAdapter adapter;
     ArrayList<User> list;
     MaterialButton addStudentBtn;
+
+    User user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +50,7 @@ public class DriverFragmentAssignStudent extends Fragment implements RecyclerVie
         adapter = new CustomStudentAdapter(getActivity(), list, this);
         allStudentList.setAdapter(adapter);
 
+
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -53,9 +58,10 @@ public class DriverFragmentAssignStudent extends Fragment implements RecyclerVie
                 list.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
 
-                    User user = dataSnapshot.getValue(User.class);
+                    user = dataSnapshot.getValue(User.class);
                     list.add(user);
 
+                    Collections.sort(list);
                 }
 
                 adapter.notifyDataSetChanged();
@@ -83,6 +89,29 @@ public class DriverFragmentAssignStudent extends Fragment implements RecyclerVie
 
     @Override
     public void onItemClick(int position) {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        Intent intent = new Intent(getActivity(), DriverAddStudent.class);
+
+        intent.putExtra("fragment_to_display","fragment_service");
+        intent.putExtra("UID", list.get(position).getUid());
+        intent.putExtra("LAST_NAME", list.get(position).getLastName());
+        intent.putExtra("FIRST_NAME", list.get(position).getFirstName());
+        intent.putExtra("CONTACT_NUMBER", list.get(position).getContactNumber());
+        intent.putExtra("EMERGENCY_NAME", list.get(position).getEmergencyName());
+        intent.putExtra("EMERGENCY_NUMBER", list.get(position).getEmergencyNumber());
+        intent.putExtra("PROVINCE", list.get(position).getADDRESS().getProvince());
+        intent.putExtra("CITY", list.get(position).getADDRESS().getCity());
+        intent.putExtra("BARANGAY", list.get(position).getADDRESS().getBarangay());
+        intent.putExtra("ST_ADDRESS", list.get(position).getADDRESS().getStreetAddress());
+
+        startActivity(intent);
+
+
+        // Get the User object from the list using the position
+        User user = list.get(position);
+
+        // Update the data to Firebase using the User object
 
     }
 }

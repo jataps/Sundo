@@ -1,6 +1,6 @@
 package com.example.appsundo;
 
-public class User {
+public class User implements Comparable<User> {
 
     private String lastName;
     private String firstName;
@@ -8,6 +8,8 @@ public class User {
     private String emergencyName;
     private String contactNumber;
     private String email;
+
+    private String uid;
     private Address ADDRESS;
 
     private String accountCode;
@@ -15,6 +17,9 @@ public class User {
     //Driver details;
     private Vehicle VEHICLE;
 
+    public String getUid() {
+        return uid;
+    }
     public String getAccountCode() {
         return accountCode;
     }
@@ -48,6 +53,11 @@ public class User {
 
     public Vehicle getVEHICLE() {
         return VEHICLE;
+    }
+
+    @Override
+    public int compareTo(User user) {
+        return this.lastName.compareTo(user.getLastName());
     }
 
 
