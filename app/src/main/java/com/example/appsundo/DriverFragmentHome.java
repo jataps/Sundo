@@ -1,11 +1,17 @@
 package com.example.appsundo;
 
 import android.Manifest;
-import android.animation.Animator;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -13,6 +19,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -46,6 +55,8 @@ import java.util.Date;
 
 public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
 
+    NotificationManagerCompat notificationManagerCompat;
+    Notification notification;
     private MaterialButton gpsBtn;
 
     private Boolean isGpsON = false;
@@ -62,6 +73,9 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
 
     private String uid;
     private String accountCode;
+
+    private static final String CHANNEL_ID = "channel_id01";
+    private static final int NOTIFICATION_ID = 1;
 
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
@@ -82,7 +96,6 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
         mLocationProvider = LocationServices.getFusedLocationProviderClient(getActivity());
 
 
-
         gpsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,7 +103,9 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
                 String status;
                 String timeString;
 
-                if(isGpsON) {
+                createnotif();
+
+                if (isGpsON) {
                     gpsBtnOn(false);
 
                     status = "OFFLINE";
@@ -173,6 +188,7 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         accountCode = String.valueOf(snapshot.getValue());
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
@@ -223,7 +239,7 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
             handler.removeCallbacksAndMessages(null);
             mLocationProvider.removeLocationUpdates(locationCallback);
 
-            if (marker!=null) {
+            if (marker != null) {
                 marker.remove();
                 marker = null;
             }
@@ -317,7 +333,7 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
 
         mMapView.onPause();
 
-        if (isGpsON){
+        if (isGpsON) {
             handler.removeCallbacksAndMessages(null);
             mLocationProvider.removeLocationUpdates(locationCallback);
         }
@@ -341,5 +357,45 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
     }
+
+    public void createnotif() {
+        String id = "myCh";
+        NotificationManager manager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = manager.getNotificationChannel(id);
+            if (channel == null) {
+                channel = new NotificationChannel(id, "Channel Title", NotificationManager.IMPORTANCE_HIGH);
+                channel.setDescription("[Channel description]");
+                channel.enableVibration(true);
+                channel.setVibrationPattern(new long[]{100, 1000, 200, 340});
+                channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+                manager.createNotificationChannel(channel);
+            }
+        }
+        Intent notificationIntent = new Intent(getActivity(), DriverFragmentHome.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent contentIntent = PendingIntent.getActivity(getContext(), 0, notificationIntent, 0);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), id)
+                .setSmallIcon(R.drawable.notif_icon)
+                .setContentTitle("DRIVER IS ON SERVICE")
+                .setContentText("Please be prepare for the arrival")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(false);
+        builder.setContentIntent(contentIntent);
+        NotificationManagerCompat m = NotificationManagerCompat.from(getActivity().getApplicationContext());
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        m.notify(1, builder.build());
+
+    }
+
 
 }
