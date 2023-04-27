@@ -1,5 +1,6 @@
 package com.example.appsundo;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,14 +26,12 @@ import java.util.Collections;
 public class DriverFragmentPickUp extends Fragment implements RecyclerViewInterface{
 
     RecyclerView pickUpStudentList;
-
     DatabaseReference mRef;
     CustomStudentAdapter adapter;
     ArrayList<User> list;
+    User student;
 
     MaterialButton addStudentBtn;
-
-    User student;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,11 +75,30 @@ public class DriverFragmentPickUp extends Fragment implements RecyclerViewInterf
         });
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_driver_pick_up, container, false);
+        return view;
     }
 
     @Override
     public void onItemClick(int position) {
+
+        Intent intent = new Intent(getActivity(), DriverPickupStudent.class);
+
+        intent.putExtra("fragment_to_display","fragment_service");
+        intent.putExtra("INFO_REF", list.get(position).getReferenceID());
+        intent.putExtra("UID", list.get(position).getUid());
+        intent.putExtra("LAST_NAME", list.get(position).getLastName());
+        intent.putExtra("FIRST_NAME", list.get(position).getFirstName());
+        intent.putExtra("CONTACT_NUMBER", list.get(position).getContactNumber());
+        intent.putExtra("EMERGENCY_NAME", list.get(position).getEmergencyName());
+        intent.putExtra("EMERGENCY_NUMBER", list.get(position).getEmergencyNumber());
+        intent.putExtra("PROVINCE", list.get(position).getADDRESS().getProvince());
+        intent.putExtra("CITY", list.get(position).getADDRESS().getCity());
+        intent.putExtra("BARANGAY", list.get(position).getADDRESS().getBarangay());
+        intent.putExtra("ST_ADDRESS", list.get(position).getADDRESS().getStreetAddress());
+        intent.putExtra("ACCOUNT_CODE", list.get(position).getAccountCode());
+
+        startActivity(intent);
+
 
     }
 }

@@ -2,7 +2,6 @@ package com.example.appsundo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -21,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class DriverAddStudent extends AppCompatActivity implements RecyclerViewInterface {
+public class DriverPickupStudent extends AppCompatActivity implements RecyclerViewInterface {
 
     RecyclerView studentList;
     DatabaseReference mRef;
@@ -44,10 +43,12 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
 
     String firstName, lastName, emerName, emerNumber, contactNumber, province, city, barangay, stAddress, uidStudent, accountCode, infoId;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_driver_add_student);
+        setContentView(R.layout.activity_driver_pickup_student);
+
 
         studentList = findViewById(R.id.studentList);
         btnAddStudent = findViewById(R.id.btnAddStudent);
@@ -59,7 +60,7 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
         txtContactNumber = findViewById(R.id.txtContactNumber);
         txtProvince = findViewById(R.id.textAddress);
         txtStAddress = findViewById(R.id.textStAddress);
-        
+
         uidStudent = getIntent().getStringExtra("UID");
         accountCode = getIntent().getStringExtra("ACCOUNT_CODE");
         lastName = getIntent().getStringExtra("LAST_NAME");
@@ -90,7 +91,6 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                 DatabaseReference driverRef = ref.child("USERS").child("DRIVER").child(uid).child("ASSIGNED_STUDENT").child(accountCode);
-                DatabaseReference driverRef2 = ref.child("USERS").child("DRIVER").child(uid).child("PICKUP_STUDENT").child(accountCode);
 
                 driverRef.child("UID").setValue(uidStudent);
                 driverRef.child("firstName").setValue(firstName);
@@ -100,15 +100,6 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
                 driverRef.child("ADDRESS/barangay").setValue(barangay);
                 driverRef.child("ADDRESS/streetAddress").setValue(barangay);
                 driverRef.child("contactNumber").setValue(contactNumber);
-
-                driverRef2.child("UID").setValue(uidStudent);
-                driverRef2.child("firstName").setValue(firstName);
-                driverRef2.child("lastName").setValue(lastName);
-                driverRef2.child("ADDRESS/province").setValue(province);
-                driverRef2.child("ADDRESS/city").setValue(city);
-                driverRef2.child("ADDRESS/barangay").setValue(barangay);
-                driverRef2.child("ADDRESS/streetAddress").setValue(barangay);
-                driverRef2.child("contactNumber").setValue(contactNumber);
 
                 getDriverInfo(ref, uid);
 
@@ -141,7 +132,7 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
                                 //studentList.clear();
                                 userDriver = snapshot.getValue(User.class);
 
-                                DatabaseReference studentRef = dbRef.child("USERS").child("STUDENT").child(uidStudent).child("ASSIGNED_DRIVER").child(userDriver.getAccountCode());
+                                DatabaseReference studentRef = dbRef.child("USERS").child("STUDENT").child(uidStudent).child("PICKUP_STUDENTS").child(userDriver.getAccountCode());
 
                                 studentRef.child("UID").setValue(userDriver.getUid());
                                 studentRef.child("firstName").setValue(userDriver.getFirstName());
@@ -153,7 +144,7 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
 
                                 dbRef.child("USER_INFORMATION").child("STUDENT").child(infoId).child("DRIVER_ASSIGNED").setValue(userDriver.getAccountCode());
 
-                                Toast.makeText(DriverAddStudent.this, "Student Successfully Assigned", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DriverPickupStudent.this, "Student Successfully Picked Up", Toast.LENGTH_SHORT).show();
 
                                 Intent intent = new Intent(getApplicationContext(),ContainerDriver.class);
                                 intent.putExtra("fragment_to_display","fragment_service");
@@ -186,8 +177,6 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
 
     @Override
     public void onItemClick(int position) {
-
-
 
     }
 }
