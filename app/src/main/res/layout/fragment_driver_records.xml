@@ -16,8 +16,10 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginVertical="20dp"
-            android:text="STUDENT RECORDS FRAGMENT"
-            android:textSize="20dp" />
+            android:text="ASSIGNED PASSENGERS"
+            android:textSize="20dp"
+            android:textColor="@color/grey"
+            android:textStyle="bold"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerAssignedStudents"

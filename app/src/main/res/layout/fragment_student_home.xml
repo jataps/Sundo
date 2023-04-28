@@ -144,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:text="In Progress"
                 android:textColor="@color/grey"
-                android:textStyle="normal"
+                android:textStyle="bold"
                 android:textSize="15dp"/>
 
             <TextView
