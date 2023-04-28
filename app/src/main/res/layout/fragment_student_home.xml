@@ -33,7 +33,7 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="100dp"
                 android:layout_gravity="center"
-                android:background="@drawable/bg_status"/>
+                android:background="@color/red"/>
 
             <ImageView
                 android:id="@+id/imageLine1"
@@ -47,7 +47,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:background="@drawable/bg_status"/>
+                android:background="@color/red"/>
 
             <ImageView
                 android:id="@+id/imageLine2"
@@ -62,8 +62,8 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:background="@drawable/bg_status"
-                android:layout_below="@+id/imageView2"/>
+                android:layout_below="@+id/imageView2"
+                android:background="@color/red"/>
 
             <ImageView
                 android:id="@+id/imageLine3"
@@ -71,15 +71,17 @@
                 android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:background="@color/light_black"
-                android:layout_below="@+id/imageView1"/>
+                android:layout_below="@+id/imageView1"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/imageView4"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:background="@drawable/bg_status"
-                android:layout_below="@+id/imageView3"/>
+                android:layout_below="@+id/imageView3"
+                android:background="@color/red"
+                android:visibility="gone"/>
 
         </LinearLayout>
 
@@ -104,7 +106,7 @@
                 android:id="@+id/txtOTW2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="In Progress"
+                android:text=" "
                 android:textColor="@color/grey"
                 android:textStyle="normal"
                 android:textSize="15dp"/>
@@ -123,7 +125,7 @@
                 android:id="@+id/txtPickedUp2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="In Progress"
+                android:text=""
                 android:textColor="@color/grey"
                 android:textStyle="normal"
                 android:textSize="15dp"/>
@@ -142,7 +144,7 @@
                 android:id="@+id/txtDropped2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="In Progress"
+                android:text=""
                 android:textColor="@color/grey"
                 android:textStyle="bold"
                 android:textSize="15dp"/>
@@ -155,13 +157,14 @@
                 android:textColor="@color/grey"
                 android:textStyle="bold"
                 android:textSize="20dp"
-                android:layout_marginTop="60dp"/>
+                android:layout_marginTop="60dp"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/txtDropAtHome2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="In Progress"
+                android:text=""
                 android:textColor="@color/grey"
                 android:textStyle="normal"
                 android:textSize="15dp"/>

@@ -408,7 +408,6 @@ public class DriverFragmentProfile extends Fragment {
 
     public void fillInfoFields() {
 
-
         firstName = userDriver.getFirstName();
         lastName = userDriver.getLastName();
         phoneNumber = userDriver.getContactNumber();

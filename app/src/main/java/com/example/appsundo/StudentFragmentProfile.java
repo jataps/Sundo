@@ -147,7 +147,6 @@ public class StudentFragmentProfile extends Fragment {
         barangayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         barangaySpinner.setAdapter(barangayAdapter);
 
-
         infoIdRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

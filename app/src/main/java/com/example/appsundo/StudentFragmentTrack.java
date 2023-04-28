@@ -9,10 +9,12 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
+import android.renderscript.Sampler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +39,13 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -91,13 +98,29 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
     private GoogleMap mGoogleMap;
     private FusedLocationProviderClient mLocationProvider;
     private Polyline mPolyline;
-    private Marker marker;
+    private Marker marker, markerStudent;
+
+    private String status;
+    private String studentCode;
+    private String driverCode;
+    private String studentUid;
+
+    private String driverUid;
 
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
     private Handler handler;
 
+    private User student;;
+    private User driver;
+
+    private Double driverLat;
+    private Double driverLong;
+
+    private LatLng latLngDriver;
+
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,9 +132,24 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(this);
 
+        studentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         mLocationProvider = LocationServices.getFusedLocationProviderClient(getActivity());
 
         return view;
+    }
+
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        mMapView.onPause();
+
+        handler.removeCallbacksAndMessages(null);
+        mLocationProvider.removeLocationUpdates(locationCallback);
+
     }
 
     @Override
@@ -119,6 +157,131 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
         super.onResume();
 
         mMapView.onResume();
+
+        /*
+        sRefListener = (new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                status = String.valueOf(snapshot.getValue());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+        onlineListener = (new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                driverLat = Double.parseDouble(String.valueOf(snapshot.child("latitude").getValue()));
+                driverLong = Double.parseDouble(String.valueOf(snapshot.child("longitude").getValue()));
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        driverListener = (new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                //driverUid = String.valueOf(snapshot.child("UID").getValue());
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                    driverCode = String.valueOf(dataSnapshot.getKey());
+                    driverUid = String.valueOf(dataSnapshot.child("UID").getValue());
+
+
+                    mRef = dbRef.child("USER_INFORMATION").child("STUDENT");
+                    mRef.addValueEventListener(mRefListener);
+
+
+
+
+                }
+
+
+
+                onlineRef = dbRef.child("ONLINE_DRIVER").child(driverCode).child("CURRENT_LOCATION");
+
+                studentRef.addValueEventListener(studentListener);
+
+                onlineRef.addValueEventListener(onlineListener);
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        studentListener = (new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                status = String.valueOf(snapshot.getValue());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        mRefListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                    student = dataSnapshot.getValue(User.class);
+
+                    if (student.getUid().equals(studentUid)) {
+                        studentCode = String.valueOf(dataSnapshot.child("accountCode").getValue());
+                        student = null;
+
+                        sRef = dbRef.child("USERS").child("DRIVER").child(driverUid).child("ASSIGNED_STUDENT").child(studentCode).child("status");
+
+                        sRef.addValueEventListener(sRefListener);
+
+                        studentRef = dbRef.child("USERS").child("DRIVER").child(driverUid).child("ASSIGNED_STUDENT").child(studentCode).child("status");
+
+
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        };
+
+
+        driverRef = dbRef.child("USERS").child("STUDENT").child(studentUid).child("ASSIGNED_DRIVER");
+
+
+        driverRef.addValueEventListener(driverListener);
+
+        */
 
         handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -141,36 +304,29 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
                 super.onLocationResult(locationResult);
 
                 Location location = locationResult.getLastLocation();
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                LatLng latLngStudent = new LatLng(location.getLatitude(), location.getLongitude());
+
 
                 if (marker != null) {
                     marker.remove();
                 }
 
                 MarkerOptions markerOptions = new MarkerOptions()
-                        .position(latLng)
-                        .title("Current Location");
+                        .position(latLngStudent)
+                        .title("Student Location");
 
                 marker = mGoogleMap.addMarker(markerOptions);
 
-                //not yet working
-                mPolyline.getPoints().add(latLng);
 
-                uploadLocationToFirebase(latLng);
+                uploadLocationToFirebase(latLngStudent);
+
+
             }
         };
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
 
-        mMapView.onPause();
-
-        handler.removeCallbacksAndMessages(null);
-        mLocationProvider.removeLocationUpdates(locationCallback);
-    }
 
     @Override
     public void onDestroy() {
