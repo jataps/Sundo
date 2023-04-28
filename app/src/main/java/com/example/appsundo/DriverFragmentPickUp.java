@@ -33,49 +33,14 @@ public class DriverFragmentPickUp extends Fragment implements RecyclerViewInterf
 
     MaterialButton addStudentBtn;
 
+    ValueEventListener valueEventListener;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_driver_pick_up, container, false);
 
         pickUpStudentList = view.findViewById(R.id.pickUpStudentList);
-
-        pickUpStudentList.setHasFixedSize(true);
-        pickUpStudentList.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        list = new ArrayList<>();
-        adapter = new CustomStudentAdapter(getActivity(), list, this);
-        pickUpStudentList.setAdapter(adapter);
-
-        String uidDriver = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mRef = FirebaseDatabase.getInstance().getReference().child("USERS").child("DRIVER").child(uidDriver).child("ASSIGNED_STUDENT");
-
-        mRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                list.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
-                    student = dataSnapshot.getValue(User.class);
-                    student.setReferenceID(dataSnapshot.getKey());
-
-                    if(student.getStatus().equals("WAITING")) {
-                        list.add(student);
-                        Collections.sort(list);
-                    }
-
-                }
-
-                adapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         // Inflate the layout for this fragment
         return view;
@@ -101,7 +66,61 @@ public class DriverFragmentPickUp extends Fragment implements RecyclerViewInterf
         intent.putExtra("ACCOUNT_CODE", list.get(position).getAccountCode());
 
         startActivity(intent);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        pickUpStudentList.setHasFixedSize(true);
+        pickUpStudentList.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        list = new ArrayList<>();
+        adapter = new CustomStudentAdapter(getActivity(), list, this);
+        pickUpStudentList.setAdapter(adapter);
+
+        String uidDriver = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mRef = FirebaseDatabase.getInstance().getReference().child("USERS").child("DRIVER").child(uidDriver).child("ASSIGNED_STUDENT");
+
+        valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                list.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                    student = dataSnapshot.getValue(User.class);
+                    student.setReferenceID(dataSnapshot.getKey());
+
+                    if (student.getStatus().equals("WAITING")) {
+                        list.add(student);
+                        Collections.sort(list);
+                    }
+
+                }
+
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        };
+
+        mRef.addValueEventListener(valueEventListener);
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (valueEventListener != null) {
+            mRef.removeEventListener(valueEventListener);
+        }
 
     }
 }

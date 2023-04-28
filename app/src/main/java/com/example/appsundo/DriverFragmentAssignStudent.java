@@ -31,6 +31,8 @@ public class DriverFragmentAssignStudent extends Fragment implements RecyclerVie
     ArrayList<User> list;
     MaterialButton addStudentBtn;
 
+    ValueEventListener valueEventListener;
+
     User user;
 
     @Override
@@ -40,42 +42,6 @@ public class DriverFragmentAssignStudent extends Fragment implements RecyclerVie
 
         allStudentList = view.findViewById(R.id.allStudentList);
         addStudentBtn = view.findViewById(R.id.addStudentBtn);
-
-        mRef = FirebaseDatabase.getInstance().getReference().child("USER_INFORMATION").child("STUDENT");
-
-        allStudentList.setHasFixedSize(true);
-        allStudentList.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        list = new ArrayList<>();
-        adapter = new CustomStudentAdapter(getActivity(), list, this);
-        allStudentList.setAdapter(adapter);
-
-
-        mRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                list.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
-                    user = dataSnapshot.getValue(User.class);
-                    user.setReferenceID(dataSnapshot.getKey());
-
-                    if(user.getDRIVER_ASSIGNED() == null) {
-                        list.add(user);
-                        Collections.sort(list);
-                    }
-
-                }
-                adapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         addStudentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,5 +77,58 @@ public class DriverFragmentAssignStudent extends Fragment implements RecyclerVie
 
         startActivity(intent);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        allStudentList.setHasFixedSize(true);
+        allStudentList.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        list = new ArrayList<>();
+        adapter = new CustomStudentAdapter(getActivity(), list, this);
+        allStudentList.setAdapter(adapter);
+
+        mRef = FirebaseDatabase.getInstance().getReference().child("USER_INFORMATION").child("STUDENT");
+        valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                list.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                    user = dataSnapshot.getValue(User.class);
+                    user.setReferenceID(dataSnapshot.getKey());
+
+                    if (user.getDRIVER_ASSIGNED() == null) {
+                        list.add(user);
+                        Collections.sort(list);
+                    }
+
+                }
+
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        };
+
+        mRef.addValueEventListener(valueEventListener);
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (valueEventListener != null) {
+            mRef.removeEventListener(valueEventListener);
+        }
     }
 }

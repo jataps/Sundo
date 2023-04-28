@@ -94,7 +94,13 @@ public class DriverPickupStudent extends AppCompatActivity implements RecyclerVi
 
                 driverRef.child("status").setValue("ONBOARD");
 
-                getDriverInfo(ref, uid);
+                Toast.makeText(DriverPickupStudent.this, "Student Successfully Picked Up", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getApplicationContext(),ContainerDriver.class);
+                intent.putExtra("fragment_to_display","fragment_service");
+                intent.putExtra("service_to_display","pickup_student");
+                startActivity(intent);
+                finish();
 
             }
         });
@@ -123,30 +129,10 @@ public class DriverPickupStudent extends AppCompatActivity implements RecyclerVi
                                 // User with the given UID exists in DRIVER
 
                                 //studentList.clear();
-                                userDriver = snapshot.getValue(User.class);
+                                //userDriver = snapshot.getValue(User.class);
 
-                                /*
-                                DatabaseReference studentRef = dbRef.child("USERS").child("STUDENT").child(uidStudent).child("PICKUP_STUDENTS").child(userDriver.getAccountCode());
 
-                                studentRef.child("UID").setValue(userDriver.getUid());
-                                studentRef.child("firstName").setValue(userDriver.getFirstName());
-                                studentRef.child("lastName").setValue(userDriver.getLastName());
-                                studentRef.child("contactNumber").setValue(userDriver.getContactNumber());
-                                studentRef.child("province").setValue(userDriver.getADDRESS().getProvince());
-                                studentRef.child("city").setValue(userDriver.getADDRESS().getCity());
-                                studentRef.child("barangay").setValue(userDriver.getADDRESS().getBarangay());
 
-                                dbRef.child("USER_INFORMATION").child("STUDENT").child(infoId).child("DRIVER_ASSIGNED").setValue(userDriver.getAccountCode());
-
-                                 */
-
-                                Toast.makeText(DriverPickupStudent.this, "Student Successfully Picked Up", Toast.LENGTH_SHORT).show();
-
-                                Intent intent = new Intent(getApplicationContext(),ContainerDriver.class);
-                                intent.putExtra("fragment_to_display","fragment_service");
-                                intent.putExtra("service_to_display","pickup_student");
-                                startActivity(intent);
-                                finish();
 
                             } else {
 

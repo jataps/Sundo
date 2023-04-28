@@ -94,7 +94,14 @@ public class DriverOnBoardStudent extends AppCompatActivity implements RecyclerV
 
                 driverRef.child("status").setValue("ARRIVED");
 
-                getDriverInfo(ref, uid);
+
+                Toast.makeText(DriverOnBoardStudent.this, "Student Successfully Arrived", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getApplicationContext(),ContainerDriver.class);
+                intent.putExtra("fragment_to_display","fragment_service");
+                intent.putExtra("service_to_display","onboard_student");
+                startActivity(intent);
+                finish();
 
             }
         });
@@ -138,13 +145,7 @@ public class DriverOnBoardStudent extends AppCompatActivity implements RecyclerV
 
 
  */
-                                Toast.makeText(DriverOnBoardStudent.this, "Student Successfully Arrived", Toast.LENGTH_SHORT).show();
 
-                                Intent intent = new Intent(getApplicationContext(),ContainerDriver.class);
-                                intent.putExtra("fragment_to_display","fragment_service");
-                                intent.putExtra("service_to_display","onboard_student");
-                                startActivity(intent);
-                                finish();
 
                             } else {
 

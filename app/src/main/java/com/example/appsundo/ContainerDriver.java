@@ -89,8 +89,8 @@ public class ContainerDriver extends AppCompatActivity {
                         replaceFragment(new DriverFragmentService(), "service_to_display", message );
                     } else
                         replaceFragment(new DriverFragmentService());
-
                     break;
+
                 case R.id.navRecordsDriver:
                     replaceFragment(new DriverFragmentRecords(), "service_to_display", message);
                     break;
@@ -114,11 +114,11 @@ public class ContainerDriver extends AppCompatActivity {
         Bundle args = new Bundle();
         args.putString(from, mMessage);
 
-        getIntent().removeExtra(from);
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragment.setArguments(args);
+
+        getIntent().removeExtra(from);
 
         fragmentTransaction.replace(R.id.frame_layout_driver, fragment);
         fragmentTransaction.commit();

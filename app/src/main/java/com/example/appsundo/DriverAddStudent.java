@@ -92,15 +92,15 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
                 DatabaseReference driverRef = ref.child("USERS").child("DRIVER").child(uid).child("ASSIGNED_STUDENT").child(accountCode);
                 //DatabaseReference driverRef2 = ref.child("USERS").child("DRIVER").child(uid).child("PICKUP_STUDENT").child(accountCode);
 
+                driverRef.child("status").setValue("WAITING");
                 driverRef.child("UID").setValue(uidStudent);
                 driverRef.child("firstName").setValue(firstName);
                 driverRef.child("lastName").setValue(lastName);
                 driverRef.child("ADDRESS/province").setValue(province);
                 driverRef.child("ADDRESS/city").setValue(city);
                 driverRef.child("ADDRESS/barangay").setValue(barangay);
-                driverRef.child("ADDRESS/streetAddress").setValue(barangay);
+                driverRef.child("ADDRESS/streetAddress").setValue(stAddress);
                 driverRef.child("contactNumber").setValue(contactNumber);
-                driverRef.child("status").setValue("WAITING");
 
                 getDriverInfo(ref, uid);
 

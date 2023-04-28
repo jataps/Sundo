@@ -69,7 +69,6 @@ public class DriverFragmentService extends Fragment {
 
         new TabLayoutMediator(tabLayout, viewPager, ((tab, position) -> tab.setText(finalTitles[position]))).attach();
 
-
         if (args != null && args.containsKey("service_to_display")) {
 
             String message = args.getString("service_to_display");
