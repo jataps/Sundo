@@ -39,13 +39,7 @@
             android:value="AIzaSyAqm04uBwJCxGsXU7oP0Y_DgpzYiLiOCXA" />
 
         <activity
-            android:name=".RegisterStudent"
-            android:exported="false" />
-        <activity
             android:name=".RegisterMain"
-            android:exported="false" />
-        <activity
-            android:name=".RegisterDriver"
             android:exported="false" />
         <activity
             android:name=".ForgotPassword"

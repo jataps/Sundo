@@ -103,16 +103,18 @@ public class LogIn extends AppCompatActivity {
 
                                 // Check if email is verified
                                 if(!(mAuth.getCurrentUser().isEmailVerified())){
+                                    progressBar.setVisibility(View.GONE);
                                     Toast.makeText(getApplicationContext(), "Please verify your email.", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
 
                                 String uid = mAuth.getCurrentUser().getUid();
-
                                 filterUserType(uid);
+                                progressBar.setVisibility(View.GONE);
 
                             } else {
                                 // If log in fails, display a message to the user.
+                                progressBar.setVisibility(View.GONE);
                                 Toast.makeText(LogIn.this, task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             }
@@ -151,23 +153,17 @@ public class LogIn extends AppCompatActivity {
                     driverInfoRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.hasChild("INFO_ID")) {
-                                // "INFO_ID" exists for this user
-                                Object infoIdValue = snapshot.child("INFO_ID").getValue();
+                            if (snapshot.hasChild("COMPLETE_FORM")) {
+                                Object infoIdValue = snapshot.child("COMPLETE_FORM").getValue();
 
                                 Intent driverIntent;
 
                                 if (infoIdValue.equals(false)) {
-
                                     driverIntent = new Intent(getApplicationContext(), FillUpForm.class);
-
                                 } else {
-
                                     driverIntent = new Intent(getApplicationContext(), ContainerDriver.class);
-
                                 }
 
-                                storeFCMtoken(uid);
                                 startActivity(driverIntent);
                                 finish();
 
@@ -198,29 +194,22 @@ public class LogIn extends AppCompatActivity {
                                 studentInfoRef.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        if (snapshot.hasChild("INFO_ID")) {
-                                            // "INFO_ID" exists for this user
-                                            Object infoIdValue = snapshot.child("INFO_ID").getValue();
+                                        if (snapshot.hasChild("COMPLETE_FORM")) {
+                                            Object infoIdValue = snapshot.child("COMPLETE_FORM").getValue();
 
                                             Intent studentIntent;
 
                                             if (infoIdValue.equals(false)) {
-
                                                 studentIntent = new Intent(getApplicationContext(), FillUpForm.class);
-
                                             } else {
-
                                                 studentIntent = new Intent(getApplicationContext(), ContainerStudent.class);
-
                                             }
 
-                                            storeFCMtoken(uid);
                                             startActivity(studentIntent);
                                             finish();
 
 
                                         } else {
-                                            // "INFO_ID" does not exist for this user
                                             Toast.makeText(LogIn.this, "Error bro student", Toast.LENGTH_SHORT).show();
                                         }
                                     }
@@ -252,27 +241,6 @@ public class LogIn extends AppCompatActivity {
 
     }
 
-    public void storeFCMtoken(String uid){
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-                if (!task.isSuccessful()) {
-                    Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                    return;
-                }
-
-                // Get new FCM registration token
-                String token = task.getResult();
-
-                FirebaseDatabase.getInstance().getReference().child("TOKEN").child(uid).child("fcmToken").setValue(token);
-
-
-            }
-        });
-
-
-
-    }
 
     @Override
     public void onBackPressed() {

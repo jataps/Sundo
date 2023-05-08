@@ -103,6 +103,7 @@ public class StudentFragmentHome extends Fragment {
                                                     imageView2.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.red));
                                                     imageView3.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.red));
                                                     break;
+
                                                 case "ONBOARD":
                                                     imageView1.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.green));
                                                     imageView2.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.green));

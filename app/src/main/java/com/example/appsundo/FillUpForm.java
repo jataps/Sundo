@@ -142,7 +142,6 @@ public class FillUpForm extends AppCompatActivity {
         getHashMaps();
 
         //region declaration of elements
-
         ArrayList<TextInputEditText> editTextArray = new ArrayList<>();
         ArrayList<TextInputEditText> editNumberArray = new ArrayList<>();
 
@@ -177,19 +176,6 @@ public class FillUpForm extends AppCompatActivity {
         citySpinner = findViewById(R.id.citySpinner);
         barangaySpinner = findViewById(R.id.barangaySpinner);
 
-        timeInSpinner1 = findViewById(R.id.timeInSpinner1);
-        timeInSpinner2 = findViewById(R.id.timeInSpinner2);
-        timeInSpinner3 = findViewById(R.id.timeInSpinner3);
-        timeInSpinner4 = findViewById(R.id.timeInSpinner4);
-        timeInSpinner5 = findViewById(R.id.timeInSpinner5);
-
-        timeOutSpinner1 = findViewById(R.id.timeOutSpinner1);
-        timeOutSpinner2 = findViewById(R.id.timeOutSpinner2);
-        timeOutSpinner3 = findViewById(R.id.timeOutSpinner3);
-        timeOutSpinner4 = findViewById(R.id.timeOutSpinner4);
-        timeOutSpinner5 = findViewById(R.id.timeOutSpinner5);
-
-
         CustomRulesFunctions crf = new CustomRulesFunctions();
         crf.restrictText(editTextArray);
         crf.restrictNumber(editNumberArray);
@@ -206,6 +192,25 @@ public class FillUpForm extends AppCompatActivity {
 
                 } else {
 
+                    dbRef.child("USERS").child("DRIVER").orderByChild("UID").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                // User with the given UID exists in DRIVER
+                                userType = "DRIVER";
+                                //uidText.setText(userType);
+                                vehicleDetailShow(View.VISIBLE);
+                            } else {
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Handle error
+                        }
+                    });
+
                 }
             }
 
@@ -216,23 +221,6 @@ public class FillUpForm extends AppCompatActivity {
             }
         });
 
-        dbRef.child("USERS").child("DRIVER").orderByChild("UID").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    // User with the given UID exists in DRIVER
-                    userType = "DRIVER";
-                    //uidText.setText(userType);
-                    vehicleDetailShow(View.VISIBLE);
-                } else {
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Handle error
-            }
-        });
 
         submitBtnStudent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -320,18 +308,10 @@ public class FillUpForm extends AppCompatActivity {
                 }
 
 
-                DatabaseReference userRef = dbRef.child("USERS").child(userType).child(uid).child("INFO_ID");
                 DatabaseReference recordRef = dbRef.child("USER_INFORMATION").child(userType);
-
-                String accountCode = uid.substring(6, 13).toUpperCase();
-
-                String requestID = recordRef.push().getKey();
-
-                userRef.setValue(requestID);
 
                 HashMap map = new HashMap();
                 map.put("uid", uid);
-                map.put("accountCode", accountCode);
                 map.put("lastName", lastName);
                 map.put("firstName", firstName);
                 map.put("contactNumber", contactNumber);
@@ -353,7 +333,8 @@ public class FillUpForm extends AppCompatActivity {
                     map.put("VEHICLE/status", "active");
                 }
 
-                recordRef.child(requestID).updateChildren(map);
+                recordRef.child(uid).updateChildren(map);
+                dbRef.child("USERS").child(userType).child(uid).child("COMPLETE_FORM").setValue(true);
 
                 Toast.makeText(FillUpForm.this, "Register Successful", Toast.LENGTH_SHORT).show();
 
@@ -367,6 +348,7 @@ public class FillUpForm extends AppCompatActivity {
             }
         });
 
+
         ArrayAdapter<CharSequence> provinceAdapter = ArrayAdapter.createFromResource(this, R.array.array_provinces, R.layout.spinner_layout);
         provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         provinceSpinner.setAdapter(provinceAdapter);
@@ -378,46 +360,6 @@ public class FillUpForm extends AppCompatActivity {
         ArrayAdapter<CharSequence> barangayAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout, new ArrayList<>());
         barangayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         barangaySpinner.setAdapter(barangayAdapter);
-
-        ArrayAdapter<CharSequence> timeInAdapter1 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
-        timeInAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        timeInSpinner1.setAdapter(timeInAdapter1);
-
-        ArrayAdapter<CharSequence> timeInAdapter2 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
-        timeInAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        timeInSpinner2.setAdapter(timeInAdapter2);
-
-        ArrayAdapter<CharSequence> timeInAdapter3 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
-        timeInAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        timeInSpinner3.setAdapter(timeInAdapter3);
-
-        ArrayAdapter<CharSequence> timeInAdapter4 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
-        timeInAdapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        timeInSpinner4.setAdapter(timeInAdapter4);
-
-        ArrayAdapter<CharSequence> timeInAdapter5 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
-        timeInAdapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        timeInSpinner5.setAdapter(timeInAdapter5);
-
-        ArrayAdapter<CharSequence> timeOutAdapter1 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
-        timeOutAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        timeOutSpinner1.setAdapter(timeOutAdapter1);
-
-        ArrayAdapter<CharSequence> timeOutAdapter2 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
-        timeOutAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        timeOutSpinner2.setAdapter(timeOutAdapter2);
-
-        ArrayAdapter<CharSequence> timeOutAdapter3 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
-        timeOutAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        timeOutSpinner3.setAdapter(timeOutAdapter3);
-
-        ArrayAdapter<CharSequence> timeOutAdapter4 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
-        timeOutAdapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        timeOutSpinner4.setAdapter(timeOutAdapter4);
-
-        ArrayAdapter<CharSequence> timeOutAdapter5 = ArrayAdapter.createFromResource(this, R.array.array_timeIn, R.layout.spinner_layout);
-        timeOutAdapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        timeOutSpinner5.setAdapter(timeOutAdapter5);
 
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -464,128 +406,6 @@ public class FillUpForm extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 selectedBarangay = (String) adapterView.getItemAtPosition(i);
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        timeInSpinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                selectedTimeIn1 = (String) adapterView.getItemAtPosition(i);
-                // Update the middle spinner's items based on the selected value of the outer spinner
-
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        timeInSpinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedTimeIn2 = (String) adapterView.getItemAtPosition(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        timeInSpinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedTimeIn3 = (String) adapterView.getItemAtPosition(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        timeInSpinner4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedTimeIn4 = (String) adapterView.getItemAtPosition(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        timeInSpinner5.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedTimeIn5 = (String) adapterView.getItemAtPosition(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        timeOutSpinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedTimeOut1 = (String) adapterView.getItemAtPosition(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        timeOutSpinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedTimeOut2 = (String) adapterView.getItemAtPosition(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        timeOutSpinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedTimeOut3 = (String) adapterView.getItemAtPosition(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        timeOutSpinner4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedTimeOut4 = (String) adapterView.getItemAtPosition(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        timeOutSpinner5.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedTimeOut5 = (String) adapterView.getItemAtPosition(i);
-            }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 

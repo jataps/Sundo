@@ -116,7 +116,7 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
                 String status;
                 String timeString;
 
-                //createnotif();
+                createnotif();
 
                 if (isGpsON) {
                     gpsBtnOn(false);
@@ -365,7 +365,6 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
         super.onLowMemory();
         mMapView.onLowMemory();
     }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
