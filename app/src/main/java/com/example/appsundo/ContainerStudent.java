@@ -1,23 +1,48 @@
 package com.example.appsundo;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import com.example.appsundo.databinding.ActivityContainerStudentBinding;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class ContainerStudent extends AppCompatActivity {
 
+    ActivityResultLauncher<String[]> mPermissionResultLauncher;
+    private boolean isLocationPermissionGranted = false;
     ActivityContainerStudentBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mPermissionResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
+            @Override
+            public void onActivityResult(Map<String, Boolean> result) {
+
+                if (result.get(Manifest.permission.ACCESS_FINE_LOCATION) != null) {
+                    isLocationPermissionGranted = result.get(Manifest.permission.ACCESS_FINE_LOCATION);
+                }
+
+            }
+        });
+
+        requestPermission();
 
         binding = ActivityContainerStudentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -75,6 +100,24 @@ public class ContainerStudent extends AppCompatActivity {
             return true;
 
         });
+
+    }
+
+    private void requestPermission() {
+        isLocationPermissionGranted = ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED;
+
+        List<String> permissionRequest = new ArrayList<>();
+
+        if (!isLocationPermissionGranted) {
+            permissionRequest.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+
+        if (!permissionRequest.isEmpty()) {
+            mPermissionResultLauncher.launch(permissionRequest.toArray(new String[0]));
+        }
 
     }
 

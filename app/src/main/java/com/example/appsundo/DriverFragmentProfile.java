@@ -78,7 +78,7 @@ public class DriverFragmentProfile extends Fragment {
     private String selectedProvince;
     private String selectedCity;
     private String selectedBarangay;
-    private String infoID;
+
     private String firstName;
     private String lastName;
     private String phoneNumber;
@@ -91,7 +91,7 @@ public class DriverFragmentProfile extends Fragment {
     private User userDriver;
 
     private DatabaseReference dbRef;
-    private DatabaseReference infoIdRef;
+    //private DatabaseReference infoIdRef;
     private DatabaseReference profileRef;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -101,7 +101,6 @@ public class DriverFragmentProfile extends Fragment {
 
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         dbRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://sundo-app-44703-default-rtdb.firebaseio.com/");
-        infoIdRef = dbRef.child("USERS").child("DRIVER").child(uid).child("INFO_ID");
 
         btnEditProfile = view.findViewById(R.id.btnEditProfile);
         btnSaveProfile = view.findViewById(R.id.btnSaveProfile);
@@ -134,7 +133,6 @@ public class DriverFragmentProfile extends Fragment {
 
         getHashMaps();
 
-
         provinceAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.array_provinces, R.layout.spinner_layout);
         provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         provinceSpinner.setAdapter(provinceAdapter);
@@ -149,6 +147,27 @@ public class DriverFragmentProfile extends Fragment {
         barangayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         barangaySpinner.setAdapter(barangayAdapter);
 
+        profileRef = dbRef.child("USER_INFORMATION").child("DRIVER").child(uid);
+        profileRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+
+                    userDriver = snapshot.getValue(User.class);
+                    fillInfoFields();
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+/*
         infoIdRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -157,7 +176,7 @@ public class DriverFragmentProfile extends Fragment {
 
                     infoID = String.valueOf(snapshot.getValue());
 
-                    profileRef = dbRef.child("USER_INFORMATION").child("DRIVER").child(infoID);
+                    profileRef = dbRef.child("USER_INFORMATION").child("DRIVER").child(uid);
 
                     profileRef.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -191,6 +210,8 @@ public class DriverFragmentProfile extends Fragment {
 
             }
         });
+
+ */
 
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -307,7 +328,6 @@ public class DriverFragmentProfile extends Fragment {
                     return;
                 }
 
-
                 if (TextUtils.isEmpty(emergName)) {
                     txtEmergencyName.setError("Enter valid name !");
                     txtEmergencyName.requestFocus();
@@ -319,7 +339,6 @@ public class DriverFragmentProfile extends Fragment {
                     txtEmergencyNumber.requestFocus();
                     return;
                 }
-
 
                 if (selectedProvince.equals("Select your province")) {
                     provinceText.setError("Select province!");
@@ -345,7 +364,6 @@ public class DriverFragmentProfile extends Fragment {
                     return;
                 }
 
-
                 if (TextUtils.isEmpty(seatingCapacity)) {
                     txtSeatingCapacity.setError("Enter vehicle seating capacity!");
                     txtSeatingCapacity.requestFocus();
@@ -357,6 +375,7 @@ public class DriverFragmentProfile extends Fragment {
                     txtPlateNumber.requestFocus();
                     return;
                 }
+
 
                 HashMap map = new HashMap();
                 map.put("uid", uid);
@@ -379,11 +398,13 @@ public class DriverFragmentProfile extends Fragment {
                 profileRef.updateChildren(map);
 
                 enableFields(false);
+
                 btnSaveProfile.setVisibility(View.GONE);
                 btnCancelSave.setVisibility(View.GONE);
                 btnEditProfile.setVisibility(View.VISIBLE);
 
             }
+
         });
 
         signOutBtnDriver.setOnClickListener(new View.OnClickListener() {
@@ -400,7 +421,6 @@ public class DriverFragmentProfile extends Fragment {
 
             }
         });
-
 
         // Inflate the layout for this fragment
         return view;

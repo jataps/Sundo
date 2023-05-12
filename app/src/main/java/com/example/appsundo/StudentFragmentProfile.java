@@ -89,10 +89,6 @@ public class StudentFragmentProfile extends Fragment {
     private DatabaseReference profileRef;
 
 
-
-    private String info_id;
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -102,8 +98,6 @@ public class StudentFragmentProfile extends Fragment {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         dbRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://sundo-app-44703-default-rtdb.firebaseio.com/");
-        infoIdRef = dbRef.child("USERS").child("STUDENT").child(uid).child("INFO_ID");
-        //DatabaseReference info_ref = ref.child("USERS").child("STUDENT").child(uid).child("INFO_ID");
 
         btnEditProfile = view.findViewById(R.id.btnEditProfile);
         btnSaveProfile = view.findViewById(R.id.btnSaveProfile);
@@ -147,39 +141,14 @@ public class StudentFragmentProfile extends Fragment {
         barangayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         barangaySpinner.setAdapter(barangayAdapter);
 
-        infoIdRef.addValueEventListener(new ValueEventListener() {
+        profileRef = dbRef.child("USER_INFORMATION").child("STUDENT").child(uid);
+        profileRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    // User with the given UID exists in DRIVER
-
-                    infoID = String.valueOf(snapshot.getValue());
-
-                    profileRef = dbRef.child("USER_INFORMATION").child("STUDENT").child(infoID);
-
-                    profileRef.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.exists()) {
-                                // User with the given UID exists in STUDENT
-
-                                userStudent = snapshot.getValue(User.class);
-
-                                fillInfoFields();
-
-                            } else {
-
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-
-                } else {
-
+                    // User with the given UID exists in STUDENT
+                    userStudent = snapshot.getValue(User.class);
+                    fillInfoFields();
                 }
             }
 
@@ -197,7 +166,6 @@ public class StudentFragmentProfile extends Fragment {
 
                 // Update the middle spinner's items based on the selected value of the outer spinner
                 cityItems = Arrays.asList(getResources().getStringArray(provinces.get(selectedProvince)));
-
                 cityAdapter.clear();
                 cityAdapter.addAll(cityItems);
 
@@ -277,12 +245,9 @@ public class StudentFragmentProfile extends Fragment {
                 String firstName = String.valueOf(txtfieldFirstName.getText());
                 String lastName = String.valueOf(txtfieldLastName.getText());
                 String contactNumber = String.valueOf(txtfieldPhone.getText());
-
                 String emergName = String.valueOf(txtEmergencyName.getText());
                 String emergNumber = String.valueOf(txtEmergencyNumber.getText());
-
                 String addNote = String.valueOf(txtAddressNote.getText());
-
 
                 if (TextUtils.isEmpty(firstName)) {
                     txtfieldFirstName.setError("Enter first name!");
@@ -360,8 +325,8 @@ public class StudentFragmentProfile extends Fragment {
                 btnSaveProfile.setVisibility(View.GONE);
                 btnCancelSave.setVisibility(View.GONE);
                 btnEditProfile.setVisibility(View.VISIBLE);
-
             }
+
         });
 
         signOutBtnStudent.setOnClickListener(new View.OnClickListener() {
@@ -378,10 +343,6 @@ public class StudentFragmentProfile extends Fragment {
 
             }
         });
-
-        //emailText = view.findViewById(R.id.emailText);
-        //get info_id
-        //getInfoID(info_ref);
 
         // Inflate the layout for this fragment
         return view;
@@ -451,145 +412,5 @@ public class StudentFragmentProfile extends Fragment {
         provinces = location.getProvinces();
 
     }
-    /*
-    void getInfoID (DatabaseReference info_ref) {
-
-        info_ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                info_id = String.valueOf(snapshot.getValue());
-
-                emailText.setText(info_id);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
-*/
-
-
-/*
-    void filterUserType (String uid) {
-        // Login successful, get the user's UID
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-
-        DatabaseReference studentRef = ref.child("USERS").child("STUDENT");
-        DatabaseReference driverRef = ref.child("USERS").child("DRIVER");
-
-
-        // Check if the user is a student or a driver
-        driverRef.orderByChild("UID").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    // User with the given UID exists in DRIVER
-
-                    DatabaseReference driverInfoRef = driverRef.child(uid);
-
-                    driverInfoRef.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.hasChild("INFO_ID")) {
-                                // "INFO_ID" exists for this user
-                                Object infoIdValue = snapshot.child("INFO_ID").getValue();
-
-                                Intent driverIntent;
-
-                                if (infoIdValue.equals("false")) {
-
-                                    driverIntent = new Intent(getApplicationContext(), FillUpForm.class);
-
-                                } else {
-
-                                    driverIntent = new Intent(getApplicationContext(), HomeDriver.class);
-
-                                }
-
-                                startActivity(driverIntent);
-                                finish();
-
-                            } else {
-
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-
-                } else {
-                    // User with the given UID does not exist in DRIVER
-                    // Check if it exists in STUDENT
-                    studentRef.orderByChild("UID").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.exists()) {
-                                // User is a STUDENT
-
-                                DatabaseReference studentInfoRef = studentRef.child(uid);
-
-                                studentInfoRef.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        if (snapshot.hasChild("INFO_ID")) {
-                                            // "INFO_ID" exists for this user
-                                            Object infoIdValue = snapshot.child("INFO_ID").getValue();
-
-                                            Intent studentIntent;
-
-                                            if (infoIdValue.equals(false)) {
-
-                                                studentIntent = new Intent(getApplicationContext(), FillUpForm.class);
-
-                                            } else {
-
-                                                studentIntent = new Intent(getApplicationContext(), ContainerStudent.class);
-
-                                            }
-
-                                            startActivity(studentIntent);
-                                            finish();
-
-
-                                        } else {
-                                            // "INFO_ID" does not exist for this user
-
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-
-                            } else {
-                                // User with the given UID does not exist in either DRIVER or STUDENT node
-
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            // Handle error
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Handle error
-            }
-        });
-
-    }
-*/
 
 }

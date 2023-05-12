@@ -73,7 +73,6 @@ public class DriverFragmentAssignStudent extends Fragment implements RecyclerVie
         intent.putExtra("CITY", list.get(position).getADDRESS().getCity());
         intent.putExtra("BARANGAY", list.get(position).getADDRESS().getBarangay());
         intent.putExtra("ST_ADDRESS", list.get(position).getADDRESS().getStreetAddress());
-        intent.putExtra("ACCOUNT_CODE", list.get(position).getAccountCode());
 
         startActivity(intent);
 
