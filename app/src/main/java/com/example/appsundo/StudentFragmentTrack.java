@@ -4,17 +4,22 @@ import android.Manifest;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultCallback;
@@ -23,6 +28,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -51,6 +58,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -125,6 +134,7 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
 
     private ValueAnimator animator;
 
+    private Circle radiusCircle, radiusClosestCircle;
     private MapView mMapView;
     private GoogleMap mGoogleMap;
     private FusedLocationProviderClient mLocationProvider;
@@ -151,7 +161,11 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
 
     ActivityResultLauncher<String[]> mPermissionResultLauncher;
     private boolean isLocationPermissionGranted = false;
-
+    private boolean isInsideRadius= false;
+    private boolean isInsideClosestRadius= false;
+    final float USER_RADIUS = 200;
+    final float USER_CLOSEST_RADIUS = 30;
+    private int triggerCount = 0;
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
 
@@ -159,12 +173,6 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_student_track, container, false);
-
- /*
-        geofencingClient = LocationServices.getGeofencingClient(getActivity());
-        geofenceHelper = new GeofenceHelper(getActivity());
-
-  */
 
         mPermissionResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
             @Override
@@ -215,15 +223,16 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
             @Override
             public void run() {
                 moveCameraToCurrentLocation();
+                requestLocationUpdates();
                 handler.postDelayed(this, 60000);
             }
-        }, 60000);
+        }, 500);
 
         locationRequest = new LocationRequest
                 .Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
                 .setWaitForAccurateLocation(false)
-                .setMinUpdateIntervalMillis(5000)
-                .setMaxUpdateDelayMillis(10000)
+                .setMinUpdateIntervalMillis(1000)
+                .setMaxUpdateDelayMillis(1200)
                 .build();
 
         locationCallback = new LocationCallback() {
@@ -233,16 +242,13 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
 
                 //this should be continuously updating
                 fetchDriverLocation(driverUid);
-                LocationStatusCheck();
 
                 MarkerOptions markerOptionsDriver;
 
                 Location location = locationResult.getLastLocation();
-
                 LatLng latLngStudent = new LatLng(location.getLatitude(), location.getLongitude());
 
                 if (markerStudent != null) {
-                    //markerStudent.remove();
                     animateMarkerToNewPosition(markerStudent, latLngStudent);
                 } else {
                     MarkerOptions markerOptionsStudent = new MarkerOptions()
@@ -250,6 +256,25 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
                             .title("Student Location");
 
                     markerStudent = mGoogleMap.addMarker(markerOptionsStudent);
+
+                    if (triggerCount == 0){
+                        radiusCircle = mGoogleMap.addCircle(new CircleOptions()
+                                .center(latLngStudent)
+                                .radius(USER_RADIUS)
+                                .strokeWidth(2)
+                                .strokeColor(Color.BLUE)
+                                .fillColor(Color.argb( 70,174,198,207)));
+
+                        radiusClosestCircle = mGoogleMap.addCircle(new CircleOptions()
+                                .center(latLngStudent)
+                                .radius(USER_CLOSEST_RADIUS)
+                                .strokeWidth(2)
+                                .strokeColor(Color.RED)
+                                .fillColor(Color.argb( 70,255, 0, 0)));
+
+                        triggerCount++;
+                    }
+
                 }
 
                 if (driverLat != null || driverLong != null) {
@@ -267,6 +292,19 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
                         markerDriver = mGoogleMap.addMarker(markerOptionsDriver);
                     }
 
+                    if (!isInsideRadius || !isInsideClosestRadius) {
+                        Location driverLocation = new Location("");
+                        driverLocation.setLatitude(latLngDriver.latitude);
+                        driverLocation.setLongitude(latLngDriver.longitude);
+
+                        Location studentLocation = new Location("");
+                        studentLocation.setLatitude(latLngStudent.latitude);
+                        studentLocation.setLongitude(latLngStudent.longitude);
+
+                        // Check if the target location is within the specified radius of the user's location
+                        isLocationWithinRadius(studentLocation, driverLocation);
+                    }
+
                 }
 
                 uploadLocationToFirebase(latLngStudent);
@@ -274,6 +312,30 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
         };
 
     }
+
+    public void isLocationWithinRadius(Location userLocation, Location targetLocation) {
+        // Calculate the distance between the user's location and the target location
+        float distance = userLocation.distanceTo(targetLocation);
+
+        // Check if the distance is within the specified radius
+        if (distance <= USER_RADIUS && !isInsideRadius) {
+            createnotif("SERVICE IS ARRIVING", "Service is within your area. Please make the necessary preparation.");
+            isInsideRadius = !isInsideRadius;
+            radiusCircle.remove();
+        }
+
+        if (distance <= USER_CLOSEST_RADIUS && !isInsideClosestRadius){
+            createnotif("SERVICE HAS ARRIVED", "Time for school! Your service has arrived.");
+            isInsideRadius = !isInsideRadius;
+            if (radiusCircle != null) {
+                radiusCircle.remove();
+            }
+            radiusClosestCircle.remove();
+        }
+
+    }
+
+
 
     @Override
     public void onDestroy() {
@@ -321,12 +383,54 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
     }
 
     //CUSTOM FUNCTIONS
+    public void createnotif(String title, String content) {
+        String id = "myCh";
+        NotificationManager manager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = manager.getNotificationChannel(id);
+            if (channel == null) {
+                channel = new NotificationChannel(id, "Channel Title", NotificationManager.IMPORTANCE_HIGH);
+                channel.setDescription("[Channel description]");
+                channel.enableVibration(true);
+                channel.setVibrationPattern(new long[]{100, 1000, 200, 340});
+                channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+                manager.createNotificationChannel(channel);
+            }
+        }
+
+        Intent notificationIntent = new Intent(getActivity(), DriverFragmentHome.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent contentIntent = PendingIntent.getActivity(getContext(), 0, notificationIntent, 0);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), id)
+                .setSmallIcon(R.drawable.notif_icon)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.bus))
+                .setContentTitle(title)
+                .setContentText(content)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setVibrate(new long[]{100,1000,200,340})
+                .setAutoCancel(false)
+                .setTicker("Notification");
+        builder.setContentIntent(contentIntent);
+        NotificationManagerCompat m = NotificationManagerCompat.from(getActivity().getApplicationContext());
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        m.notify(1, builder.build());
+
+    }
     private void animateMarkerToNewPosition(Marker marker, LatLng newPosition) {
         if (animator != null) {
             animator.cancel();
         }
-        animator = ValueAnimator.ofObject(new StudentFragmentTrack.LatLngEvaluator(), marker.getPosition(), newPosition);
+        animator = ValueAnimator.ofObject(new LatLngEvaluator(), marker.getPosition(), newPosition);
         animator.setDuration(500); // Animation duration in milliseconds
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -404,8 +508,9 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
 
                 if(!snapshot.exists()) {
                     return;
+                } else {
+                    driverUid = snapshot.getValue(String.class);
                 }
-
 
             }
 

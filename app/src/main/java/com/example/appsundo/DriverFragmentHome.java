@@ -98,7 +98,6 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
         View view = inflater.inflate(R.layout.fragment_driver_home, container, false);
 
         driverUid = String.valueOf(FirebaseAuth.getInstance().getUid());
-        //fetchAccountCode();
 
         fetchStudentID(driverUid);
 
@@ -110,7 +109,6 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
 
         mLocationProvider = LocationServices.getFusedLocationProviderClient(getActivity());
 
-
         gpsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,7 +116,7 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
                 String status;
                 String timeString;
 
-                createnotif();
+                //createnotif();
 
                 if (isGpsON) {
                     gpsBtnOn(false);
@@ -132,7 +130,7 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
                     status = "ONLINE";
                     timeString = "TIME_IN";
 
-                    onResume();
+                    //onResume();
                 }
 
                 dbRef.child("ONLINE_DRIVER").child(driverUid).child("serviceStatus").setValue("In Transit");
@@ -186,38 +184,6 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
             mLocationProvider.requestLocationUpdates(locationRequest, locationCallback, null);
 
         }
-    }
-
-    private void fetchAccountCode() {
-
-        DatabaseReference infoIdRef = dbRef.child("USERS").child("DRIVER").child(driverUid).child("INFO_ID");
-        infoIdRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                String infoID = String.valueOf(snapshot.getValue());
-
-                DatabaseReference acctCodeRef = dbRef.child("USER_INFORMATION").child("DRIVER").child(infoID).child("accountCode");
-
-                acctCodeRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        accountCode = String.valueOf(snapshot.getValue());
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     private void uploadLocationToFirebase(LatLng latlng) {
@@ -342,7 +308,6 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
 
     public BitmapDescriptor setIcon(Activity context, int drawableID) {
 
-
         Drawable drawable = ActivityCompat.getDrawable(context, drawableID);
 
         drawable.setBounds(0, 0, 96, 96);
@@ -393,7 +358,6 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
             mLocationProvider.removeLocationUpdates(locationCallback);
         }
 
-
     }
 
     @Override
@@ -412,6 +376,7 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
         mGoogleMap = googleMap;
     }
 
+    /*
     public void createnotif() {
         String id = "myCh";
         NotificationManager manager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -455,6 +420,8 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
         m.notify(1, builder.build());
 
     }
+
+     */
 
     private void fetchStudentID(String uidDriver) {
         dbRef.child("USER_INFORMATION").child("STUDENT").orderByChild("DRIVER_ASSIGNED").equalTo(uidDriver).addValueEventListener(new ValueEventListener() {
