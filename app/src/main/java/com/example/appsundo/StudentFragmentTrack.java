@@ -318,13 +318,13 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
         float distance = userLocation.distanceTo(targetLocation);
 
         // Check if the distance is within the specified radius
-        if (distance <= USER_RADIUS && !isInsideRadius) {
+        if (distance <= USER_RADIUS && !isInsideRadius && triggerCount == 1) {
             createnotif("SERVICE IS ARRIVING", "Service is within your area. Please make the necessary preparation.");
             isInsideRadius = !isInsideRadius;
             radiusCircle.remove();
         }
 
-        if (distance <= USER_CLOSEST_RADIUS && !isInsideClosestRadius){
+        if (distance <= USER_CLOSEST_RADIUS && !isInsideClosestRadius && triggerCount == 2){
             createnotif("SERVICE HAS ARRIVED", "Time for school! Your service has arrived.");
             isInsideRadius = !isInsideRadius;
             if (radiusCircle != null) {

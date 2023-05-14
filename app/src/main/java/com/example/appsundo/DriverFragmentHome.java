@@ -130,7 +130,7 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
                     status = "ONLINE";
                     timeString = "TIME_IN";
 
-                    //onResume();
+                    onResume();
                 }
 
                 dbRef.child("ONLINE_DRIVER").child(driverUid).child("serviceStatus").setValue("In Transit");
