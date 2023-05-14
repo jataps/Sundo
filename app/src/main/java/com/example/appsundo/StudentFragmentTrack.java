@@ -1,6 +1,8 @@
 package com.example.appsundo;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -125,13 +127,6 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
         }
     }
 
-    private static final String TAG = "StudentFragmentTrack";
-
-    private GeofencingClient geofencingClient;
-    private float GEOFENCE_RADIUS = 200;
-    private GeofenceHelper geofenceHelper;
-    private String GEOFENCE_ID = "SOME_GEOFENCE_ID";
-
     private ValueAnimator animator;
 
     private Circle radiusCircle, radiusClosestCircle;
@@ -141,9 +136,6 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
     private Polyline mPolyline;
     private Marker markerDriver, markerStudent;
 
-    private String status;
-    private String studentCode;
-    private String driverCode;
     private String studentUid;
     private String driverUid;
 
@@ -151,13 +143,9 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
     private LocationCallback locationCallback;
     private Handler handler;
 
-    private User student;
-    ;
-    private User driver;
-
     private Double driverLat;
     private Double driverLong;
-    private LatLng latLngDriver;
+    private LatLng latLngDriver, latLngStudent;
 
     ActivityResultLauncher<String[]> mPermissionResultLauncher;
     private boolean isLocationPermissionGranted = false;
@@ -229,10 +217,10 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
         }, 500);
 
         locationRequest = new LocationRequest
-                .Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
+                .Builder(Priority.PRIORITY_HIGH_ACCURACY, 2000)
                 .setWaitForAccurateLocation(false)
                 .setMinUpdateIntervalMillis(1000)
-                .setMaxUpdateDelayMillis(1200)
+                .setMaxUpdateDelayMillis(1000)
                 .build();
 
         locationCallback = new LocationCallback() {
@@ -244,19 +232,38 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
                 fetchDriverLocation(driverUid);
 
                 MarkerOptions markerOptionsDriver;
+                MarkerOptions markerOptionsStudent;
 
                 Location location = locationResult.getLastLocation();
-                LatLng latLngStudent = new LatLng(location.getLatitude(), location.getLongitude());
+                latLngStudent = new LatLng(location.getLatitude(), location.getLongitude());
 
-                if (markerStudent != null) {
-                    animateMarkerToNewPosition(markerStudent, latLngStudent);
-                } else {
-                    MarkerOptions markerOptionsStudent = new MarkerOptions()
-                            .position(latLngStudent)
-                            .title("Student Location");
+                if (driverLat != null && driverLong != null){
+                    latLngDriver = new LatLng(driverLat, driverLong);
+                }
 
-                    markerStudent = mGoogleMap.addMarker(markerOptionsStudent);
+                if (driverLat != null && driverLong != null){
 
+                    if (markerDriver != null) {
+
+                    } else {
+                        markerOptionsDriver = new MarkerOptions()
+                                .position(latLngDriver)
+                                .icon(setIcon(getActivity(), R.drawable.bus_icon_map))
+                                .title("Driver Location");
+
+                        markerDriver = mGoogleMap.addMarker(markerOptionsDriver);
+                    }
+
+                    if (markerStudent != null && markerDriver != null) {
+                        animateMarkerStudent(markerStudent, latLngStudent,markerDriver, latLngDriver);
+                    } else {
+                        markerOptionsStudent = new MarkerOptions()
+                                .position(latLngStudent)
+                                .title("Student Location");
+
+                        markerStudent = mGoogleMap.addMarker(markerOptionsStudent);
+
+                    /*
                     if (triggerCount == 0){
                         radiusCircle = mGoogleMap.addCircle(new CircleOptions()
                                 .center(latLngStudent)
@@ -274,22 +281,7 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
 
                         triggerCount++;
                     }
-
-                }
-
-                if (driverLat != null || driverLong != null) {
-                    latLngDriver = new LatLng(driverLat, driverLong);
-
-                    if (markerDriver != null) {
-                        //markerDriver.remove();
-                        animateMarkerToNewPosition(markerDriver, latLngDriver);
-                    } else {
-                        markerOptionsDriver = new MarkerOptions()
-                                .position(latLngDriver)
-                                .icon(setIcon(getActivity(), R.drawable.bus_icon_map))
-                                .title("Driver Location");
-
-                        markerDriver = mGoogleMap.addMarker(markerOptionsDriver);
+                     */
                     }
 
                     if (!isInsideRadius || !isInsideClosestRadius) {
@@ -305,9 +297,9 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
                         isLocationWithinRadius(studentLocation, driverLocation);
                     }
 
+                    uploadLocationToFirebase(latLngStudent);
                 }
 
-                uploadLocationToFirebase(latLngStudent);
             }
         };
 
@@ -319,22 +311,23 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
 
         // Check if the distance is within the specified radius
         if (distance <= USER_RADIUS && !isInsideRadius && triggerCount == 1) {
-            createnotif("SERVICE IS ARRIVING", "Service is within your area. Please make the necessary preparation.");
+            createNotif("SERVICE IS ARRIVING", "Service is within your area.");
             isInsideRadius = !isInsideRadius;
             radiusCircle.remove();
+            triggerCount++;
         }
 
         if (distance <= USER_CLOSEST_RADIUS && !isInsideClosestRadius && triggerCount == 2){
-            createnotif("SERVICE HAS ARRIVED", "Time for school! Your service has arrived.");
+            createNotif("SERVICE HAS ARRIVED", "Time for school! Your service has arrived.");
             isInsideRadius = !isInsideRadius;
             if (radiusCircle != null) {
                 radiusCircle.remove();
             }
             radiusClosestCircle.remove();
+            triggerCount++;
         }
 
     }
-
 
 
     @Override
@@ -367,7 +360,6 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
 
     public BitmapDescriptor setIcon(Activity context, int drawableID) {
 
-
         Drawable drawable = ActivityCompat.getDrawable(context, drawableID);
 
         drawable.setBounds(0, 0, 96, 96);
@@ -383,7 +375,7 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
     }
 
     //CUSTOM FUNCTIONS
-    public void createnotif(String title, String content) {
+    public void createNotif(String title, String content) {
         String id = "myCh";
         NotificationManager manager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -426,7 +418,34 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
         m.notify(1, builder.build());
 
     }
-    private void animateMarkerToNewPosition(Marker marker, LatLng newPosition) {
+    private void animateMarkerStudent(Marker marker1, LatLng newPosition1, Marker marker2, LatLng newPosition2) {
+        if (animator != null) {
+            animator.cancel();
+        }
+        animator = ValueAnimator.ofObject(new LatLngEvaluator(), marker1.getPosition(), newPosition1);
+        animator.setDuration(500); // Animation duration in milliseconds
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                LatLng position = (LatLng) animation.getAnimatedValue();
+                marker1.setPosition(position);
+            }
+        });
+
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                // Start the next animation here
+                animateMarkerDriver(marker2, newPosition2);
+            }
+        });
+
+        animator.start();
+
+
+    }
+
+    private void animateMarkerDriver(Marker marker, LatLng newPosition) {
         if (animator != null) {
             animator.cancel();
         }
@@ -439,6 +458,7 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
                 marker.setPosition(position);
             }
         });
+
         animator.start();
     }
 
@@ -449,40 +469,6 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
             double lng = (endValue.longitude - startValue.longitude) * fraction + startValue.longitude;
             return new LatLng(lat, lng);
         }
-    }
-
-    private void addGeofence(LatLng latLng, float radius) {
-
-        Geofence geofence = geofenceHelper.getGeofence(GEOFENCE_ID, latLng, radius, Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_DWELL | Geofence.GEOFENCE_TRANSITION_EXIT);
-        GeofencingRequest geofencingRequest = geofenceHelper.getGeofencingRequest(geofence);
-        PendingIntent pendingIntent = geofenceHelper.getPendingIntent();
-
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-
-        geofencingClient.addGeofences(geofencingRequest, pendingIntent)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "onSuccess: Geofence Added...");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        String errorMessage = geofenceHelper.getErrorString(e);
-                        Log.d(TAG, "onFailure: " + errorMessage);
-                    }
-                });
-
     }
 
     private void requestLocationUpdates() {
@@ -544,7 +530,6 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
     private void moveCameraToCurrentLocation() {
         // Check if location permission is granted
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
             // Get the last known location from the FusedLocationProviderClient
             mLocationProvider.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                 @Override
@@ -575,33 +560,6 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
             mPermissionResultLauncher.launch(permissionRequest.toArray(new String[0]));
         }
 
-    }
-
-    public void LocationStatusCheck() {
-        final LocationManager manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            buildAlertMessageNoGps();
-
-        }
-    }
-
-    private void buildAlertMessageNoGps() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        dialog.cancel();
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
     }
 
 }

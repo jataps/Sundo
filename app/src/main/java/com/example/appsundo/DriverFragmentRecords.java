@@ -71,8 +71,6 @@ public class DriverFragmentRecords extends Fragment implements RecyclerViewInter
             }
         });
 
-
-
         // Inflate the layout for this fragment
         return view;
     }

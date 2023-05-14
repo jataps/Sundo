@@ -1,6 +1,8 @@
 package com.example.appsundo;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -66,10 +68,9 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
     Notification notification;
     private MaterialButton gpsBtn;
 
-
     private Double studentLat;
     private Double studentLong;
-    private LatLng latLngDriver;
+    private LatLng latLngDriver, latLngStudent;
     private String studentUid;
     private String driverUid;
 
@@ -78,7 +79,7 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
     private GoogleMap mGoogleMap;
     private FusedLocationProviderClient mLocationProvider;
     private Polyline mPolyline;
-    private Marker marker, markerStudent;
+    private Marker markerDriver, markerStudent;
     private ValueAnimator animator;
 
     private LocationRequest locationRequest;
@@ -221,9 +222,9 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
             handler.removeCallbacksAndMessages(null);
             mLocationProvider.removeLocationUpdates(locationCallback);
 
-            if (marker != null) {
-                marker.remove();
-                marker = null;
+            if (markerDriver != null) {
+                markerDriver.remove();
+                markerDriver = null;
             }
 
             gpsBtn.setText("GPS OFF");
@@ -265,29 +266,31 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
                     fetchStudentLocation(studentUid);
 
                     Location location = locationResult.getLastLocation();
-                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    latLngDriver = new LatLng(location.getLatitude(), location.getLongitude());
 
+                    if (studentLat != null && studentLong != null) {
+                        latLngStudent = new LatLng(studentLat, studentLong);
+                    }
+
+                    MarkerOptions markerOptionsDriver;
                     MarkerOptions markerOptionsStudent;
 
                     if (isGpsON) {
-                        if (marker != null) {
-                            animateMarkerToNewPosition(marker, latLng);
-                        } else {
-                            MarkerOptions markerOptions = new MarkerOptions()
-                                    .position(latLng)
+
+                        if (markerDriver == null) {
+                            markerOptionsDriver = new MarkerOptions()
+                                    .position(latLngDriver)
                                     .title("Current Location");
-                            marker = mGoogleMap.addMarker(markerOptions);
+                            markerDriver = mGoogleMap.addMarker(markerOptionsDriver);
                         }
 
-                        if (studentLat != null || studentLong != null) {
-                            latLngDriver = new LatLng(studentLat, studentLong);
+                        if (studentLat != null && studentLong != null) {
 
                             if (markerStudent != null) {
-                                //markerDriver.remove();
-                                animateMarkerToNewPosition(markerStudent, latLngDriver);
+                                animateMarkerDriver(markerDriver, latLngDriver, markerStudent, latLngStudent);
                             } else {
                                 markerOptionsStudent = new MarkerOptions()
-                                        .position(latLngDriver)
+                                        .position(latLngStudent)
                                         .icon(setIcon(getActivity(), R.drawable.bus_icon_map))
                                         .title("Student Location");
 
@@ -296,9 +299,10 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
 
                         }
 
+
                     }
 
-                    uploadLocationToFirebase(latLng);
+                    uploadLocationToFirebase(latLngDriver);
                 }
             };
 
@@ -320,6 +324,50 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
 
         return BitmapDescriptorFactory.fromBitmap(bitmap);
 
+    }
+
+    private void animateMarkerDriver(Marker marker1, LatLng newPosition1, Marker marker2, LatLng newPosition2) {
+        if (animator != null) {
+            animator.cancel();
+        }
+        animator = ValueAnimator.ofObject(new DriverFragmentHome.LatLngEvaluator(), marker1.getPosition(), newPosition1);
+        animator.setDuration(500); // Animation duration in milliseconds
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                LatLng position = (LatLng) animation.getAnimatedValue();
+                marker1.setPosition(position);
+            }
+        });
+
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                // Start the next animation here
+                animateMarkerStudent(marker2, newPosition2);
+            }
+        });
+
+        animator.start();
+
+
+    }
+
+    private void animateMarkerStudent(Marker marker, LatLng newPosition) {
+        if (animator != null) {
+            animator.cancel();
+        }
+        animator = ValueAnimator.ofObject(new DriverFragmentHome.LatLngEvaluator(), marker.getPosition(), newPosition);
+        animator.setDuration(500); // Animation duration in milliseconds
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                LatLng position = (LatLng) animation.getAnimatedValue();
+                marker.setPosition(position);
+            }
+        });
+
+        animator.start();
     }
 
     private void animateMarkerToNewPosition(Marker marker, LatLng newPosition) {
