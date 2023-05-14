@@ -263,8 +263,8 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
 
                         markerStudent = mGoogleMap.addMarker(markerOptionsStudent);
 
-                    /*
                     if (triggerCount == 0){
+                        
                         radiusCircle = mGoogleMap.addCircle(new CircleOptions()
                                 .center(latLngStudent)
                                 .radius(USER_RADIUS)
@@ -279,9 +279,10 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
                                 .strokeColor(Color.RED)
                                 .fillColor(Color.argb( 70,255, 0, 0)));
 
+
                         triggerCount++;
                     }
-                     */
+
                     }
 
                     if (!isInsideRadius || !isInsideClosestRadius) {
