@@ -2,126 +2,350 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:cardElevation="8dp"
+    app:cardCornerRadius="8dp"
+    android:layout_margin="10dp">
     
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="10dp"
+        android:layout_gravity="center"
+        android:gravity="left"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:id="@+id/date_list">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center"
             android:orientation="horizontal">
-
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="Driver name:"
-                android:padding="1dp"
-                android:textSize="13sp"/>
-
-            <TextView
-                android:id="@+id/textLN"
+                android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="Last Name,"
+                android:text="05/19/2023"
                 android:textColor="@color/black"
-                android:padding="1dp"
-                android:textSize="13sp"/>
+                android:padding="10dp"
+                android:textSize="20sp"/>
 
-            <TextView
-                android:id="@+id/textFN"
+            <ImageView
+                android:id="@+id/arrowDate"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="First Name"
-                android:padding="1dp"
-                android:textSize="13sp"/>
-
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_arrow_up"/>
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
+            android:id="@+id/expandable_layout">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Driver contact:"
-                android:textColor="@color/black"
-                android:padding="1dp"
-                android:textSize="12sp"/>
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:id="@+id/toSchoolContainer">
+                <TextView
+                    android:id="@+id/tvToSchool"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="To school"
+                    android:textColor="@color/black"
+                    android:padding="10dp"
+                    android:textSize="15sp"
+                    />
+                <ImageView
+                    android:id="@+id/arrowToSchool"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_arrow_up"/>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/textCNumber"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/containerToSchool"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="Contact number"
-                android:padding="1dp"
-                android:textSize="13sp"/>
+                android:paddingHorizontal="10dp"
+                android:paddingBottom="10dp"
+                android:orientation="vertical"
+                android:layout_below="@id/toSchoolContainer">
 
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
 
-        <LinearLayout
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="Driver name:"
+                        android:padding="1dp"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:id="@+id/schoolDriverLName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:text="Last Name,"
+                        android:textColor="@color/black"
+                        android:padding="1dp"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:id="@+id/schoolDriverFName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="First Name"
+                        android:padding="1dp"
+                        android:textSize="13sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Driver contact:"
+                        android:textColor="@color/black"
+                        android:padding="1dp"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/schoolDriverCNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="Contact number"
+                        android:padding="1dp"
+                        android:textSize="13sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pickup Time:"
+                        android:textColor="@color/black"
+                        android:padding="1dp"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/schoolDriverPickup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="00:00:00"
+                        android:padding="1dp"
+                        android:textSize="13sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Arrival Time:"
+                        android:textColor="@color/black"
+                        android:padding="1dp"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/schoolDriverArrival"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="00:00:00"
+                        android:padding="1dp"
+                        android:textSize="13sp"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
+            android:id="@+id/expandable_layout2">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pickup Time:"
-                android:textColor="@color/black"
-                android:padding="1dp"
-                android:textSize="12sp"/>
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:id="@+id/toHomeContainer">
 
-            <TextView
-                android:id="@+id/textPickupTime"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tvToHome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="To home"
+                    android:textColor="@color/black"
+                    android:padding="10dp"
+                    android:textSize="15sp"
+                    />
+                <ImageView
+                    android:id="@+id/arrowToHome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/icon_arrow_up"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/containerToHome"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="00:00:00"
-                android:padding="1dp"
-                android:textSize="13sp"/>
+                android:orientation="vertical"
+                android:paddingHorizontal="10dp"
+                android:paddingBottom="10dp"
+                android:layout_below="@id/toHomeContainer">
 
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="Driver name:"
+                        android:padding="1dp"
+                        android:textSize="13sp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Arrival Time:"
-                android:textColor="@color/black"
-                android:padding="1dp"
-                android:textSize="12sp"/>
+                    <TextView
+                        android:id="@+id/homeDriverLName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:text="Last Name,"
+                        android:textColor="@color/black"
+                        android:padding="1dp"
+                        android:textSize="13sp"/>
 
-            <TextView
-                android:id="@+id/textArrivalTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="00:00:00"
-                android:padding="1dp"
-                android:textSize="13sp"/>
+                    <TextView
+                        android:id="@+id/homeDriverFName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="First Name"
+                        android:padding="1dp"
+                        android:textSize="13sp"/>
 
-        </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Driver contact:"
+                        android:textColor="@color/black"
+                        android:padding="1dp"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/homeDriverCNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="Contact number"
+                        android:padding="1dp"
+                        android:textSize="13sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pickup Time:"
+                        android:textColor="@color/black"
+                        android:padding="1dp"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/homeDriverPickup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="00:00:00"
+                        android:padding="1dp"
+                        android:textSize="13sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Arrival Time:"
+                        android:textColor="@color/black"
+                        android:padding="1dp"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/homeDriverArrival"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="00:00:00"
+                        android:padding="1dp"
+                        android:textSize="13sp"/>
+
+                </LinearLayout>
 
 
+            </LinearLayout>
+
+        </RelativeLayout>
+        
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

@@ -134,40 +134,40 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
                     onResume();
                 }
 
-                dbRef.child("ONLINE_DRIVER").child(driverUid).child("serviceStatus").setValue("In Transit");
 
+                dbRef.child("ONLINE_DRIVER").child(driverUid).child("serviceStatus").setValue("In Transit");
                 Date currentTime = Calendar.getInstance().getTime();
                 SimpleDateFormat dateTimeFormat = new SimpleDateFormat("HH:mm:ss");
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
 
                 dbRef.child("ONLINE_DRIVER").child(driverUid).child(dateFormat.format(currentTime)).child(timeString).setValue(dateTimeFormat.format(currentTime));
-
                 DatabaseReference historyRef = dbRef.child("HISTORY").child(dateFormat.format(currentTime)).child(driverUid);
                 //TIME IN AND TIME OUT
                 historyRef.child(dateFormat.format(currentTime)).child(timeString).child(dateTimeFormat.format(currentTime));
                 historyRef.child(dateFormat.format(currentTime)).child(timeString).child(dateTimeFormat.format(currentTime));
 
-                String studentUid = "studentC";
-                DatabaseReference toSchoolRef = historyRef.child("STUDENTS ONBOARD").child(studentUid).child("TO_SCHOOL");
+
+                DatabaseReference toSchoolRef = historyRef.child(studentUid).child("TO_SCHOOL");
+                DatabaseReference toHomeRef = historyRef.child(studentUid).child("TO_HOME");
+
                 //STUDENT / TO SCHOOL / PICKUP
                 toSchoolRef.child("PICKUP").child("pickupTime").setValue(dateTimeFormat.format(currentTime));
-                toSchoolRef.child("PICKUP").child("longitude").setValue("insert longitude here");
-                toSchoolRef.child("PICKUP").child("latitude").setValue("insert latitude here");
+//                toSchoolRef.child("PICKUP").child("longitude").setValue(latLngDriver.longitude);
+//                toSchoolRef.child("PICKUP").child("latitude").setValue(latLngDriver.latitude);
 
                 //STUDENT / TO SCHOOL / DROP OFF
                 toSchoolRef.child("DROP_OFF").child("dropOffTime").setValue(dateTimeFormat.format(currentTime));
-                toSchoolRef.child("DROP_OFF").child("longitude").setValue("insert longitude here");
-                toSchoolRef.child("DROP_OFF").child("latitude").setValue("insert latitude here");
+ //               toSchoolRef.child("DROP_OFF").child("longitude").setValue(latLngDriver.longitude);
+//                toSchoolRef.child("DROP_OFF").child("latitude").setValue(latLngDriver.latitude);
 
                 //STUDENT / TO SCHOOL / DROP OFF
-                DatabaseReference toHomeRef = historyRef.child("STUDENTS ONBOARD").child(studentUid).child("TO_HOME");
                 toHomeRef.child("PICKUP").child("pickupTime").setValue(dateTimeFormat.format(currentTime));
-                toHomeRef.child("PICKUP").child("longitude").setValue("insert longitude here");
-                toHomeRef.child("PICKUP").child("latitude").setValue("insert latitude here");
+//                toHomeRef.child("PICKUP").child("longitude").setValue(latLngDriver.longitude);
+//                toHomeRef.child("PICKUP").child("latitude").setValue(latLngDriver.latitude);
 
                 toHomeRef.child("DROP_OFF").child("dropOffTime").setValue(dateTimeFormat.format(currentTime));
-                toHomeRef.child("DROP_OFF").child("longitude").setValue("insert longitude here");
-                toHomeRef.child("DROP_OFF").child("latitude").setValue("insert latitude here");
+//                toHomeRef.child("DROP_OFF").child("longitude").setValue(latLngDriver.longitude);
+//                toHomeRef.child("DROP_OFF").child("latitude").setValue(latLngDriver.latitude);
 
             }
         });
@@ -423,53 +423,6 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
     }
-
-    /*
-    public void createnotif() {
-        String id = "myCh";
-        NotificationManager manager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = manager.getNotificationChannel(id);
-            if (channel == null) {
-                channel = new NotificationChannel(id, "Channel Title", NotificationManager.IMPORTANCE_HIGH);
-                channel.setDescription("[Channel description]");
-                channel.enableVibration(true);
-                channel.setVibrationPattern(new long[]{100, 1000, 200, 340});
-                channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-                manager.createNotificationChannel(channel);
-            }
-        }
-
-        Intent notificationIntent = new Intent(getActivity(), DriverFragmentHome.class);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent contentIntent = PendingIntent.getActivity(getContext(), 0, notificationIntent, 0);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), id)
-                .setSmallIcon(R.drawable.notif_icon)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.bus))
-                .setContentTitle("DRIVER IS ON SERVICE")
-                .setContentText("Please be prepare for the arrival")
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setVibrate(new long[]{100,1000,200,340})
-                .setAutoCancel(false)
-                .setTicker("Notification");
-        builder.setContentIntent(contentIntent);
-        NotificationManagerCompat m = NotificationManagerCompat.from(getActivity().getApplicationContext());
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        m.notify(1, builder.build());
-
-    }
-
-     */
 
     private void fetchStudentID(String uidDriver) {
         dbRef.child("USER_INFORMATION").child("STUDENT").orderByChild("DRIVER_ASSIGNED").equalTo(uidDriver).addValueEventListener(new ValueEventListener() {

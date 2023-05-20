@@ -1,5 +1,6 @@
 package com.example.appsundo;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,31 +25,67 @@ import java.util.Collections;
 
 public class DriverFragmentRecords extends Fragment implements RecyclerViewInterface {
 
-    RecyclerView recyclerAssignedStudent;
-    DatabaseReference mRef;
+    RecyclerView recyclerStudentRecord;
+    DatabaseReference mRef, driverRef;
     CustomStudentAdapter adapter;
     ArrayList<User> list;
     User student;
+
+    String driverUID;
+    String driverFName;
+    String driverLName;
+    String driverCNumber;
+
+    ValueEventListener valueEventListener, valueEventlistenerDriver;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_driver_records, container, false);
 
-        recyclerAssignedStudent = view.findViewById(R.id.recyclerAssignedStudents);
+        recyclerStudentRecord = view.findViewById(R.id.recyclerStudentRecord);
 
-        String uidDriver = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        // Inflate the layout for this fragment
+        return view;
+    }
 
-        mRef = FirebaseDatabase.getInstance().getReference().child("USERS").child("DRIVER").child(uidDriver).child("ASSIGNED_STUDENT");
+    @Override
+    public void onItemClick(int position) {
 
-        recyclerAssignedStudent.setHasFixedSize(true);
-        recyclerAssignedStudent.setLayoutManager(new LinearLayoutManager(getActivity()));
+        Intent intent = new Intent(getActivity(), DriverHistory.class);
+
+        intent.putExtra("fragment_to_display","fragment_service");
+        intent.putExtra("student_uid", list.get(position).getUid());
+        intent.putExtra("student_last_name", list.get(position).getLastName());
+        intent.putExtra("student_first_name", list.get(position).getFirstName());
+        intent.putExtra("student_contact_number", list.get(position).getContactNumber());
+        intent.putExtra("driver_first_name", driverFName);
+        intent.putExtra("driver_last_name", driverLName);
+        intent.putExtra("driver_contact_number", driverCNumber);
+
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        driverUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
+        mRef = dbRef.child("USERS").child("DRIVER").child(driverUID).child("ASSIGNED_STUDENT");
+        driverRef = dbRef.child("USER_INFORMATION").child("DRIVER").child(driverUID);
+
+        recyclerStudentRecord.setHasFixedSize(true);
+        recyclerStudentRecord.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         list = new ArrayList<>();
         adapter = new CustomStudentAdapter(getActivity(), list, this);
-        recyclerAssignedStudent.setAdapter(adapter);
+        recyclerStudentRecord.setAdapter(adapter);
 
-        mRef.addValueEventListener(new ValueEventListener() {
+        valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -69,15 +106,38 @@ public class DriverFragmentRecords extends Fragment implements RecyclerViewInter
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        };
 
-        // Inflate the layout for this fragment
-        return view;
+        valueEventlistenerDriver = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                driverFName = snapshot.child("firstName").getValue(String.class);
+                driverLName = snapshot.child("lastName").getValue(String.class);
+                driverCNumber = snapshot.child("contactNumber").getValue(String.class);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+
+
+        mRef.addValueEventListener(valueEventListener);
+        driverRef.addListenerForSingleValueEvent(valueEventlistenerDriver);
+
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void onPause() {
+        super.onPause();
+
+        if (valueEventListener != null || valueEventlistenerDriver != null) {
+            mRef.removeEventListener(valueEventListener);
+            driverRef.removeEventListener(valueEventListener);
+        }
 
     }
-
 }

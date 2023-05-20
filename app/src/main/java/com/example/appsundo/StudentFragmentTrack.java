@@ -151,8 +151,8 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
     private boolean isLocationPermissionGranted = false;
     private boolean isInsideRadius= false;
     private boolean isInsideClosestRadius= false;
-    final float USER_RADIUS = 200;
-    final float USER_CLOSEST_RADIUS = 30;
+    final float USER_RADIUS = 10;
+    final float USER_CLOSEST_RADIUS = 5;
     private int triggerCount = 0;
     private DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 
@@ -264,7 +264,7 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
                         markerStudent = mGoogleMap.addMarker(markerOptionsStudent);
 
                     if (triggerCount == 0){
-                        
+
                         radiusCircle = mGoogleMap.addCircle(new CircleOptions()
                                 .center(latLngStudent)
                                 .radius(USER_RADIUS)
@@ -278,7 +278,6 @@ public class StudentFragmentTrack extends Fragment implements OnMapReadyCallback
                                 .strokeWidth(2)
                                 .strokeColor(Color.RED)
                                 .fillColor(Color.argb( 70,255, 0, 0)));
-
 
                         triggerCount++;
                     }

@@ -109,7 +109,6 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
 
     public void getDriverInfo(DatabaseReference dbRef, String uidDriver) {
 
-
         DatabaseReference profileRef = dbRef.child("USER_INFORMATION").child("DRIVER").child(uidDriver);
         profileRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -132,7 +131,7 @@ public class DriverAddStudent extends AppCompatActivity implements RecyclerViewI
 
                     dbRef.child("USER_INFORMATION").child("STUDENT").child(infoId).child("DRIVER_ASSIGNED").setValue(uidDriver);
 
-                    Toast.makeText(DriverAddStudent.this, "Student Successfully Assigned", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(DriverAddStudent.this, "Student Successfully Assigned", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(getApplicationContext(),ContainerDriver.class);
                     intent.putExtra("fragment_to_display","fragment_service");
