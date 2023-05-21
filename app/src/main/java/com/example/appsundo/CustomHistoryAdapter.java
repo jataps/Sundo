@@ -58,11 +58,21 @@ public class CustomHistoryAdapter extends RecyclerView.Adapter<CustomHistoryAdap
 //        String schoolDropoffLat = history.getSchoolDropOff().getDropoffLatitude();
 //        String schoolDropoffLong = history.getSchoolDropOff().getDropoffLongitude();
 
+        String driverFName = history.getDriverFName();
+        String driverLName = history.getDriverLName() + ",";
+        String driverCNum = history.getDriverCNum();
+
         holder.tvDate.setText(date);
         holder.schoolDriverPickup.setText(schoolPickupTime);
         holder.schoolDriverArrival.setText(schoolDropoffTime);
         holder.homeDriverPickup.setText(homePickupTime);
         holder.homeDriverArrival.setText(homeDropoffTime);
+        holder.schoolDriverFName.setText(driverFName);
+        holder.schoolDriverLName.setText(driverLName);
+        holder.schoolDriverCNumber.setText(driverCNum);
+        holder.homeDriverFName.setText(driverFName);
+        holder.homeDriverLName.setText(driverLName);
+        holder.homeDriverCNumber.setText(driverCNum);
 
         holder.expandableLayout.setVisibility(View.GONE);
         holder.expandableLayout2.setVisibility(View.GONE);

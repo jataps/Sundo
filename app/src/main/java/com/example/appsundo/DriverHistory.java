@@ -51,8 +51,6 @@ public class DriverHistory extends AppCompatActivity implements RecyclerViewInte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_history);
-
-        List<History> datesWithUID2 = new ArrayList<>();
         
         txtFname = findViewById(R.id.txtFName);
         txtLname = findViewById(R.id.txtLName);
@@ -86,30 +84,40 @@ public class DriverHistory extends AppCompatActivity implements RecyclerViewInte
                 list.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
 
-                    String date;
                     if (dataSnapshot.hasChild(driverUID)) {
-                        History mHistory = new History();
+                        history = new History();
 
-                        date = dataSnapshot.getKey();
-
-                        mHistory.setDate(dataSnapshot.getKey());
-                        mHistory.setDriverUID(driverUID);
+                        history.setDate(dataSnapshot.getKey());
+                        history.setDriverUID(driverUID);
+                        history.setDriverFName(driverFname);
+                        history.setDriverLName(driverLName);
+                        history.setDriverCNum(driverCNumber);
 
                         for (DataSnapshot dtSnap : dataSnapshot.getChildren()){
-                            mHistory.setStudentUID(dtSnap.getKey());
-                            dtSnap.child("TO_HOME").child("DROP_OFF").child("dropOffTime").getValue();
-                            dtSnap.child("TO_HOME").child("PICKUP").child("pickupTime").getValue();
-                            dtSnap.child("TO_SCHOOL").child("DROP_OFF").child("dropOffTime").getValue();
-                            dtSnap.child("TO_SCHOOL").child("PICKUP").child("pickupTime").getValue();
+
+                            for (DataSnapshot ddSnap : dtSnap.getChildren()) {
+                                history.setStudentUID(ddSnap.getKey());
+
+                                String homeDropOffTime = ddSnap.child("TO_HOME").child("DROP_OFF").child("dropOffTime").getValue(String.class);
+                                String homePickupTime = ddSnap.child("TO_HOME").child("PICKUP").child("pickupTime").getValue(String.class);
+                                String schoolDropOffTime = ddSnap.child("TO_SCHOOL").child("DROP_OFF").child("dropOffTime").getValue(String.class);
+                                String schoolPickupTime = ddSnap.child("TO_SCHOOL").child("PICKUP").child("pickupTime").getValue(String.class);
+
+                                history.setHomeDropOff(new History.ToHome.DropOff());
+                                history.setHomePickup(new History.ToHome.PickUp());
+                                history.setSchoolDropOff(new History.ToSchool.DropOff());
+                                history.setSchoolPickup(new History.ToSchool.PickUp());
+
+                                history.getHomeDropOff().setDropoffTime(homeDropOffTime);
+                                history.getHomePickup().setPickupTime(homePickupTime);
+                                history.getSchoolDropOff().setDropoffTime(schoolDropOffTime);
+                                history.getSchoolPickup().setPickupTime(schoolPickupTime);
+                            }
+
                         }
 
-                        list.add(mHistory);
+                        list.add(history);
                     }
-
-                    /*
-                    history = dataSnapshot.getValue(History.class);
-                    list.add(history);
-                     */
 
                 }
 

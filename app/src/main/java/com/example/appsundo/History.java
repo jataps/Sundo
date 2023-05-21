@@ -5,9 +5,40 @@ public class History {
     private String date;
     private String driverUID;
     private String studentUID;
+
+    private String driverFName;
+    private String driverLName;
+    private String driverCNum;
     private ToHome.PickUp homePickup;
     private ToHome.DropOff homeDropOff;
     private ToSchool.PickUp schoolPickup;
+    private ToSchool.DropOff schoolDropOff;
+
+
+
+    public String getDriverFName() {
+        return driverFName;
+    }
+
+    public void setDriverFName(String driverFName) {
+        this.driverFName = driverFName;
+    }
+
+    public String getDriverLName() {
+        return driverLName;
+    }
+
+    public void setDriverLName(String driverLName) {
+        this.driverLName = driverLName;
+    }
+
+    public String getDriverCNum() {
+        return driverCNum;
+    }
+
+    public void setDriverCNum(String driverCNum) {
+        this.driverCNum = driverCNum;
+    }
 
     public void setDate(String date) {
         this.date = date;
@@ -33,11 +64,9 @@ public class History {
         this.schoolPickup = schoolPickup;
     }
 
-    public void setSchoolDropOff(ToHome.DropOff schoolDropOff) {
+    public void setSchoolDropOff(ToSchool.DropOff schoolDropOff) {
         this.schoolDropOff = schoolDropOff;
     }
-
-    private ToHome.DropOff schoolDropOff;
 
     public String getDate() {
         return date;
@@ -63,25 +92,9 @@ public class History {
         return schoolPickup;
     }
 
-    public ToHome.DropOff getSchoolDropOff() {
+    public ToSchool.DropOff getSchoolDropOff() {
         return schoolDropOff;
     }
-
-/*
-    @Override
-    public int compareTo(History history) {
-        if (this.lastName == null && history.getLastName() == null) {
-            return 0;
-        } else if (this.lastName == null) {
-            return -1;
-        } else if (history.getLastName() == null) {
-            return 1;
-        } else {
-            return this.lastName.compareTo(history.getLastName());
-        }
-    }
-*/
-
 
     public static class ToHome {
 
