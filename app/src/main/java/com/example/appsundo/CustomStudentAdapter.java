@@ -52,12 +52,14 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
         String province = user.getADDRESS().getProvince();
         String finalAddress = barangay + " | " + finalCity + " | " + province;
         String accountCode = user.getAccountCode();
+        String status = user.getStatus().toUpperCase();
 
         //holder.accountCode.setText(accountCode);
         holder.textFN.setText(firstName);
         holder.textLN.setText(lastName);
         holder.textStAddress.setText(streetAddress);
         holder.textAddress.setText(finalAddress);
+        holder.studentStatus.setText(status);
 
     }
 
@@ -68,7 +70,7 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView textFN, textLN, textStAddress, textAddress, accountCode;
+        TextView textFN, textLN, textStAddress, textAddress, accountCode, studentStatus;
 
         MaterialButton btnAdd;
 
@@ -80,6 +82,7 @@ public class CustomStudentAdapter extends RecyclerView.Adapter<CustomStudentAdap
             textLN = itemView.findViewById(R.id.textLN);
             textStAddress = itemView.findViewById(R.id.textStAddress);
             textAddress = itemView.findViewById(R.id.textAddress);
+            studentStatus = itemView.findViewById(R.id.studentStatus);
             //accountCode = itemView.findViewById(R.id.txtACode);
             //textMail = itemView.findViewById(R.id.textMail);
 

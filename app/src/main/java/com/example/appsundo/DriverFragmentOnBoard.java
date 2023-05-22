@@ -1,6 +1,9 @@
 package com.example.appsundo;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,9 +11,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,7 +38,7 @@ public class DriverFragmentOnBoard extends Fragment implements RecyclerViewInter
     ArrayList<User> list;
     User student;
 
-    MaterialButton addStudentBtn;
+    MaterialButton studentOptions;
 
     ValueEventListener valueEventListener;
 
@@ -40,7 +47,6 @@ public class DriverFragmentOnBoard extends Fragment implements RecyclerViewInter
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_driver_onboard, container, false);
 
-        dropOffStudentList = view.findViewById(R.id.dropOffStudentList);
 
         // Inflate the layout for this fragment
         return view;
@@ -57,8 +63,6 @@ public class DriverFragmentOnBoard extends Fragment implements RecyclerViewInter
         intent.putExtra("LAST_NAME", list.get(position).getLastName());
         intent.putExtra("FIRST_NAME", list.get(position).getFirstName());
         intent.putExtra("CONTACT_NUMBER", list.get(position).getContactNumber());
-        //intent.putExtra("EMERGENCY_NAME", list.get(position).getEmergencyName());
-        //intent.putExtra("EMERGENCY_NUMBER", list.get(position).getEmergencyNumber());
         intent.putExtra("PROVINCE", list.get(position).getADDRESS().getProvince());
         intent.putExtra("CITY", list.get(position).getADDRESS().getCity());
         intent.putExtra("BARANGAY", list.get(position).getADDRESS().getBarangay());
@@ -93,10 +97,8 @@ public class DriverFragmentOnBoard extends Fragment implements RecyclerViewInter
                     student = dataSnapshot.getValue(User.class);
                     student.setReferenceID(dataSnapshot.getKey());
 
-                    if (student.getStatus().equals("ONBOARD")) {
-                        list.add(student);
-                        Collections.sort(list);
-                    }
+                    list.add(student);
+                    Collections.sort(list);
 
                 }
 

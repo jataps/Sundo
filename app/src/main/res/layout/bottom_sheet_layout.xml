@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_bg">
+
+    <TextView
+        android:id="@+id/chooseTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="CHANGE SERVICE STATUS"
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="16dp"
+        android:textSize="25dp"
+        android:textStyle="bold"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnChangeYes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/medium_black"
+        android:backgroundTint="@color/green"
+        android:layout_marginBottom="8dp"
+        android:text="YES"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:padding="10dp"
+        />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnChangeNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/medium_black"
+        android:backgroundTint="@color/red"
+        android:layout_marginBottom="28dp"
+        android:text="NO"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:padding="10dp"
+        />
+
+</LinearLayout>

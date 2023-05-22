@@ -1,6 +1,9 @@
 package com.example.appsundo;
 
-public class History {
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class History implements Comparable<History>{
 
     private String date;
     private String driverUID;
@@ -94,6 +97,11 @@ public class History {
 
     public ToSchool.DropOff getSchoolDropOff() {
         return schoolDropOff;
+    }
+
+    @Override
+    public int compareTo(History other) {
+        return other.getDate().compareTo(this.date);
     }
 
     public static class ToHome {

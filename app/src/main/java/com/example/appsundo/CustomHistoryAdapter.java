@@ -88,7 +88,6 @@ public class CustomHistoryAdapter extends RecyclerView.Adapter<CustomHistoryAdap
 
     }
 
-
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         RelativeLayout expandableLayout, expandableLayout2;

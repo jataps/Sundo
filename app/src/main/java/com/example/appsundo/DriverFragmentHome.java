@@ -134,7 +134,7 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
                     onResume();
                 }
 
-
+/*
                 dbRef.child("ONLINE_DRIVER").child(driverUid).child("serviceStatus").setValue("In Transit");
                 Date currentTime = Calendar.getInstance().getTime();
                 SimpleDateFormat dateTimeFormat = new SimpleDateFormat("HH:mm:ss");
@@ -168,6 +168,7 @@ public class DriverFragmentHome extends Fragment implements OnMapReadyCallback {
                 toHomeRef.child("DROP_OFF").child("dropOffTime").setValue(dateTimeFormat.format(currentTime));
 //                toHomeRef.child("DROP_OFF").child("longitude").setValue(latLngDriver.longitude);
 //                toHomeRef.child("DROP_OFF").child("latitude").setValue(latLngDriver.latitude);
+ */
 
             }
         });

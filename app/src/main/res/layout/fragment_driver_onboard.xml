@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DriverFragmentOnBoard">
+    tools:context=".DriverFragmentService2">
 
-    <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -23,7 +22,7 @@
             android:iconifiedByDefault="false"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/dropOffStudentList"
+            android:id="@+id/statusStudentList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="20dp"
@@ -31,19 +30,6 @@
             android:layout_below="@id/searchView1"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="100dp"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/addStudentBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/medium_black"
-            android:backgroundTint="@color/yellow"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="28dp"
-            android:text="Confirm"
-            android:visibility="gone"/>
 
     </RelativeLayout>
 

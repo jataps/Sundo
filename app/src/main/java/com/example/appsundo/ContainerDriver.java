@@ -63,16 +63,12 @@ public class ContainerDriver extends AppCompatActivity {
                     replaceFragment(new DriverFragmentProfile());
                     break;
 
-                case "fragment_service":
-                    if (getIntent().hasExtra("service_to_display")) {
-                        message = getIntent().getStringExtra("service_to_display");
-                        replaceFragment(new DriverFragmentService(), "service_to_display", message );
-                    } else
-                        replaceFragment(new DriverFragmentService());
-                    break;
-
                 case "fragment_records":
                     replaceFragment(new DriverFragmentRecords());
+                    break;
+
+                case "fragment_service":
+                    replaceFragment(new DriverFragmentService2());
                     break;
 
                 default:
@@ -82,6 +78,7 @@ public class ContainerDriver extends AppCompatActivity {
         } else {
             replaceFragment(new DriverFragmentHome());
         }
+
 
         Menu menu = binding.bottomNavigationViewDriver.getMenu();
 
@@ -96,6 +93,8 @@ public class ContainerDriver extends AppCompatActivity {
                 }
             }
 
+            message = getIntent().getStringExtra("service_to_display");
+
             switch (item.getItemId()) {
                 case R.id.navHomeDriver:
 
@@ -107,17 +106,15 @@ public class ContainerDriver extends AppCompatActivity {
                     break;
 
                 case R.id.navServiceDriver:
-                    if (getIntent().hasExtra("service_to_display")) {
-                        message = getIntent().getStringExtra("service_to_display");
-                        replaceFragment(new DriverFragmentService(), "service_to_display", message );
-                    } else
-                        replaceFragment(new DriverFragmentService());
+                    replaceFragment(new DriverFragmentService2());
                     break;
 
                 case R.id.navRecordsDriver:
                     replaceFragment(new DriverFragmentRecords(), "service_to_display", message);
                     break;
+
             }
+
             return true;
 
         });
@@ -163,7 +160,6 @@ public class ContainerDriver extends AppCompatActivity {
 
         fragmentTransaction.replace(R.id.frame_layout_driver, fragment);
         fragmentTransaction.commit();
-
     }
 
     @Override

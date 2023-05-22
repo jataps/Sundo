@@ -41,7 +41,7 @@ public class DriverOnBoardStudent extends AppCompatActivity implements RecyclerV
 
     User userDriver;
 
-    String firstName, lastName, emerName, emerNumber, contactNumber, province, city, barangay, stAddress, uidStudent, accountCode, infoId;
+    String firstName, lastName, emerName, emerNumber, contactNumber, province, city, barangay, stAddress, uidStudent, accountCode, infoId, status;
 
     
 
@@ -66,6 +66,7 @@ public class DriverOnBoardStudent extends AppCompatActivity implements RecyclerV
         lastName = getIntent().getStringExtra("LAST_NAME");
         firstName = getIntent().getStringExtra("FIRST_NAME");
         contactNumber = getIntent().getStringExtra("CONTACT_NUMBER");
+        status = getIntent().getStringExtra("SERVICE_STATUS");
  //       emerName = getIntent().getStringExtra("EMERGENCY_NAME");
  //       emerNumber = getIntent().getStringExtra("EMERGENCY_NUMBER");
         province = getIntent().getStringExtra("PROVINCE");
@@ -91,11 +92,40 @@ public class DriverOnBoardStudent extends AppCompatActivity implements RecyclerV
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                 DatabaseReference driverRef = ref.child("USERS").child("DRIVER").child(uid).child("ASSIGNED_STUDENT").child(infoId);
+                
+                switch (status) {
+                    
+                    case "TO SCHOOL | WAITING":
+                        status = "TO SCHOOL | ONBOARD";
+                        break;
+                            
+                    case "TO SCHOOL | ONBOARD":
+                        status = "TO SCHOOL | ARRIVED";
+                        break;
+                        
+                    case "TO SCHOOL | ARRIVED":
+                        status = "TO HOME | WAITING";
+                        break;
 
-                driverRef.child("status").setValue("ARRIVED");
+                    case "TO HOME | WAITING":
+                        status = "TO HOME | ONBOARD";
+                        break;
 
+                    case "TO HOME | ONBOARD":
+                        status = "TO HOME | ARRIVED";
+                        break;
 
-                Toast.makeText(DriverOnBoardStudent.this, "Student Successfully Arrived", Toast.LENGTH_SHORT).show();
+                    case "TO HOME | ARRIVED":
+                        status = "TO SCHOOL | WAITING";
+                        break;
+
+                    default:
+                        break;
+                }
+                
+                driverRef.child("status").setValue(status);
+                
+                Toast.makeText(DriverOnBoardStudent.this, "SUCCESS BRO", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getApplicationContext(),ContainerDriver.class);
                 intent.putExtra("fragment_to_display","fragment_service");
